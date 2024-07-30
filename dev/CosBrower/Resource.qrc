@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>img/icontt.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>img/qss/default.qss</file>
+    </qresource>
+</RCC>
