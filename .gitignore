@@ -3,3 +3,8 @@ build-*/
 debug*/
 release*/
 */.vs/
+**/.vs/
+/.vs
+**/debug/
+**/debug
+*build*/
