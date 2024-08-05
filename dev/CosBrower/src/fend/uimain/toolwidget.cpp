@@ -7,6 +7,14 @@ ToolWidget::ToolWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->btnQuit, &QPushButton::clicked, this, &ToolWidget::quitLogin);
+    QSignalMapper *mapper = new QSignalMapper(this);
+    QList<QPushButton*> buttonList = findChildren<QPushButton*>();
+    for(auto *btn: buttonList)
+    {
+        connect(btn, SIGNAL(clicked()),mapper,SLOT(map()));
+        mapper->setMapping(btn, btn->text());
+    }
+    connect(mapper,SIGNAL(mapped(QString)),this,SIGNAL(buttonClicked(QString)));
 }
 
 ToolWidget::~ToolWidget()
@@ -19,21 +27,21 @@ void ToolWidget::on_btnUpload_clicked()
     // 上传单个文件
     QString path = QFileDialog::getOpenFileName(this, "上传","./");
 
-    // 上传多个文件
-    QStringList pathList = QFileDialog::getOpenFileNames(this,"上传","./");
+//    // 上传多个文件
+//    QStringList pathList = QFileDialog::getOpenFileNames(this,"上传","./");
 
-    // 上传指定类型文件
-    QStringList pathListDIY = QFileDialog::getOpenFileNames(
-                this,
-                "上传",
-                "./",
-                "hpp (*.h*.cpp);;MakeFile (*.Release *.Debug)");
+//    // 上传指定类型文件
+//    QStringList pathListDIY = QFileDialog::getOpenFileNames(
+//                this,
+//                "上传",
+//                "./",
+//                "hpp (*.h*.cpp);;MakeFile (*.Release *.Debug)");
 
-    // 上传 文件夹
-    QString pathFoloder = QFileDialog::getExistingDirectory(
-                this,
-                "上传",
-                "./");
+//    // 上传 文件夹
+//    QString pathFoloder = QFileDialog::getExistingDirectory(
+//                this,
+//                "上传",
+//                "./");
 }
 
 void ToolWidget::on_btnDownload_clicked()

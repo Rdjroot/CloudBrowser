@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,25 +10,42 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
+    src/bend/dao/daobuckets.cpp \
+    src/bend/dao/daologininfo.cpp \
+    src/bend/man/manbuckets.cpp \
+    src/bend/man/mandb.cpp \
+    src/bend/models/dbmodels.cpp \
+    src/bend/models/mybucket.cpp \
     src/fend/uicom/breadwidget.cpp \
     src/fend/uicom/keywordedit.cpp \
     src/fend/uicom/pagewidget.cpp \
+    src/fend/uidelegates/bucketdelegate.cpp \
     src/fend/uilogin/logindialog.cpp \
     src/fend/uimain/bucketwidget.cpp \
     src/fend/uimain/objectswidget.cpp \
     src/fend/uimain/toolwidget.cpp \
     src/fend/uimain/uimain.cpp \
+    src/helper/dbmysql.cpp \
     src/helper/filehelper.cpp
 
 HEADERS += \
+    src/bend/dao/daobuckets.h \
+    src/bend/dao/daologininfo.h \
+    src/bend/man/manbuckets.h \
+    src/bend/man/mandb.h \
+    src/bend/models/dbmodels.h \
+    src/bend/models/mybucket.h \
+    src/config/config.h \
     src/fend/uicom/breadwidget.h \
     src/fend/uicom/keywordedit.h \
     src/fend/uicom/pagewidget.h \
+    src/fend/uidelegates/bucketdelegate.h \
     src/fend/uilogin/logindialog.h \
     src/fend/uimain/bucketwidget.h \
     src/fend/uimain/objectswidget.h \
     src/fend/uimain/toolwidget.h \
     src/fend/uimain/uimain.h \
+    src/helper/dbmysql.h \
     src/helper/filehelper.h
 
 FORMS += \
@@ -47,3 +64,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     Resource.qrc
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../CppProject/AllQTPro/costest/costest/third/ -lcossdk
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../CppProject/AllQTPro/costest/costest/third/ -lcossdkd
+else:unix: LIBS += -L$$PWD/../../../CppProject/AllQTPro/costest/costest/third/ -lcossdk
+
+INCLUDEPATH += $$PWD/../../../CppProject/AllQTPro/costest/costest/third/include
+DEPENDPATH += $$PWD/../../../CppProject/AllQTPro/costest/costest/third/include

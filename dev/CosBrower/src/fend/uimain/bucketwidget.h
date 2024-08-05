@@ -2,6 +2,7 @@
 #define BUCKETWIDGET_H
 
 #include <QWidget>
+#include<src/bend/man/manbuckets.h>
 
 namespace Ui {
 class BucketWidget;

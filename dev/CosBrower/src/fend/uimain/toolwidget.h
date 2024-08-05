@@ -4,7 +4,7 @@
 #include <QWidget>
 #include<QFileDialog>
 #include<QDebug>
-
+#include<QSignalMapper>
 namespace Ui {
 class ToolWidget;
 }
@@ -19,6 +19,7 @@ public:
 
 signals:
     void quitLogin();
+    void buttonClicked(const QString& text);
 
 private slots:
     void on_btnUpload_clicked();

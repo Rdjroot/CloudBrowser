@@ -6,6 +6,7 @@ BucketWidget::BucketWidget(QWidget *parent) :
     ui(new Ui::BucketWidget)
 {
     ui->setupUi(this);
+    ui->listView->setModel(MB->model());
 }
 
 BucketWidget::~BucketWidget()

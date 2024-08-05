@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "src/fend/uilogin/logindialog.h"
+#include <QDebug>
 
 namespace Ui {
 class UiMain;
@@ -19,11 +20,16 @@ public:
     ~UiMain();
 
     void showLoginDialog();
+    void onUnLogin();
+    void onUpload();
 
 private:
     Ui::UiMain *ui;
 
     LoginDialog* m_loginDialog = nullptr;
+
+private slots:
+    void onButtonClicked(const QString& text);
 };
 
 #endif // UIMAIN_H

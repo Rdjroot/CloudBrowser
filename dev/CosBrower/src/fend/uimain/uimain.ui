@@ -19,8 +19,11 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
+     <property name="handleWidth">
+      <number>4</number>
+     </property>
      <widget class="BucketWidget" name="bucketwdg" native="true"/>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="ToolWidget" name="toolwdg" native="true"/>
