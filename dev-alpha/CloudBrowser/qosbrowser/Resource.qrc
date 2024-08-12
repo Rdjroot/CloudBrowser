@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>static/img/icontt.png</file>
+        <file>static/qss/default.qss</file>
+        <file>static/sql/login_info.sql</file>
+        <file>static/test/buckets1.json</file>
+        <file>static/test/buckets2.json</file>
+        <file>static/versions/config_default.json</file>
+        <file>static/test/business.json</file>
+        <file>static/test/custom.json</file>
+        <file>static/docs/errorcode.csv</file>
+    </qresource>
+</RCC>

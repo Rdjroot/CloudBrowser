@@ -1,0 +1,30 @@
+﻿{
+    "buckets": [{
+            "create_date": "2019-10-12T06:14:21Z",
+            "location": "ap-shanghai",
+            "name": "business1-1300416379"
+        },
+        {
+            "create_date": "2023-10-12T07:14:21Z",
+            "location": "ap-shanghai",
+            "name": "business2-1300416380"
+        }
+    ],
+    "users": [{
+            "secretId": "zhangsan",
+            "secretKey": "123"
+        },
+        {
+            "secretId": "xiaoli",
+            "secretKey": "123"
+        },
+        {
+            "secretId": "xiaohong",
+            "secretKey": "123"
+        },
+        {
+            "secretId": "xiaoming",
+            "secretKey": "123"
+        }
+    ]
+}

@@ -64,10 +64,3 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     Resource.qrc
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../CppProject/AllQTPro/costest/costest/third/ -lcossdk
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../CppProject/AllQTPro/costest/costest/third/ -lcossdkd
-else:unix: LIBS += -L$$PWD/../../../CppProject/AllQTPro/costest/costest/third/ -lcossdk
-
-INCLUDEPATH += $$PWD/../../../CppProject/AllQTPro/costest/costest/third/include
-DEPENDPATH += $$PWD/../../../CppProject/AllQTPro/costest/costest/third/include
