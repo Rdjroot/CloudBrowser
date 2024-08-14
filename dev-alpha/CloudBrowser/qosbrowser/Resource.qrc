@@ -9,5 +9,6 @@
         <file>static/test/business.json</file>
         <file>static/test/custom.json</file>
         <file>static/docs/errorcode.csv</file>
+        <file>static/configs/cosconfig.json</file>
     </qresource>
 </RCC>

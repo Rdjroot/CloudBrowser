@@ -1,8 +1,9 @@
-﻿#include "src/bend/gateway.h"
-#include "src/middle/signals/mansignals.h"
-#include "logindialog.h"
+﻿#include "logindialog.h"
 #include "ui_logindialog.h"
+#include "src/middle/manglobal.h"
 #include "src/bend/man/mandb.h"
+#include "src/bend/gateway.h"
+#include "src/middle/signals/mansignals.h"
 #include "src/config/apis.h"
 #include <QCompleter>
 #include <QJsonObject>
@@ -27,9 +28,9 @@ LoginDialog::LoginDialog(QWidget *parent)
     ui->closeButton->setProperty("style","h4");
     ui->btnLogin->setProperty("style","h4");
 
-    connect(MS, &ManSignals::loginSuccess, this, &LoginDialog::onLoginSucceed);
-    connect(MS, &ManSignals::unLogin, this, &LoginDialog::show);
-    connect(MS, &ManSignals::error, this, &LoginDialog::onLoginError);
+    connect(MG->mSignal, &ManSignals::loginSuccess, this, &LoginDialog::onLoginSucceed);
+    connect(MG->mSignal, &ManSignals::unLogin, this, &LoginDialog::show);
+    connect(MG->mSignal, &ManSignals::error, this, &LoginDialog::onLoginError);
     complementLoginInfo();              // 登录信息补全
 }
 
@@ -41,14 +42,14 @@ LoginDialog::~LoginDialog()
 // 通过登录名补全
 void LoginDialog::complementLoginInfo()
 {
-    QStringList words = MDB->loginNameList();
+    QStringList words = MG->mDb->loginNameList();
     QCompleter* completer = new QCompleter(words);
     ui->lineLoginName->setCompleter(completer);
 
     // 如果从下拉框中选中的话
     connect(completer, static_cast<void (QCompleter::*)(const QString&)>(&QCompleter::activated),
             [&](const QString& name){
-                LoginInfo info = MDB->loginInfoByName(name);
+                LoginInfo info =  MG->mDb->loginInfoByName(name);
                 ui->lineSecretID->setText(info.secret_id);
                 ui->lineSecretKey->setText(info.secret_key);
                 ui->lineRemark->setText(info.remark);
@@ -86,9 +87,8 @@ void LoginDialog::on_btnLogin_clicked()
     QJsonObject params;
     params["secretId"] = ui->lineSecretID->text().trimmed();
     params["secretKey"] = ui->lineSecretKey->text().trimmed();
-    // TODO 这里后续应该进行主界面
-    GW->send(API::LOGIN::NORMAL, params);
-
+    // 进入主界面
+    MG->mGate->send(API::LOGIN::NORMAL, params);
 }
 
 // 登录成功
@@ -99,7 +99,7 @@ void LoginDialog::onLoginSucceed()
     if(ui->saveSection->isChecked())
     {
         // 保存登录信息
-        MDB->saveLoginInfo(
+         MG->mDb->saveLoginInfo(
             ui->lineLoginName->text(),
             ui->lineSecretID->text(),
             ui->lineSecretKey->text(),
@@ -110,7 +110,7 @@ void LoginDialog::onLoginSucceed()
     else
     {
         // 删除登录信息
-        MDB->removeLoginInfo(ui->lineSecretID->text());
+        MG->mDb->removeLoginInfo(ui->lineSecretID->text());
     }
 }
 

@@ -3,9 +3,9 @@
 
 #include<QObject>
 #include<QDebug>
-#include<QStandardItemModel>
 
-#define MC ManCloud::instance()
+
+// #define MC ManCloud::instance()
 
 // 处理云存储的接口，单例模式，主要是数据格式（表）
 class ManCloud : public QObject
@@ -17,18 +17,11 @@ public:
 
     static ManCloud* instance();      // 单例模型
 
-    void setBuckets();      // 设置存储桶显示(函数实现)
-
-    QStandardItemModel *model() const;          // 获取成员数据
-
-    void setModel(QStandardItemModel *model);      // 设置model
-
     void login(QString secretId, QString secretKey);
 
 signals:
 
-private:
-    QStandardItemModel *m_model = nullptr;
+
 };
 
 #endif // MANBUCKETS_H

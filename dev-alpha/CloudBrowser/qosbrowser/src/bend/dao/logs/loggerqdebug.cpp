@@ -29,7 +29,8 @@ void LoggerQDebug::print(const QString &file, int line, const QString &func, voi
                     .arg(dtStr,GLOBAL::LOG_NAMES[level],file)
                     .arg(line);
     front = front.replace("..\\","");
-    qDebug() << front.toUtf8().data() << var.toString();        // 使用qDebug而不是直接存文件，是为了打印QVariant类型
+    // 使用qDebug而不是直接存文件，是为了打印QVariant类型 日志打印
+    qDebug() << front.toUtf8().data() << var.toString();
 }
 
 

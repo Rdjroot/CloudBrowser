@@ -2,7 +2,9 @@
 
 #include <src/bend/dao/configs/versioncmd.h>
 #include "src/config/loggerproxy.h"
+#include "src/middle/manglobal.h"
 #include <src/bend/dao/logs/loggerqdebug.h>
+#include <src/bend/dao/clouds/daocloudscos.h>
 
 Q_GLOBAL_STATIC(ManPlugin,ins);
 
@@ -42,12 +44,12 @@ void ManPlugin::installPlugins(int argc, char *argv[])
     m_version->setVersion();
 
     // 添加日志插件
-    log_p->setLogger(new LoggerQDebug());
+    mLogIns->setLogger(new LoggerQDebug());
 
-    // 加载不同的mock数据
+    // 安装云存储插件
     if(m_version->major()==VERSION::MAJOR_BUSINESS)
     {
-        m_clouds = new DaoCloudsMock(":/static/test/business.json");
+        m_clouds = new DaoCloudsCos();
     }else
     {
         m_clouds = new DaoCloudsMock(":/static/test/custom.json");

@@ -8,15 +8,6 @@
 
 using namespace GLOBAL;
 
-// 写入日志宏
-#define log_p LoggerProxy::instance()
-#define mTotal log_p->reset(QT_MESSAGELOG_FILE,QT_MESSAGELOG_LINE,QT_MESSAGELOG_FUNC).total
-#define mDebug log_p->reset(QT_MESSAGELOG_FILE,QT_MESSAGELOG_LINE,QT_MESSAGELOG_FUNC).debug
-#define mInfo log_p->reset(QT_MESSAGELOG_FILE,QT_MESSAGELOG_LINE,QT_MESSAGELOG_FUNC).info
-#define mWarning log_p->reset(QT_MESSAGELOG_FILE,QT_MESSAGELOG_LINE,QT_MESSAGELOG_FUNC).warning
-#define mError log_p->reset(QT_MESSAGELOG_FILE,QT_MESSAGELOG_LINE,QT_MESSAGELOG_FUNC).error
-#define mFatal log_p->reset(QT_MESSAGELOG_FILE,QT_MESSAGELOG_LINE,QT_MESSAGELOG_FUNC).fatal
-
 // 日志代理类
 class LoggerProxy : public QObject
 {

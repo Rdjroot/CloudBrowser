@@ -92,7 +92,6 @@ QList<RECORD> DbMySql::select(const QString& sql)
             ret[name] = value;
         }
 
-        // qDebug() << "查询出结果" <<ret;
         retList.append(ret);
     }
     return retList;

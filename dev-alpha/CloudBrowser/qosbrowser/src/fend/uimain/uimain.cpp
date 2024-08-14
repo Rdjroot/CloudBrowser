@@ -1,6 +1,8 @@
 ﻿#include "uimain.h"
+#include "src/middle/manglobal.h"
 #include "src/middle/signals/mansignals.h"
 #include "ui_uimain.h"
+
 
 UiMain::UiMain(QWidget *parent) :
     QWidget(parent),
@@ -12,8 +14,8 @@ UiMain::UiMain(QWidget *parent) :
 
     // 关联信号与槽
     // connect(ui->toolwdg,&ToolWidget::buttonClicked, this, &UiMain::onButtonClicked);
-    connect(MS,&ManSignals::loginSuccess, this, &UiMain::show);
-    connect(MS, &ManSignals::unLogin, this, &UiMain::onUnLogin);
+    connect(MG->mSignal,&ManSignals::loginSuccess, this, &UiMain::show);
+    connect(MG->mSignal, &ManSignals::unLogin, this, &UiMain::onUnLogin);
 }
 
 UiMain::~UiMain()

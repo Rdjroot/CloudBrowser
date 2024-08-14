@@ -1,9 +1,10 @@
 ﻿#ifndef MANSIGNALS_H
 #define MANSIGNALS_H
 
+#include "src/middle/models/cloudmodels.h"
 #include <QObject>
 
-#define MS ManSignals::instance()
+// #define MS ManSignals::instance()
 
 /**
  * @brief 信号中心
@@ -18,7 +19,7 @@ public:
 signals:
     void loginSuccess();
     void error(int api, const QString& msg);
-
+    void bucketsSuccess(QList<MyBucket>);       // 返回用户对应存储桶
     void unLogin();
 };
 

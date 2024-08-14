@@ -90,6 +90,6 @@ void LoggerProxy::doLog(LOG_LEVEL level, const QVariant &var, bool up) const
         emit sigLog(m_file, m_line, m_func,QThread::currentThreadId(),level,var, up);
     }else
     {
-        qDebug()<<m_level;
+        qDebug()<<"日志级别不符合：" <<m_level;
     }
 }

@@ -15,5 +15,5 @@ void VersionJson::setVersion()
     m_v1 = obj["v1"].toInt();
     m_v2 = obj["v2"].toInt();
     m_v3 = obj["v3"].toInt();
-    qDebug()<<obj<<m_v1;
+    qDebug()<<obj<<m_v1;        // 打印版本号
 }

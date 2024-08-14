@@ -1,6 +1,7 @@
 ﻿#include "objectswidget.h"
+#include "src/middle/manmodels.h"
 #include "ui_objectswidget.h"
-
+#include "src/middle/manglobal.h"
 #include <src/fend/uidelegates/bucketdelegate.h>
 
 ObjectsWidget::ObjectsWidget(QWidget *parent) :
@@ -8,12 +9,12 @@ ObjectsWidget::ObjectsWidget(QWidget *parent) :
     ui(new Ui::ObjectsWidget)
 {
     ui->setupUi(this);
-    ui->tableView->setModel(MC->model());                   // 设置视图(表)内容
+    ui->tableView->setModel(MG->mModels->model());                   // 设置视图(表)内容
 //    ui->tableView->setItemDelegate(new BucketDelegate());  // 设置整个代理
     ui->tableView->setItemDelegateForColumn(1,new BucketDelegate());  // 设置某一列的代理，即地区下拉框
 
     // 设置view的内容
-    QStandardItemModel* model = MC->model();
+    QStandardItemModel* model = MG->mModels->model();
     QStringList labels;
     labels <<QStringLiteral("桶名称")<< QStringLiteral("地区")<< QStringLiteral("创建时间");
     model->setColumnCount(labels.size());           // 设置列数

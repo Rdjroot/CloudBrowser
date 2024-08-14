@@ -1,5 +1,8 @@
 ﻿#include "daocloudsmock.h"
-#include<iostream>
+#include "src/config/errorcode.h"
+#include "src/config/exceptions.h"
+#include "src/config/loggerproxy.h"
+#include "src/middle/manglobal.h"
 #include <QThread>
 
 
@@ -23,7 +26,7 @@ QList<MyBucket> DaoCloudsMock::buckets()
         bucket.createDate = v["create_date"].toString();
 
         res.append(bucket);
-        // qDebug()<< bucket.name << bucket.location<<bucket.createDate;
+        mInfo(QString::fromUtf8("name[%1], location[%2], date[%3]").arg(bucket.name, bucket.location, bucket.createDate));
     }
     return res;
 }
@@ -31,19 +34,16 @@ QList<MyBucket> DaoCloudsMock::buckets()
 // mock调用登录接口
 QList<MyBucket> DaoCloudsMock::login(const QString secretId, const QString secretKey)
 {
-    QThread::sleep(1);
     QJsonArray arr = m_mock["users"].toArray();
-    std::cout << "参数：" << secretId.toStdString() <<", " << secretKey.toStdString() <<std::endl;
-    // 这里没有获取数据
+
     for(int i = 0; i < arr.size(); i++)
     {
         QJsonValue v = arr[i];
         // 这里应该是在模拟数据库里的登录信息
-        std::cout << "遍历：" << i <<", " << v["secretId"].toString().toStdString() <<", " << v["secretKey"].toString().toStdString()<<std::endl;
         if(secretId == v["secretId"].toString() && secretKey == v["secretKey"].toString())
         {
-            return buckets();// 这里没有对应的存储桶，所有用户用的同一个存储桶
+            return buckets();   // 因为是mock数据，这里没有对应的存储桶，所有用户用的同一个存储桶
         }
     }
-    throw QString::fromUtf8("用户名密码错误");
+    throw BaseException(EC_211000,QString::fromUtf8("请检查您的SecretId或SecretKey是否正确"));
 }

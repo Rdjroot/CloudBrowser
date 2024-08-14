@@ -4,8 +4,10 @@
 #include <QJsonValue>
 #include <QObject>
 
-#define GW GateWay::instance()
-
+/**
+ * @brief 网关类
+ * 负责分发、发送数据
+ */
 class GateWay : public QObject
 {
     Q_OBJECT

@@ -1,14 +1,10 @@
 ﻿#include "src/fend/uimain/uimain.h"
-#include"src/helper/filehelper.h"
-#include"src/bend/man/mancloud.h"
-#include"src/bend/man/mandb.h"
 #include <QApplication>
 #include <QString>
 #include <QTextCodec>
-#include"src/plugins/manplugin.h"
-#include"src/config/loggerproxy.h"
-#include <iostream>
-
+#include"src/middle/manglobal.h"
+#include "src/fend/uilogin/logindialog.h"
+#include "src/config/loggerproxy.h"
 
 // qDebug() << QSqlDatabase::drivers();
 
@@ -25,21 +21,10 @@ int main(int argc, char *argv[])
     // 设置编码
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
-    MP->installPlugins(argc, argv);         // 安装插件
-
-    // 读取文件中的qss
-    QString qssStr = FileHelper::readAllTxt(":/static/qss/default.qss");
-    // QApplication 读取文件中的qss
-    a.setStyleSheet(qssStr);
-
-    MDB->init();
-
+    MG->init(argc, argv);
+    mInfo("这是主函数");
     UiMain w;
     LoginDialog login;
-
     login.show();
-
-    // MC->setBuckets();       设置主界面的mock数据
     return a.exec();
-
 }

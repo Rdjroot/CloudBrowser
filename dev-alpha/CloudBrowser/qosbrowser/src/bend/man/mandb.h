@@ -7,7 +7,7 @@
 #include<QDateTime>
 #include<QList>
 
-#define MDB ManDB::instance()
+// #define MDB ManDB::instance()
 
 // 业务层面的对数据库的操作
 class ManDB : public QObject

@@ -12,7 +12,7 @@ class Version;
 class DaoClouds;
 using namespace GLOBAL;
 
-#define MP ManPlugin::instance()
+// #define MP ManPlugin::instance()
 
 // 管理全局的插件
 class ManPlugin : public QObject

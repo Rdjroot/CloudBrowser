@@ -1,9 +1,12 @@
 ﻿#include "gateway.h"
 #include <QtConcurrent>
-#include "src/config/loggerproxy.h"
 #include "src/config/apis.h"
 #include "src/bend/man/mancloud.h"
+#include "src/config/errorcode.h"
+#include "src/config/exceptions.h"
+#include "src/config/loggerproxy.h"
 #include "src/middle/signals/mansignals.h"
+#include "src/middle/manglobal.h"
 
 Q_GLOBAL_STATIC(GateWay, ins)
 
@@ -28,10 +31,15 @@ void GateWay::send(int api, const QJsonValue &value)
         try{
             this->dispach(api,value);
         }
-        catch(QString e)
+        catch(BaseException e)
         {
-            mError(e);
-            emit MS->error(api,e);
+            mError(e.msg());
+            emit MG->mSignal->error(api,e.msg());
+        }
+        catch(...){
+            BaseException e = BaseException(EC_100000,QString::fromUtf8("未知错误"));
+            mError(e.msg());
+            emit MG->mSignal->error(api,e.msg());
         }
     });
 }
@@ -60,6 +68,6 @@ void GateWay::apiLogin(const QJsonValue &value)
 {
     QString secretId = value["secretId"].toString();
     QString secretKey = value["secretKey"].toString();
-    MC->login(secretId,secretKey);
-    emit MS->loginSuccess();            // 发出登录成功信号
+    MG->mCloud->login(secretId,secretKey);
+    emit MG->mSignal->loginSuccess();            // 发出登录成功信号
 }

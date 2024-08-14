@@ -1,4 +1,5 @@
 ﻿#include "toolwidget.h"
+#include "src/middle/manglobal.h"
 #include "src/middle/signals/mansignals.h"
 #include "ui_toolwidget.h"
 
@@ -58,6 +59,6 @@ void ToolWidget::on_btnDownload_clicked()
 // 退出登录
 void ToolWidget::on_btnQuit_clicked()
 {
-    emit MS->unLogin();
+    emit MG->mSignal->unLogin();
 }
 
