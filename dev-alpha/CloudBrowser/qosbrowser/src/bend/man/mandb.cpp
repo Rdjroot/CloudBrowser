@@ -1,5 +1,4 @@
-﻿#pragma warning
-#include "mandb.h"
+﻿#include "mandb.h"
 #include "src/config/global.h"
 
 Q_GLOBAL_STATIC(ManDB, ins)
@@ -23,7 +22,6 @@ void ManDB::init()
     m_daoLoginInfomsq.connect();
     m_daoLoginInfomsq.createTable();
     m_loginInfoList = m_daoLoginInfomsq.select();
-    qDebug()<< "初始化成功" ;
 }
 
 // 存储登录信息

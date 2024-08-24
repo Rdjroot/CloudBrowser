@@ -8,23 +8,33 @@
 ManModels::ManModels(QObject *parent)
     : QObject{parent}
 {
-    m_model = new QStandardItemModel(this);
+    m_modelBuckets = new QStandardItemModel(this);
+    m_modelObjects = new QStandardItemModel(this);
+    initBucketsTable();
+    initObjectsTable();
+
     // 设置存储桶
     connect(MG->mSignal,&ManSignals::bucketsSuccess,this, &ManModels::setBuckets);
+    connect(MG->mSignal, &ManSignals::objectsSuccess, this, &ManModels::setObjects);
 }
 
-QStandardItemModel *ManModels::model() const
+QStandardItemModel *ManModels::modelBuckets() const
 {
-    return m_model;
+    return m_modelBuckets;
+}
+
+QStandardItemModel *ManModels::modelObjects() const
+{
+    return m_modelObjects;
 }
 
 /**
- * @brief ManModels::setBuckets 设置界面的存储桶数据
- * @param buckets   用户的所有存储数据
+ * @brief 设置界面的存储桶数据
+ * @param buckets  存储桶表格
  */
 void ManModels::setBuckets(const QList<MyBucket>& buckets)
 {
-    m_model->setRowCount(buckets.size());           // 设置行数
+    m_modelBuckets->setRowCount(buckets.size());           // 设置行数
 
     //    m_model->setColumnCount(3);             // 测试文件中是三列
 
@@ -32,20 +42,73 @@ void ManModels::setBuckets(const QList<MyBucket>& buckets)
     {
         const MyBucket& bucket = buckets[i];
 
-        QModelIndex index0 = m_model->index(i,0);
+        QModelIndex index0 = m_modelBuckets->index(i,0);
 
-        m_model->setData(index0, bucket.name);
+        m_modelBuckets->setData(index0, bucket.name);
 
         // 可以使鼠标放到该数据上显示提示信息
-        m_model->setData(index0, QString::fromUtf8("存储桶名称： %1").arg(bucket.name),Qt::ToolTipRole);
+        m_modelBuckets->setData(index0, QString::fromUtf8("存储桶名称： %1").arg(bucket.name),
+                                Qt::ToolTipRole);
 
-        QModelIndex index1 = m_model->index(i,1);           // 设置行列数
-        m_model->setData(index1, bucket.location);          // 行列数和数据内容
+        QModelIndex index1 = m_modelBuckets->index(i,1);           // 设置行列数
+        m_modelBuckets->setData(index1, bucket.location);          // 行列数和数据内容
 
-        QModelIndex index2 = m_model->index(i,2);
-        m_model->setData(index2, bucket.createDate);
+        QModelIndex index2 = m_modelBuckets->index(i,2);
+        m_modelBuckets->setData(index2, bucket.createDate);
     }
     // 默认按时间倒序排序
-    m_model->sort(2,Qt::DescendingOrder);
+    m_modelBuckets->sort(2,Qt::DescendingOrder);
 
+}
+
+/**
+ * @brief 设置界面的对象数据
+ * @param buckets  对象表格
+ */
+void ManModels::setObjects(const QList<MyObject> &objects)
+{
+    m_modelObjects->setRowCount(objects.size());
+    for(int i = 0; i < objects.size(); ++i)
+    {
+        const MyObject &obj = objects[i];
+        // 对象(文件)名称
+        QModelIndex index0 = m_modelObjects->index(i,0);
+        m_modelObjects->setData(index0, obj.name);
+        QVariant var;
+        var.setValue(obj);
+        // Qt::UserRole，将特定的自定义数据与某个模型项关联
+        // 这些数据不会被 Qt 的内置视图组件直接使用
+        m_modelObjects->setData(index0, var, Qt::UserRole);
+
+        // 大小
+        QModelIndex index1 = m_modelObjects->index(i,1);
+        m_modelObjects->setData(index1, obj.size);      // TODO 这里的数据应该会进行优化
+
+        // 修改时间
+        QModelIndex index2 = m_modelObjects->index(i,2);
+        m_modelObjects->setData(index2, obj.lastmodified);
+    }
+}
+
+/**
+ * @brief 初始化表格的title和列数
+ */
+void ManModels::initBucketsTable()
+{
+    QStringList labels;
+    labels << QString::fromLocal8Bit("桶名称") << QString::fromLocal8Bit("地区")
+           << QString::fromLocal8Bit("创建时间");
+
+    m_modelBuckets->setColumnCount(labels.size());
+    m_modelBuckets->setHorizontalHeaderLabels(labels);
+}
+
+void ManModels::initObjectsTable()
+{
+    // 设置标题内容
+    QStringList labels;
+    labels << QString::fromLocal8Bit("对象名称") << QString::fromLocal8Bit("大小")
+           << QString::fromLocal8Bit("更新时间");
+    m_modelObjects->setColumnCount(labels.size());
+    m_modelObjects->setHorizontalHeaderLabels(labels);
 }

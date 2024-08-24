@@ -1,37 +1,33 @@
-/*设置QSS的默认样式*/
+﻿/*设置Qss的默认样式*/
 *{
 /*白色主题*/
 background-color:white;
 
 /*字体*/
-font-family:"微软雅黑";
-font-size:10pt;
-color: #555555;
+font-family: "微软雅黑";
+font-size: 10pt;
+color: #555555
 }
 
-/*通用设置：标题*/
+/*通用：设置标题*/
 *[style="h1"]{
-font:bold 25pt;
+font: bold 20pt;
 color: #111111;
-
 }
 *[style="h2"]{
-font:bold 22pt;
-color: #222222;
-
+    font: bold 18pt;
+	color: #222222;
 }
 *[style="h3"]{
-font:bold 20pt;
-color: #333333;
-
+    font: bold 16pt;
+	color: #333333;
 }
 *[style="h4"]{
-font:bold 16pt;
-color: #444444;
-
+    font: bold 14pt;
+	color: #444444;
 }
 *[style="h5"]{
-font:bold 12pt;
+	font: bold 12pt;
 }
 
 /*设置通用的QLineEdit*/
@@ -49,11 +45,6 @@ QLineEdit:hover{
 QLabel{
 	background-color: transparent;
 }
-QLabel#logoLabel{
-	min-width: 32px;
-	min-height: 32px;
-	border-image: url(":/icon/img/icontt.png");
-}
 
 /*通用按钮设置*/
 QPushButton{
@@ -63,22 +54,13 @@ QPushButton{
 	height: 28px;
 	width: 56px;
 }
-
-/*鼠標移动到此处时变化*/
 QPushButton:hover{
 	color:#1296db;
 	border-color: #1296db;
 }
 
-/*指定特定button*/
 QPushButton#btnLogin{
 	background: #1296db;
 	color:white;
     font: bold 12pt;
 }
-
-QPushButton#closeButton:hover{
-	color:red;
-}
-
-

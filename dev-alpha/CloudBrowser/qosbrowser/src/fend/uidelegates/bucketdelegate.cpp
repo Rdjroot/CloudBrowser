@@ -11,6 +11,8 @@ BucketDelegate::BucketDelegate(QObject *parent)
 // 创建下拉框中的内容
 QWidget *BucketDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    Q_UNUSED(option);
+    Q_UNUSED(index);
     // 下拉框可选项
     QComboBox* box = new QComboBox(parent);         // 下拉框选择完即会销毁
     box->addItem("ap-beijing");
@@ -38,8 +40,3 @@ void BucketDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, co
     model->setData(index, box->currentText());
 }
 
-// 下拉框选择完即会销毁，这里是用于测试的
-void BucketDelegate::comboxDestroy(QObject *)
-{
-    qDebug() << "comboBox Destyoed";
-}

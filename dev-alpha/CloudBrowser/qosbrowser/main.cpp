@@ -3,18 +3,14 @@
 #include <QString>
 #include <QTextCodec>
 #include"src/middle/manglobal.h"
-#include "src/fend/uilogin/logindialog.h"
-#include "src/config/loggerproxy.h"
+#include "src/fend/uilogin/uilogindialog.h"
+#include <src/fend/uicom/uipagewidget.h>
+#include <src/fend/uimain/uibucketstablewidget.h>
 
-// qDebug() << QSqlDatabase::drivers();
-
-// std::cout<<"1测试内容"<<std::endl;
-// qDebug() << QString("2测试内容").trimmed();
-// qDebug() << QString::fromLocal8Bit("3测试内容").trimmed();
-// qDebug() << QString::fromUtf8("4测试内容").trimmed();
-// qDebug() << QObject::tr("5测试内容").trimmed();
-// qDebug() << QStringLiteral("6测试内容").trimmed();
-
+// TODO 1、调整按钮UI贴图 大小和风格统一
+// BUG 1. 上传文件失败
+// BUG 2. 上传文件失败，且丢失报错码
+// BUG 3. 没有显示上传/下载条码
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -22,9 +18,8 @@ int main(int argc, char *argv[])
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
     MG->init(argc, argv);
-    mInfo("这是主函数");
     UiMain w;
-    LoginDialog login;
+    UiLoginDialog login;
     login.show();
     return a.exec();
 }

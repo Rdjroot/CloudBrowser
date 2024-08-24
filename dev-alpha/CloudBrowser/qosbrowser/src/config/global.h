@@ -50,6 +50,19 @@ namespace GLOBAL {
         static const QString TMP = FileHelper::joinPath(WORK, "temp");
         static const QString LOG_DIR = FileHelper::joinPath(QDir::tempPath(), "qos/logs");      // 拼接日志目录
         static const QString ERROR_CODE_PATH = ":/static/docs/errorcode.csv";       // 错误代码csv
+
+        static const QString LOGO_PATH = ":/static/img/icontt.png";
+        static const QString MAX_PATH= ":/static/img/Maximize-1.png";
+        static const QString MAX_HOVER_PATH = ":/static/img/Maximize-2.png";
+        static const QString NORMAL_PATH = ":/static/img/Maximize-3.png";
+        static const QString NORMAL_HOVER_PATH = ":/static/img/Maximize-4.png";
+        static const QString MIN_PATH = ":/static/img/Minimize-1.png";
+        static const QString MIN_HOVER_PATH = ":/static/img/Minimize-2.png";
+
+        static const QString QUIT = ":/static/img/Quit-1.png";
+        static const QString QUIT_HOVER = ":/static/img/Quit-2.png";
+        static const QString TRANS = ":/static/img/Trans-1.png";
+        static const QString TRANS_HOVER = ":/static/img/Trans-2.png";
     }
 
     // 日志级别

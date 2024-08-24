@@ -19,7 +19,7 @@ public:
                       QAbstractItemModel *model,
                       const QModelIndex &index) const override;
 public slots:
-    void comboxDestroy(QObject*);
+    // void comboxDestroy(QObject*);
 };
 
 #endif // BUCKETDELEGATE_H

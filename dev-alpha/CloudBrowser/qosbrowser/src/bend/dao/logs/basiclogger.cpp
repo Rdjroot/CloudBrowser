@@ -10,6 +10,7 @@
  * 使日志的记录在单独的线程中执行
  */
 BasicLogger::BasicLogger(QObject *parent)
+    :QObject(parent)
 {
     m_td = new QThread();
     moveToThread(m_td);

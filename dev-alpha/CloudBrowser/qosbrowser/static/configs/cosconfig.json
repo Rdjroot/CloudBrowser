@@ -1,21 +1,14 @@
-{
-"SecretId": "",
-"SecretKey": "",
-"Region":"ap-guangzhou",
-"SignExpiredTime":360,              
-"ConnectTimeoutInms":6000,          
-"ReceiveTimeoutInms":60000,         
-"UploadPartSize":10485760,          
-"UploadCopyPartSize":20971520,      
-"UploadThreadPoolSize":5,           
-"DownloadSliceSize":4194304,        
-"DownloadThreadPoolSize":5,         
-"AsynThreadPoolSize":2,             
-"LogoutType":0,                     
-"LogLevel":3,                       
-"IsDomainSameToHost":false,         
-"DestDomain":"",                    
-"IsUseIntranet":false,              
-"IntranetAddr":""                   
-
+﻿{
+    "SignExpiredTime":360,
+    "ConnectTimeoutInms":60000,
+    "ReceiveTimeoutInms":50000,
+    "AsynThreadPoolSize":5,
+    "UploadPartSize":10485760,
+    "UploadCopyPartSize":10485760,
+    "UploadThreadPoolSize":5,
+    "LogoutType":0,
+    "LogLevel":4,
+    "DownloadThreadPoolSize":5,
+    "DownloadSliceSize":4194304,
+    "IsCheckMd5":true
 }

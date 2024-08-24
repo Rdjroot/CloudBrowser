@@ -7,6 +7,7 @@
 #include<iostream>
 
 LoggerQDebug::LoggerQDebug(QObject *parent)
+    : BasicLogger(parent)
 {
     // 回调函数
     // 由qDebug、qWarnng、qCritical、qFatal函数进行触发，
@@ -23,6 +24,9 @@ LoggerQDebug::~LoggerQDebug()
 // 这里的tid暂时没用上，后续可以考虑加上
 void LoggerQDebug::print(const QString &file, int line, const QString &func, void *tid, int level, const QVariant &var, bool up)
 {
+    Q_UNUSED(up);
+    Q_UNUSED(tid);
+    Q_UNUSED(func);
     QDateTime dt;
     QString dtStr = dt.currentDateTime().toString(Qt::ISODate);         // 时间
     QString front = QString::fromLocal8Bit("%1[%2] %3:%5 -")            // 日志打印时包含时间、级别、文件、行号
@@ -37,6 +41,8 @@ void LoggerQDebug::print(const QString &file, int line, const QString &func, voi
 // 拦截器，会将qDebug的内容输出到日志文件中
 void LoggerQDebug::handle(QtMsgType type, const QMessageLogContext &contex, const QString &msg)
 {
+    Q_UNUSED(type);
+    Q_UNUSED(contex);
     QFile file(filePath());
     QString key("QVariant(");
     QString message = msg;
