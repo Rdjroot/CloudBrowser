@@ -6,7 +6,6 @@
 #include <src/bend/dao/logs/loggerqdebug.h>
 #include <src/bend/dao/clouds/daocloudscos.h>
 
-Q_GLOBAL_STATIC(ManPlugin,ins);
 
 ManPlugin::ManPlugin(QObject *parent) : QObject(parent)
 {
@@ -18,10 +17,6 @@ ManPlugin::~ManPlugin()
     delete m_version;
 }
 
-ManPlugin *ManPlugin::instance()
-{
-    return ins();
-}
 
 /**
  * @brief 安装插件（版本获取、日志打印）

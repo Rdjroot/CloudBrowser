@@ -2,7 +2,6 @@
 
 #include <QThread>
 
-Q_GLOBAL_STATIC(LoggerProxy, ins)
 LoggerProxy::LoggerProxy(QObject *parent) : QObject(parent)
 {
 
@@ -24,11 +23,6 @@ const LoggerProxy &LoggerProxy::reset(const QString &file, int line, const QStri
     m_line = line;
     m_func = func;
     return *this;
-}
-
-LoggerProxy *LoggerProxy::instance()
-{
-    return ins();
 }
 
 void LoggerProxy::total(const QVariant &var, bool up) const

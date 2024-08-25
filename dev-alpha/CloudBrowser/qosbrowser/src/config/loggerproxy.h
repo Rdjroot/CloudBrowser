@@ -18,8 +18,6 @@ public:
 
     const LoggerProxy& reset(const QString& file, int line, const QString& func);
 
-    static LoggerProxy* instance();
-
     void total(const QVariant& var, bool up=false) const;
     void debug(const QVariant& var, bool up=false) const;
     void info(const QVariant& var, bool up=false) const;

@@ -47,6 +47,7 @@ UiObjectsTableWidget::UiObjectsTableWidget(QWidget *parent)
     // 关联上传/下载成功信号
     connect(MG->mSignal, &ManSignals::uploadSuccess, this, &UiObjectsTableWidget::onUploadSuccess);
     connect(MG->mSignal, &ManSignals::downloadSuccess, this, &UiObjectsTableWidget::onDownloadSuccess);
+    connect(MG->mSignal, &ManSignals::downloadProcess, this, &UiObjectsTableWidget::showDownloadProcess);
 }
 
 UiObjectsTableWidget::~UiObjectsTableWidget()
@@ -147,10 +148,12 @@ void UiObjectsTableWidget::on_btnUpload_clicked()
         QString key = MG->mCloud->currentDir() + info.fileName();
         params["jobId"] = jobId;
         params["bucketName"] = MG->mCloud->currentBucketName();
-        params["key"] = key;
+        params["key"] = MG->mCloud->currentDir() + info.fileName();
         params["localPath"] = filePath;
         qDebug()<< QString("1!!!! filePath is %1.").arg(filePath);
         MG->mGate->send(API::OBJECTS::PUT,params);
+		lastDir = info.dir().absolutePath();
+        emit MG->mSignal->startUpload(jobId, key, filePath);
     }
 }
 
@@ -208,6 +211,8 @@ void UiObjectsTableWidget::on_btnDownload_clicked()
     params["key"] = key;
     params["localPath"] = filePath;
     MG->mGate->send(API::OBJECTS::GET, params);
+	lastDir = info.dir().absolutePath();
+    emit MG->mSignal->startDownload(jobId, key, filePath, obj.size);
 }
 
 /**
@@ -227,8 +232,18 @@ void UiObjectsTableWidget::onDownloadSuccess(const QString &jobId)
  */
 void UiObjectsTableWidget::showMessage(const QString &title, const QString &info)
 {
-    // QMessageBox box(QMessageBox::Information, title, info, QMessageBox::Ok);
-    // box.setButtonText(QMessageBox::Ok, QString::fromLocal8Bit("确定"));
-    // box.exec();
+    QMessageBox box(
+        QMessageBox::Information,
+        title,
+        info,
+        QMessageBox::Ok
+        );
+    box.setButtonText(QMessageBox::Ok, QString::fromLocal8Bit("确定"));
+    box.exec();
+}
+
+void UiObjectsTableWidget::showDownloadProcess(const QString& jobid, qulonglong transferred, qulonglong total)
+{
+    qDebug()<<QString("jobid: %1, transferred : %2, total: %3").arg(jobid).arg(transferred).arg(total);
 }
 

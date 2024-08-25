@@ -103,12 +103,14 @@ void UiBucketsTableWidget::onDelBucket()
 
         // 提示窗口，按键选项设置为中文
         QMessageBox box(
-            QMessageBox::Question, QString::fromLocal8Bit("删除"),
-            QString::fromLocal8Bit("是否删除存储桶【%1】？").arg(name),
-            QMessageBox::Yes | QMessageBox::Cancel);
+            QMessageBox::Question,
+            QString::fromLocal8Bit("删除桶"),
+            QString::fromLocal8Bit("是否确认删除桶【%1】吗？").arg(name),
+            QMessageBox::Yes|QMessageBox::No
+            );
 
-        box.setButtonText(QMessageBox::Yes,QString::fromLocal8Bit("确认"));
-        box.setButtonText(QMessageBox::Cancel, QString::fromLocal8Bit("取消"));
+        box.setButtonText(QMessageBox::Yes, QString::fromLocal8Bit("删除"));
+        box.setButtonText(QMessageBox::No, QString::fromLocal8Bit("取消"));
 
         int ret = box.exec();
         if(ret == QMessageBox::Yes)

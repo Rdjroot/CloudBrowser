@@ -32,6 +32,8 @@ private slots:
     void onDownloadSuccess(const QString& jobId);
 
     void showMessage(const QString &title, const QString& info);
+
+    void showDownloadProcess(const QString& jobid, qulonglong transferred, qulonglong total);
 private:
     Ui::UiObjectsTableWidget *ui;
 };

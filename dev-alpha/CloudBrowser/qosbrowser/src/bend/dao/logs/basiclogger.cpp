@@ -44,5 +44,5 @@ QString BasicLogger::filePath()
     QString name = QDate::currentDate().toString(Qt::ISODate);
 
     // 拼接路径
-    return FileHelper::joinPath(GLOBAL::PATH::LOG_DIR, QString::fromUtf8("%1.log").arg(name));
+    return FileHelper::joinPath(GLOBAL::PATH::LOG_DIR, QString::fromLocal8Bit("%1.log").arg(name));
 }

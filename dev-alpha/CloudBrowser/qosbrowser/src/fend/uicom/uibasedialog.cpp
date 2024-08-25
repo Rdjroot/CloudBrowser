@@ -98,7 +98,7 @@ void UiBaseDialog::addTitleLine(int w)
 // 获取单击时的起始位置,重写函数
 void UiBaseDialog::mousePressEvent(QMouseEvent *event)
 {
-    if(event->buttons() == Qt::LeftButton){
+    if(event->button() == Qt::LeftButton){
         m_start = event->pos();              // 返回相对于父窗口坐标原点的位置
     }
     QDialog::mousePressEvent(event);        // 在最后要反调父函数
@@ -107,7 +107,7 @@ void UiBaseDialog::mousePressEvent(QMouseEvent *event)
 // 单击长按可拖动窗口，重写函数
 void UiBaseDialog::mouseMoveEvent(QMouseEvent *event)
 {
-    if(event->buttons() == Qt::LeftButton){
+    if(event->buttons() & Qt::LeftButton){
         QPoint targetPos = event->pos()-m_start+pos();  // 目标位置
         this->move(targetPos);                  // 窗口移动
     }

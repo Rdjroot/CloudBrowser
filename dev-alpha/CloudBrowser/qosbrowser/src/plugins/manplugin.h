@@ -21,8 +21,6 @@ public:
     explicit ManPlugin(QObject *parent = nullptr);
     ~ManPlugin();
 
-    static ManPlugin* instance();
-
     DaoClouds *clouds() const;
 
     void installPlugins(int argc, char *argv[]);

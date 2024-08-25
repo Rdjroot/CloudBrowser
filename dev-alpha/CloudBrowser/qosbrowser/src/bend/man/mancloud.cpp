@@ -81,16 +81,14 @@ void ManCloud::getObjects(const QString &bucketName, const QString &dir)
 void ManCloud::getObject(const QString &jobId, const QString &bucketName, const QString &key, const QString &localPath)
 {
     // transferred_size 已经传送的大小，total_size 需要传输的总大小
-    auto callback = [=](qulonglong transferred_size, qulonglong total_size,
-                        void *) {
+    auto callback = [=](qulonglong transferred_size, qulonglong total_size, void *) {
         assert(transferred_size <= total_size);
-        if (0 == transferred_size % (1024 * 1024)) {
-            // 显示进度
+        if (0 == transferred_size % (1024*512)) {
             emit MG->mSignal->downloadProcess(jobId, transferred_size, total_size);
         }
     };
     MG->mPlugin->clouds()->getObject(bucketName, key, localPath, callback);
-    // emit MG->mSignal->downloadSuccess(jobId);
+    emit MG->mSignal->downloadSuccess(jobId);
 }
 
 /**
@@ -102,15 +100,14 @@ void ManCloud::getObject(const QString &jobId, const QString &bucketName, const 
  */
 void ManCloud::putObject(const QString &jobId, const QString &bucketName, const QString &key, const QString &localPath)
 {
-    auto callback = [=](qulonglong transferred_size, qulonglong total_size,
-                        void *) {
+    auto callback = [=](qulonglong transferred_size, qulonglong total_size, void *) {
         assert(transferred_size <= total_size);
-        if (0 == transferred_size % (1024 * 1024)) {
+        if (0 == transferred_size % (1024*512)) {
             emit MG->mSignal->uploadProcess(jobId, transferred_size, total_size);
         }
     };
     MG->mPlugin->clouds()->putObject(bucketName, key, localPath, callback);
-    // emit MG->mSignal->uploadSuccess(jobId);
+    emit MG->mSignal->uploadSuccess(jobId);
 }
 
 QString ManCloud::currentBucketName() const

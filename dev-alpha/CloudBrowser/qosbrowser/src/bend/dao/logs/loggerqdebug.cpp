@@ -29,20 +29,20 @@ void LoggerQDebug::print(const QString &file, int line, const QString &func, voi
     Q_UNUSED(func);
     QDateTime dt;
     QString dtStr = dt.currentDateTime().toString(Qt::ISODate);         // 时间
-    QString front = QString::fromLocal8Bit("%1[%2] %3:%5 -")            // 日志打印时包含时间、级别、文件、行号
+    QString front = QString::fromLocal8Bit("%1[%2] %3:%4 -")            // 日志打印时包含时间、级别、文件、行号
                     .arg(dtStr,GLOBAL::LOG_NAMES[level],file)
                     .arg(line);
     front = front.replace("..\\","");
     // 使用qDebug而不是直接存文件，是为了打印QVariant类型 日志打印
-    qDebug() << front.toUtf8().data() << var.toString();
+    qDebug() << front.toLocal8Bit().data() << var;
 }
 
 
 // 拦截器，会将qDebug的内容输出到日志文件中
-void LoggerQDebug::handle(QtMsgType type, const QMessageLogContext &contex, const QString &msg)
+void LoggerQDebug::handle(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     Q_UNUSED(type);
-    Q_UNUSED(contex);
+    Q_UNUSED(context);
     QFile file(filePath());
     QString key("QVariant(");
     QString message = msg;
@@ -56,5 +56,5 @@ void LoggerQDebug::handle(QtMsgType type, const QMessageLogContext &contex, cons
     }
 
     // 用於控制台输出
-    std::cout<<message.toStdString() <<std::endl;
+    std::cout<<message.toUtf8().data() <<std::endl;
 }

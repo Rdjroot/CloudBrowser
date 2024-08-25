@@ -35,7 +35,7 @@ void GateWay::send(int api, const QJsonValue &params)
             emit MG->mSignal->error(api,e.msg(),params);
         }
         catch(...){
-            BaseException e = BaseException(EC_100000,QString::fromUtf8("未知错误"));
+            BaseException e = BaseException(EC_100000, QString::fromLocal8Bit("未知错误"));
             mError(e.msg());
             emit MG->mSignal->error(api,e.msg(),params);
         }

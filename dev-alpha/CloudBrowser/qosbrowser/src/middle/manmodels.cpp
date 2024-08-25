@@ -5,6 +5,8 @@
 #include "src/middle/signals/mansignals.h"
 #include "src/plugins/manplugin.h"
 
+#include <src/helper/bytehelper.h>
+
 ManModels::ManModels(QObject *parent)
     : QObject{parent}
 {
@@ -47,7 +49,7 @@ void ManModels::setBuckets(const QList<MyBucket>& buckets)
         m_modelBuckets->setData(index0, bucket.name);
 
         // 可以使鼠标放到该数据上显示提示信息
-        m_modelBuckets->setData(index0, QString::fromUtf8("存储桶名称： %1").arg(bucket.name),
+        m_modelBuckets->setData(index0, QString::fromLocal8Bit("存储桶名称： %1").arg(bucket.name),
                                 Qt::ToolTipRole);
 
         QModelIndex index1 = m_modelBuckets->index(i,1);           // 设置行列数
@@ -81,9 +83,9 @@ void ManModels::setObjects(const QList<MyObject> &objects)
         m_modelObjects->setData(index0, var, Qt::UserRole);
 
         // 大小
-        QModelIndex index1 = m_modelObjects->index(i,1);
-        m_modelObjects->setData(index1, obj.size);      // TODO 这里的数据应该会进行优化
-
+        QModelIndex index1 = m_modelObjects->index(i, 1);
+        QString sizeStr = ByteHelper::toBeautifulStr(obj.size);
+        m_modelObjects->setData(index1, sizeStr);
         // 修改时间
         QModelIndex index2 = m_modelObjects->index(i,2);
         m_modelObjects->setData(index2, obj.lastmodified);

@@ -8,8 +8,7 @@
 #include <src/fend/uimain/uibucketstablewidget.h>
 
 // TODO 1、调整按钮UI贴图 大小和风格统一
-// BUG 1. 上传文件失败
-// BUG 2. 上传文件失败，且丢失报错码
+// BUG 2. 丢失报错码
 // BUG 3. 没有显示上传/下载条码
 int main(int argc, char *argv[])
 {

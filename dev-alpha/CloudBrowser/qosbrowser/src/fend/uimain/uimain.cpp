@@ -1,5 +1,4 @@
 ﻿#include "uimain.h"
-#include "src/fend/uicom/uimessagebox.h"
 #include "src/middle/manglobal.h"
 #include "src/middle/signals/mansignals.h"
 #include "ui_uimain.h"
@@ -37,7 +36,6 @@ UiMain::UiMain(QWidget *parent) :
     connect(MG->mSignal, &ManSignals::bucketsSuccess, this, &UiMain::onBucketsSuccess);
     connect(MG->mSignal, &ManSignals::objectsSuccess, this, &UiMain::onObjectsSuccess);
     connect(MG->mSignal, &ManSignals::error, this, &UiMain::onError);
-    m_transfer = new UiTransfer(this);
 }
 
 UiMain::~UiMain()
@@ -65,18 +63,12 @@ void UiMain::onObjectsSuccess(const QList<MyObject> &objcets)
 
 void UiMain::showTransfer()
 {
-    if(!m_transfer)
-    {
-        m_transfer = new UiTransfer(this);
-    }
-    m_transfer->show();
 }
 
 void UiMain::onError(int api, const QString &msg, const QJsonValue &req)
 {
     if(isVisible() && api > API::BUCKETS::BASE)
     {
-        UiMessageBox().showMessage(QString::fromLocal8Bit("错误"), msg);
     }
 }
 

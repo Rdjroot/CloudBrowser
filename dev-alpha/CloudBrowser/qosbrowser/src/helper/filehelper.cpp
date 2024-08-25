@@ -26,7 +26,7 @@ QString FileHelper::readAllTxt(const QString &filepath)
 QVariant FileHelper::readAllJson(const QString &filepath)
 {
     QString data = FileHelper::readAllTxt(filepath);
-    QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8());
+    QJsonDocument doc = QJsonDocument::fromJson(data.toLocal8Bit());
     return doc.toVariant();
 }
 
