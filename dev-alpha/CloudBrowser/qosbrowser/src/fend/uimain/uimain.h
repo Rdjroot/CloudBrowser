@@ -1,6 +1,7 @@
 ﻿#ifndef UIMAIN_H
 #define UIMAIN_H
 
+#include "src/fend/uitransfer/uitransfer.h"
 #include "src/middle/models/cloudmodels.h"
 #include <QDebug>
 #include <QWidget>
@@ -30,6 +31,7 @@ private slots:
 
 private:
     Ui::UiMain *ui;
+    UiTransfer *m_transfer = nullptr;
 };
 
 #endif // UIMAIN_H

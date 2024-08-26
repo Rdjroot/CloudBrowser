@@ -1,4 +1,5 @@
 ﻿#include "uiprogresswidget.h"
+#include "qdebug.h"
 #include "ui_uiprogresswidget.h"
 
 #include <QTimer>
@@ -47,6 +48,7 @@ void UiProgressWidget::setValue(qulonglong value)
     int leftValue = ui->progressBar->maximum()-value; // 未下载的字节数
     if (speed > 0 && leftValue > 0)
     {
+        qDebug()<<"SUCCESSED REFRESH SPEED";
         int time = leftValue/speed;     // 预计剩余下载时间
         ui->labelTime->setText(QString::fromLocal8Bit("剩余%1s").arg(time));
     }

@@ -11,6 +11,7 @@ UiDownload::UiDownload(QWidget *parent) :
     ui->setupUi(this);
     initHeader();
     connect(MG->mSignal, &ManSignals::startDownload, this, &UiDownload::onStartDownload);
+    // 关联进度
     connect(MG->mSignal, &ManSignals::downloadProcess, this, &UiDownload::onDownloadProcess);
     connect(MG->mSignal, &ManSignals::downloadSuccess, this, &UiDownload::onDownloadSuccess);
     connect(MG->mSignal, &ManSignals::error, this, &UiDownload::onError);

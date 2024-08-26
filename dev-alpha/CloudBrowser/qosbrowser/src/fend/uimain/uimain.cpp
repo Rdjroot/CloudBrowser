@@ -15,6 +15,7 @@ UiMain::UiMain(QWidget *parent) :
     ui->splitter->setStretchFactor(0,1);
     ui->splitter->setStretchFactor(1,4);
 
+    m_transfer = new UiTransfer(this);
     // 右上角图标
     QPushButton* transBtn = addButton(GLOBAL::PATH::TRANS, GLOBAL::PATH::TRANS_HOVER);
     connect(transBtn, &QPushButton::clicked,this, &UiMain::showTransfer);
@@ -36,11 +37,14 @@ UiMain::UiMain(QWidget *parent) :
     connect(MG->mSignal, &ManSignals::bucketsSuccess, this, &UiMain::onBucketsSuccess);
     connect(MG->mSignal, &ManSignals::objectsSuccess, this, &UiMain::onObjectsSuccess);
     connect(MG->mSignal, &ManSignals::error, this, &UiMain::onError);
+
 }
 
 UiMain::~UiMain()
 {
     delete ui;
+    if(m_transfer != nullptr)
+        delete m_transfer;
 }
 
 // 返回登录窗口
@@ -63,6 +67,7 @@ void UiMain::onObjectsSuccess(const QList<MyObject> &objcets)
 
 void UiMain::showTransfer()
 {
+    m_transfer->show();
 }
 
 void UiMain::onError(int api, const QString &msg, const QJsonValue &req)
