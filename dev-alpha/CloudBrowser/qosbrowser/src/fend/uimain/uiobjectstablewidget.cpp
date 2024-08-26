@@ -13,7 +13,6 @@
 
 #include <src/helper/filehelper.h>
 
-// BUG 没有实现进入目录
 UiObjectsTableWidget::UiObjectsTableWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::UiObjectsTableWidget)
@@ -47,7 +46,6 @@ UiObjectsTableWidget::UiObjectsTableWidget(QWidget *parent)
     // 关联上传/下载成功信号
     connect(MG->mSignal, &ManSignals::uploadSuccess, this, &UiObjectsTableWidget::onUploadSuccess);
     connect(MG->mSignal, &ManSignals::downloadSuccess, this, &UiObjectsTableWidget::onDownloadSuccess);
-    connect(MG->mSignal, &ManSignals::downloadProcess, this, &UiObjectsTableWidget::showDownloadProcess);
 }
 
 UiObjectsTableWidget::~UiObjectsTableWidget()
@@ -242,6 +240,12 @@ void UiObjectsTableWidget::showMessage(const QString &title, const QString &info
     box.exec();
 }
 
+/**
+ * @brief 用於测验是否正确回调 TODO 会删除
+ * @param jobid
+ * @param transferred
+ * @param total
+ */
 void UiObjectsTableWidget::showDownloadProcess(const QString& jobid, qulonglong transferred, qulonglong total)
 {
     qDebug()<<QString("jobid: %1, transferred : %2, total: %3").arg(jobid).arg(transferred).arg(total);

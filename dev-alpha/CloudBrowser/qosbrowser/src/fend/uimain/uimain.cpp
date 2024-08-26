@@ -1,9 +1,9 @@
 ﻿#include "uimain.h"
+#include "src/fend/uicom/uimessagebox.h"
 #include "src/middle/manglobal.h"
 #include "src/middle/signals/mansignals.h"
 #include "ui_uimain.h"
-#include "src/config/global.h"
-#include "src/config/apis.h"
+#include "src/config/common.h"
 #include <QPushButton>
 
 
@@ -69,6 +69,7 @@ void UiMain::onError(int api, const QString &msg, const QJsonValue &req)
 {
     if(isVisible() && api > API::BUCKETS::BASE)
     {
+        UiMessageBox().showMessage(STR("错误"), msg);
     }
 }
 

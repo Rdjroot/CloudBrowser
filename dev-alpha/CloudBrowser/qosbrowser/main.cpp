@@ -1,4 +1,5 @@
-﻿#include "src/fend/uimain/uimain.h"
+﻿#include "src/fend/uicom/uimessagebox.h"
+#include "src/fend/uimain/uimain.h"
 #include <QApplication>
 #include <QString>
 #include <QTextCodec>
