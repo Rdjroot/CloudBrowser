@@ -1,9 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>test/buckets1.json</file>
-        <file>test/buckets2.json</file>
-        <file>static/img/icontt.png</file>
-        <file>static/qss/default.qss</file>
-        <file>static/sql/login_info.sql</file>
-    </qresource>
-</RCC>
