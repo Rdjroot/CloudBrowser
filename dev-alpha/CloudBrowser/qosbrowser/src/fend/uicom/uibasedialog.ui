@@ -85,7 +85,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="btnClose">
+       <widget class="UiPushButton" name="btnClose">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -124,6 +124,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>UiPushButton</class>
+   <extends>QPushButton</extends>
+   <header location="global">src/fend/uicom/uipushbutton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

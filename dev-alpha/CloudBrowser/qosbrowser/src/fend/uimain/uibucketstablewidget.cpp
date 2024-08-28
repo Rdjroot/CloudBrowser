@@ -1,5 +1,6 @@
 ﻿#include "uibucketstablewidget.h"
 #include "src/bend/gateway.h"
+#include "src/fend/uidelegates/uitableitemdelegate.h"
 #include "src/middle/manglobal.h"
 #include "src/middle/manmodels.h"
 #include "src/middle/signals/mansignals.h"
@@ -22,10 +23,14 @@ UiBucketsTableWidget::UiBucketsTableWidget(QWidget *parent)
     ui->tableView->setColumnWidth(0, 200);
     ui->tableView->setColumnWidth(1, 120);
     ui->tableView->horizontalHeader()->setStretchLastSection(true); //设置最后一列占满整个表
+
     // 隐藏垂直标题
     ui->tableView->verticalHeader()->setHidden(true);
+
     // 设置鼠标点击排序
     ui->tableView->setSortingEnabled(true);
+    ui->tableView->setItemDelegate(new UiTableItemDelegate(ui->tableView));
+    ui->btnCreateBucket->setProperty("style_button", "main");   // 给创建桶按钮添加属性
 
     // 初始化表格数据
     connect(MG->mSignal, &ManSignals::bucketsSuccess,
@@ -63,6 +68,12 @@ void UiBucketsTableWidget::on_tableView_doubleClicked(const QModelIndex &index)
 void UiBucketsTableWidget::onBucketsSuccess(const QList<MyBucket> &buckets)
 {
     ui->widgetPage->setTotalRow(buckets.size());
+    QStandardItemModel *model = MG->mModels->modelBuckets();
+    for(int i = 0; i < model->rowCount(); ++i)
+    {
+        ui->tableView->setRowHeight(i,40);      // 固定行高
+    }
+
 }
 
 void UiBucketsTableWidget::onPageNumChanged(int start, int maxLen)

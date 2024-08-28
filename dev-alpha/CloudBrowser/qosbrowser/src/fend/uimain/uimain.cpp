@@ -17,10 +17,10 @@ UiMain::UiMain(QWidget *parent) :
 
     m_transfer = new UiTransfer(this);
     // 右上角图标
-    QPushButton* transBtn = addButton(GLOBAL::PATH::TRANS, GLOBAL::PATH::TRANS_HOVER);
-    connect(transBtn, &QPushButton::clicked,this, &UiMain::showTransfer);
-    QPushButton* quitBtn = addButton(GLOBAL::PATH::QUIT,GLOBAL::PATH::QUIT_HOVER);
-    connect(quitBtn, &QPushButton::clicked,MG->mSignal, &ManSignals::unLogin);
+    UiPushButton* transBtn = addButton(GLOBAL::PATH::TRANS, GLOBAL::PATH::TRANS_HOVER);
+    connect(transBtn, &UiPushButton::clicked,this, &UiMain::showTransfer);
+    UiPushButton* quitBtn = addButton(GLOBAL::PATH::QUIT,GLOBAL::PATH::QUIT_HOVER);
+    connect(quitBtn, &UiPushButton::clicked,MG->mSignal, &ManSignals::unLogin);
 
     addTitleLine();             // 右上角分割线
 

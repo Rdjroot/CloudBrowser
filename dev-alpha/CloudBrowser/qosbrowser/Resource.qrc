@@ -28,5 +28,8 @@
         <file>static/img/Trans-2.png</file>
         <file>static/img/上传.png</file>
         <file>static/img/下载.png</file>
+        <file>static/img/bucket.png</file>
+        <file>static/img/dir.png</file>
+        <file>static/img/file.png</file>
     </qresource>
 </RCC>

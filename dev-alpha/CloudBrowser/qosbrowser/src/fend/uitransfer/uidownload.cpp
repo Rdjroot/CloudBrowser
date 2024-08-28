@@ -1,5 +1,6 @@
 ﻿#include "uidownload.h"
 #include "src/config/common.h"
+#include "src/fend/uidelegates/uitableitemdelegate.h"
 #include "ui_uidownload.h"
 #include <src/fend/uicom/uiprogresswidget.h>
 
@@ -15,6 +16,7 @@ UiDownload::UiDownload(QWidget *parent) :
     connect(MG->mSignal, &ManSignals::downloadProcess, this, &UiDownload::onDownloadProcess);
     connect(MG->mSignal, &ManSignals::downloadSuccess, this, &UiDownload::onDownloadSuccess);
     connect(MG->mSignal, &ManSignals::error, this, &UiDownload::onError);
+    ui->tableWidget->setItemDelegate(new UiTableItemDelegate(ui->tableWidget));
 }
 
 UiDownload::~UiDownload()
@@ -40,7 +42,7 @@ void UiDownload::onStartDownload(const QString& jobId, const QString& key, const
     UiProgressWidget *bar = new UiProgressWidget();
     bar->setRange(0, total);
     ui->tableWidget->setCellWidget(0, 2, bar);          // 第三列为进度条
-    qDebug() << " UIDOWNLOAD Start.";
+
 }
 
 /**

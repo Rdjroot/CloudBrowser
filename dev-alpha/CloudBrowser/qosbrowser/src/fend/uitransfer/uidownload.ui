@@ -31,6 +31,12 @@
    </property>
    <item>
     <widget class="QTableWidget" name="tableWidget">
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+     </property>
+     <property name="showGrid">
+      <bool>false</bool>
+     </property>
      <column>
       <property name="text">
        <string>名称</string>

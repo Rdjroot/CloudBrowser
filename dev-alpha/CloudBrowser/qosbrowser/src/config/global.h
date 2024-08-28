@@ -63,6 +63,10 @@ namespace GLOBAL {
         static const QString QUIT_HOVER = ":/static/img/Quit-2.png";
         static const QString TRANS = ":/static/img/Trans-1.png";
         static const QString TRANS_HOVER = ":/static/img/Trans-2.png";
+
+        static const QString BUCKET = ":/static/img/bucket.png";
+        static const QString FILE = ":/static/img/file.png";
+        static const QString DIR = ":/static/img/dir.png";
     }
 
     // 日志级别

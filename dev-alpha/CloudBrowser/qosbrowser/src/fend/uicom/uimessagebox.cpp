@@ -1,6 +1,6 @@
 ﻿#include "uimessagebox.h"
 #include "ui_uimessagebox.h"
-
+#include "src/fend/uicom/uipushbutton.h"
 #include <QPushButton>
 
 UiMessageBox::UiMessageBox(QWidget *parent) :
@@ -28,8 +28,9 @@ QString UiMessageBox::showMessage(const QString &title, const QString &text, con
 void UiMessageBox::createBtns(const QStringList &textList)
 {
     for(const auto& text: qAsConst(textList)) {
-        QPushButton* btn = new QPushButton(text, this);
-        connect(btn, &QPushButton::clicked, [=]() {
+        UiPushButton* btn = new UiPushButton(this);
+        btn->setText(text);
+        connect(btn, &UiPushButton::clicked, [=]() {
             m_text = text;
             accept();
         });

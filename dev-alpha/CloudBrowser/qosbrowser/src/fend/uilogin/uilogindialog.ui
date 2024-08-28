@@ -210,7 +210,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="btnLogin">
+    <widget class="UiPushButton" name="btnLogin">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -273,12 +273,17 @@
   <customwidget>
    <class>UiKeywordEdit</class>
    <extends>QLineEdit</extends>
-   <header location="global">src/fend/uicom/uikeywordedit.h</header>
+   <header>src/fend/uicom/uikeywordedit.h</header>
   </customwidget>
   <customwidget>
    <class>UiComboLine</class>
    <extends>QLineEdit</extends>
-   <header location="global">src/fend/uicom/uicomboline.h</header>
+   <header>src/fend/uicom/uicomboline.h</header>
+  </customwidget>
+  <customwidget>
+   <class>UiPushButton</class>
+   <extends>QPushButton</extends>
+   <header location="global">src/fend/uicom/uipushbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

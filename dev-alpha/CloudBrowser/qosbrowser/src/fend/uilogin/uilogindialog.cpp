@@ -25,9 +25,11 @@ UiLoginDialog::UiLoginDialog(QWidget *parent)
     ui->labelSecretID->setProperty("style","h5");
     ui->labelSecretKey->setProperty("style","h5");
     ui->labelRemark->setProperty("style","h5");
-    ui->btnLogin->setProperty("style","h5");
 
-    connect(ui->btnLogin, &QPushButton::clicked, this, &UiLoginDialog::onBtnLoginClicked);
+    ui->btnLogin->setProperty("style","h5");
+    ui->btnLogin->setProperty("style_button","main");
+
+    connect(ui->btnLogin, &UiPushButton::clicked, this, &UiLoginDialog::onBtnLoginClicked);
 
     connect(MG->mSignal, &ManSignals::loginSuccess, this, &UiLoginDialog::onLoginSucceed);
     connect(MG->mSignal, &ManSignals::unLogin, this, &UiLoginDialog::show);

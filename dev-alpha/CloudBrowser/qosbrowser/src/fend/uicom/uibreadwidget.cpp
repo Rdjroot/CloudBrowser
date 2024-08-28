@@ -9,7 +9,7 @@ UiBreadWidget::UiBreadWidget(QWidget *parent) :
     ui->setupUi(this);
     ui->listView->setModel(m_model);
     ui->listView->setFlow(QListView::LeftToRight);
-    ui->listView->setStyleSheet("QListView{border:none;}");
+    ui->listView->setCursor(Qt::PointingHandCursor);    // 放置变小手
     setPath("");
     connect(ui->listView, &QListView::clicked, this, &UiBreadWidget::onItemClicked);
     setFixedHeight(30);

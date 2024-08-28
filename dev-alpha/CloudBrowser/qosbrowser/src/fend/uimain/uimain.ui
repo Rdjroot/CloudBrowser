@@ -20,7 +20,7 @@
       <enum>Qt::Orientation::Horizontal</enum>
      </property>
      <property name="handleWidth">
-      <number>4</number>
+      <number>2</number>
      </property>
      <widget class="UiBucketsListWidget" name="bucketwdg" native="true"/>
      <widget class="QWidget" name="layoutWidget">

@@ -9,8 +9,8 @@
 #include <src/fend/uimain/uibucketstablewidget.h>
 
 // TODO 1、调整按钮UI贴图 大小和风格统一
-// BUG 2. 丢失报错码
-// BUG 3. 没有显示上传/下载条码
+// TODO 2、没有完善的log功能
+// TODO 3、悬停显示
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

@@ -2,6 +2,7 @@
 #define UIBASEDIALOG_H
 
 #include <QDialog>
+#include "src/fend/uicom/uipushbutton.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class UiBaseDialog; }
@@ -53,7 +54,7 @@ public:
      * @param hoverPath 按钮悬浮图片路径
      * @return 新增的按钮指针
     */
-    QPushButton* addButton(const QString&path, const QString& hoverPath);
+    UiPushButton* addButton(const QString&path, const QString& hoverPath);
 
     /**
      * @brief 设置按钮图片
@@ -61,7 +62,7 @@ public:
      * @param path 按钮图片路径
      * @param hoverPath 按钮悬浮图片路径
     */
-    void setButtonImage(QPushButton* btn, const QString& path, const QString& hoverPath);
+    void setButtonImage(UiPushButton* btn, const QString& path, const QString& hoverPath);
 
     /**
      * @brief 设置所有按钮为统一大小

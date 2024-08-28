@@ -7,8 +7,9 @@ UiCreateBucketDialog::UiCreateBucketDialog(QWidget *parent)
     ui(new Ui::UiCreateBucketDialog)
 {
     ui->setupUi(body());
-    connect(ui->btnOk,&QPushButton::clicked, this, &UiCreateBucketDialog::accept);
-    connect(ui->btnCancel, &QPushButton::clicked, this, &UiCreateBucketDialog::reject);
+    ui->btnOk->setProperty("style_button", "main");
+    connect(ui->btnOk,&UiPushButton::clicked, this, &UiCreateBucketDialog::accept);
+    connect(ui->btnCancel, &UiPushButton::clicked, this, &UiCreateBucketDialog::reject);
 }
 
 UiCreateBucketDialog::~UiCreateBucketDialog()

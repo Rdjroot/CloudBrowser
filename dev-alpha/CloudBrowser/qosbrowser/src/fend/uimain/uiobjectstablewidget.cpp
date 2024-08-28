@@ -1,6 +1,7 @@
 ﻿#include "uiobjectstablewidget.h"
 #include "src/bend/gateway.h"
 #include "src/bend/man/mancloud.h"
+#include "src/fend/uidelegates/uitableitemdelegate.h"
 #include "src/middle/manglobal.h"
 #include "src/middle/manmodels.h"
 #include "src/middle/signals/mansignals.h"
@@ -18,6 +19,7 @@ UiObjectsTableWidget::UiObjectsTableWidget(QWidget *parent)
     , ui(new Ui::UiObjectsTableWidget)
 {
     ui->setupUi(this);
+    ui->btnBuckets->setProperty("style_button", "main");
     ui->tableView->setModel(MG->mModels->modelObjects());
 
     // 设置列宽度
@@ -31,6 +33,7 @@ UiObjectsTableWidget::UiObjectsTableWidget(QWidget *parent)
 
     // 设置鼠标点击排序
     ui->tableView->setSortingEnabled(true);
+    ui->tableView->setItemDelegate(new UiTableItemDelegate(ui->tableView));
 
     // 关联对象数据显示
     connect(MG->mSignal, &ManSignals::objectsSuccess, this,
@@ -82,6 +85,10 @@ void UiObjectsTableWidget::onObjectsSuccess(const QList<MyObject> &objects)
     QString path = MG->mCloud->currentBucketName() + "/" + MG->mCloud->currentDir();
     ui->widgetBread->setPath(path);
     ui->widgetPage->setTotalRow(objects.size());
+    QStandardItemModel *model = MG->mModels->modelObjects();
+    for (int i = 0; i < model->rowCount(); ++i) {
+        ui->tableView->setRowHeight(i, 40);
+    }
 }
 
 /**
@@ -148,7 +155,7 @@ void UiObjectsTableWidget::on_btnUpload_clicked()
         params["bucketName"] = MG->mCloud->currentBucketName();
         params["key"] = MG->mCloud->currentDir() + info.fileName();
         params["localPath"] = filePath;
-        qDebug()<< QString("1!!!! filePath is %1.").arg(filePath);
+
         MG->mGate->send(API::OBJECTS::PUT,params);
 		lastDir = info.dir().absolutePath();
         emit MG->mSignal->startUpload(jobId, key, filePath);

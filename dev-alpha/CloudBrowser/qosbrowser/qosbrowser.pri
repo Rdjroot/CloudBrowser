@@ -52,8 +52,10 @@ SOURCES += \
     $$PWD/src/fend/uicom/uimessagebox.cpp \
     $$PWD/src/fend/uicom/uipagewidget.cpp \
     $$PWD/src/fend/uicom/uiprogresswidget.cpp \
+    $$PWD/src/fend/uicom/uipushbutton.cpp \
     $$PWD/src/fend/uicom/uiqosdialog.cpp \
     $$PWD/src/fend/uidelegates/bucketdelegate.cpp \
+    $$PWD/src/fend/uidelegates/uitableitemdelegate.cpp \
     $$PWD/src/fend/uilogin/uilogindialog.cpp \
     $$PWD/src/fend/uimain/uibucketslistwidget.cpp \
     $$PWD/src/fend/uimain/uibucketstablewidget.cpp \
@@ -102,8 +104,10 @@ HEADERS += \
     $$PWD/src/fend/uicom/uimessagebox.h \
     $$PWD/src/fend/uicom/uipagewidget.h \
     $$PWD/src/fend/uicom/uiprogresswidget.h \
+    $$PWD/src/fend/uicom/uipushbutton.h \
     $$PWD/src/fend/uicom/uiqosdialog.h \
     $$PWD/src/fend/uidelegates/bucketdelegate.h \
+    $$PWD/src/fend/uidelegates/uitableitemdelegate.h \
     $$PWD/src/fend/uilogin/uilogindialog.h \
     $$PWD/src/fend/uimain/uibucketslistwidget.h \
     $$PWD/src/fend/uimain/uibucketstablewidget.h \

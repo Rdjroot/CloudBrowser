@@ -8,8 +8,8 @@ UiPageWidget::UiPageWidget(QWidget *parent) :
     ui(new Ui::UiPageWidget)
 {
     ui->setupUi(this);
-    connect(ui->btnNext, &QPushButton::clicked, this, &UiPageWidget::next);
-    connect(ui->btnPre, &QPushButton::clicked, this, &UiPageWidget::pre);
+    connect(ui->btnNext, &UiPushButton::clicked, this, &UiPageWidget::next);
+    connect(ui->btnPre, &UiPushButton::clicked, this, &UiPageWidget::pre);
 
     ui->lineMaxRows->setAlignment(Qt::AlignHCenter);    // 文本摆放方式
     ui->lineMaxRows->setReadOnly(true);

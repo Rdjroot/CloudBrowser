@@ -1,4 +1,5 @@
 ﻿#include "uicomboline.h"
+#include "src/fend/uidelegates/uitableitemdelegate.h"
 #include <QCompleter>
 #include <QListView>
 
@@ -15,9 +16,14 @@ UiComboLine::UiComboLine(const QStringList &words, QWidget *parent): QLineEdit(p
 void UiComboLine::setWords(const QStringList &words)
 {
     QCompleter* com = new QCompleter(words, this);
+    QAbstractItemView *view = com->popup();
+
     // 显示候选词的列表，隐藏滚动条
-    com->popup()->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    com->popup()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    // 设置为自定义的item代理
+    view->setItemDelegate(new UiTableItemDelegate(view));
+    view->setCursor(Qt::PointingHandCursor);
 
     // 客户选中关键词后捕获发送
     connect(com, QOverload<const QString &>::of(&QCompleter::activated),
@@ -29,7 +35,7 @@ void UiComboLine::setWords(const QStringList &words)
     setCompleter(com);
     // 设置 QCompleter 的过滤模式为 Qt::MatchContains，
     // 这意味着当用户输入部分内容时，
-    //自动补全器会显示所有包含该输入内容的候选词，而不仅仅是以该内容开头的词。
+    // 自动补全器会显示所有包含该输入内容的候选词，而不仅仅是以该内容开头的词。
     com->setFilterMode(Qt::MatchContains);
 }
 

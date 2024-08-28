@@ -10,57 +10,131 @@ color: #555555
 }
 
 /*通用：设置标题*/
-*[style="h1"]{
+*[style_font="h1"]{
 font: bold 20pt;
 color: #111111;
 }
-*[style="h2"]{
+*[style_font="h2"]{
     font: bold 18pt;
-	color: #222222;
+        color: #222222;
 }
-*[style="h3"]{
+*[style_font="h3"]{
     font: bold 16pt;
-	color: #333333;
+        color: #333333;
 }
-*[style="h4"]{
+*[style_font="h4"]{
     font: bold 14pt;
-	color: #444444;
+        color: #444444;
 }
-*[style="h5"]{
-	font: bold 12pt;
+*[style_font="h5"]{
+        font: bold 12pt;
+}
+
+*[style_frame="bottomframe"]{
+        border:none;
+        border-bottom: 1px solid #cccccc;
+        border-radius: none;
 }
 
 /*设置通用的QLineEdit*/
 QLineEdit{
-	border: 1px solid #cccccc;
-	border-radius: 2px;/*圆角一般使用偶数进行设置*/
-	selection-background-color: darkgray;
-	height: 28px;
+        border: 1px solid #cccccc;
+        border-radius: 2px;
+        selection-background-color: darkgray;
+        height: 28px;
 }
 QLineEdit:hover{
-	border-color: #1296db;
+        border-color: #1296db;
 }
 
 /*通用标签设置*/
 QLabel{
-	background-color: transparent;
+        background-color: transparent;
 }
 
 /*通用按钮设置*/
 QPushButton{
-	background: transparent;
-	border: 1px solid #dddddd;
-	border-radius: 2px;
-	height: 28px;
-	width: 56px;
-}
-QPushButton:hover{
-	color:#1296db;
-	border-color: #1296db;
+        background: transparent;
+        border: 1px solid #dddddd;
+        border-radius: 5px;
+        height: 28px;
+        width: 56px;
 }
 
-QPushButton#btnLogin{
-	background: #1296db;
-	color:white;
-    font: bold 12pt;
+QPushButton:disabled{
+        background-color: #dddddd;
+}
+
+QPushButton:hover{
+        color:#1296db;
+        border-color: #1296db;
+}
+
+QPushButton[style_button="main"]{
+        background: #0063e5;
+        color:white;
+        border-color: #0063e5;
+}
+QPushButton[style_button="main"]:hover{
+        background: #006eff;
+}
+
+/*设置视图*/
+QAbstractItemView {
+        border:none;
+        border-top: 1px solid #dddddd;
+}
+
+QTableView::item,QTableWidget::item {
+        border-bottom: 1px solid #dddddd;
+}
+
+QAbstractItemView::item {
+        height: 30px;
+}
+
+QAbstractItemView::item:hover,
+QAbstractItemView::item:selected {
+        background-color: #66dddddd;
+        color: blue;
+}
+
+/*设置滚动条*/
+QScrollBar {
+    border: none;
+    background-color: transparent;
+}
+QScrollBar:horizontal {
+        height: 6px;
+}
+QScrollBar:vertical {
+        width: 6px;
+}
+QScrollBar::handle {
+        background: #aaaaaa;
+        border-radius: 3px;
+}
+QScrollBar::add-line, QScrollBar::sub-line {
+        border: none;
+}
+
+/*设置进度条*/
+QProgressBar {
+        background: #edeffc;
+        border-radius: 3px;
+}
+
+QProgressBar::chunk {
+        background: #647bfc;
+        border-radius: 3px;
+}
+
+/*QTabWidget 去掉每个标签页的边框*/
+QTabWidget::pane{
+        border: none;
+}
+
+/*设置分割器*/
+QSplitter::handle:horizontal {
+        background-color: #dddddd;
 }

@@ -1,8 +1,8 @@
 ﻿#include "uiupload.h"
 #include "src/config/common.h"
+#include "src/fend/uidelegates/uitableitemdelegate.h"
 #include "ui_uiupload.h"
 #include "src/fend/uicom/uiprogresswidget.h"
-
 
 #include <QFileInfo>
 
@@ -17,6 +17,7 @@ UiUpload::UiUpload(QWidget *parent) :
     connect(MG->mSignal, &ManSignals::uploadProcess, this, &UiUpload::onUploadProcess);
     connect(MG->mSignal, &ManSignals::uploadSuccess, this, &UiUpload::onUploadSuccess);
     connect(MG->mSignal, &ManSignals::error, this, &UiUpload::onError);
+    ui->tableWidget->setItemDelegate(new UiTableItemDelegate(ui->tableWidget));
 }
 
 UiUpload::~UiUpload()
