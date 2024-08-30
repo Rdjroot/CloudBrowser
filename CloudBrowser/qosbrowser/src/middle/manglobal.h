@@ -1,7 +1,7 @@
 ﻿#ifndef MANGLOBAL_H
 #define MANGLOBAL_H
 
-#include <QObject>
+#include <QOBJECT>
 #include "src/bend/man/mandb.h"
 // 写入日志宏
 #define MG ManGlobal::instance()
@@ -18,6 +18,7 @@ class LoggerProxy;
 class ManCloud;
 class ManPlugin;
 class GateWay;
+class ManDB;
 class ManSignals;
 class ManModels;
 

@@ -19,20 +19,39 @@ class ManDB : public QObject
 public:
     explicit ManDB(QObject *parent = nullptr);
     ~ManDB();
+
     /**
      * @brief 初始化
      *
      * 连接数据库->创建表（*）->查询表中所有数据
      *
      */
-    void init();        // 初始化数据库
+    void init();
 
+    /**
+     * @brief 存储登录信息
+     * @param name 名称
+     * @param id
+     * @param key   密码
+     * @param remark 备注
+     */
     void saveLoginInfo(const QString &name,const QString &id, const QString &key,const QString&remark);
+
+    /**
+     * @brief 删除登录信息
+     * @param id
+     */
     void removeLoginInfo(const QString &id);
+
+    /**
+     * @brief 返回登录账户在登录list中的索引
+     * @param secretID
+     * @return 索引(int)
+     */
     int indexOfLoginInfo(const QString& secretID);
 
     /**
-     * 返回所有的登录名
+     * 返回所有登录名
      *
      */
     QStringList loginNameList();
@@ -43,7 +62,7 @@ public:
      * @return QStringList类型
      */
     LoginInfo loginInfoByName(const QString&name);
-signals:
+
 
 private:
     DaoLoginInfoMySql m_daoLoginInfomsq;

@@ -6,7 +6,6 @@
 
 DaoLoginInfoMySql::DaoLoginInfoMySql()
 {
-    mWarning("The database engine is mysql.");
 }
 
 bool DaoLoginInfoMySql::exists(const QString &secretId)

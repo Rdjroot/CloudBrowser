@@ -6,11 +6,11 @@
 // 登录表
 struct LoginInfo
 {
-    QString name;
-    QString secret_id;
-    QString secret_key;
-    QString remark;
-    uint timestamp;
+    QString name;       // 名称
+    QString secret_id;  // id
+    QString secret_key; // 密码
+    QString remark;     // 备注
+    uint timestamp;     // 时间戳
 };
 
 

@@ -3,7 +3,6 @@
 
 ManDB::ManDB(QObject *parent) : QObject(parent)
 {
-    qDebug()<<"Construct ManDb";
 }
 
 ManDB::~ManDB()

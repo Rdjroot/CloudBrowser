@@ -14,55 +14,36 @@ ManCloud::~ManCloud()
 
 }
 
-/**
- * @brief  登录云对象存储
- * @param secretId
- * @param secretKey
- */
 void ManCloud::login(QString secretId, QString secretKey)
 {
     QList<MyBucket> buckets = MG->mPlugin->clouds()->login(secretId,secretKey);
 
-    // 在这里发送登录信号
+    // 发送登录信号
     emit MG->mSignal->loginSuccess();
     bucketsAlready(buckets);
 }
 
-/**
- * @brief ManCloud::getBuckets 获取存储桶列表
- */
 void ManCloud::getBuckets()
 {
     QList<MyBucket> buckets = MG->mPlugin->clouds()->buckets();
     bucketsAlready(buckets);
 }
 
-/**
- * @brief ManCloud::putBucket 创建存储桶
- * @param bucketName
- * @param location
- */
+
 void ManCloud::putBucket(const QString &bucketName, const QString &location)
 {
     MG->mPlugin->clouds()->putBucket(bucketName, location);
-    getBuckets();           // 更新本地存储桶
+    getBuckets();           // 更新本地存储桶展示
 }
 
-/**
- * @brief ManCloud::deleteBucket 删除存储桶
- * @param bucketName
- */
+
 void ManCloud::deleteBucket(const QString &bucketName)
 {
     MG->mPlugin->clouds()->deleteBucket(bucketName);
-    getBuckets();
+    getBuckets();       // 更新本地存储桶展示
 }
 
-/**
- * @brief ManCloud::getObjects 获取对象列表
- * @param bucketName
- * @param dir
- */
+
 void ManCloud::getObjects(const QString &bucketName, const QString &dir)
 {
     QList<MyObject> objs = MG->mPlugin->clouds()->getObjects(bucketName, dir);
@@ -71,13 +52,7 @@ void ManCloud::getObjects(const QString &bucketName, const QString &dir)
     emit MG->mSignal->objectsSuccess(objs);
 }
 
-/**
- * @brief ManCloud::getObject 下载云对象
- * @param jobId
- * @param bucketName
- * @param key
- * @param localPath
- */
+
 void ManCloud::getObject(const QString &jobId, const QString &bucketName, const QString &key, const QString &localPath)
 {
     // transferred_size 已经传送的大小，total_size 需要传输的总大小
@@ -91,13 +66,7 @@ void ManCloud::getObject(const QString &jobId, const QString &bucketName, const 
     emit MG->mSignal->downloadSuccess(jobId);
 }
 
-/**
- * @brief ManCloud::putObject 上传云对象
- * @param jobId
- * @param bucketName
- * @param key
- * @param localPath
- */
+
 void ManCloud::putObject(const QString &jobId, const QString &bucketName, const QString &key, const QString &localPath)
 {
     auto callback = [=](qulonglong transferred_size, qulonglong total_size, void *) {
@@ -120,10 +89,7 @@ QString ManCloud::currentDir() const
     return m_currentDir;
 }
 
-/**
- * @brief 桶数据已经准备好
- * @param buckets
- */
+
 void ManCloud::bucketsAlready(const QList<MyBucket> &buckets)
 {
     m_currentBucketName.clear();
