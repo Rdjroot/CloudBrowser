@@ -1,7 +1,7 @@
 ﻿#ifndef APIS_H
 #define APIS_H
 
-// 记录所有的API
+// 对象存储操作API的宏
 namespace API {
     namespace LOGIN{
         static const int NORMAL = 1;            // 常规登录

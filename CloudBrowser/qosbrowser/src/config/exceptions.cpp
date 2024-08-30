@@ -1,8 +1,6 @@
 ﻿#include "exceptions.h"
 #include "src/config/common.h"
-#include<iostream>
 #include "src/helper/filehelper.h"
-
 
 BaseException::BaseException(const QString &code, const QString &msg)
 {
@@ -10,7 +8,6 @@ BaseException::BaseException(const QString &code, const QString &msg)
     m_msg = msg;
 }
 
-// 解析csv文件
 ErrorMap BaseException::parseErrorCode(const QString &csvPath)
 {
     ErrorMap m_map;
@@ -44,22 +41,21 @@ ErrorMap BaseException::parseErrorCode(const QString &csvPath)
     return m_map;
 }
 
-// 生成错误码头文件
 void BaseException::generateErrorCodeHFile(const QString &csvPath, const QString &targetPath)
 {
     QStringList rows;
-    rows<<"#ifndef ERRORCODE_H"<<"#define ERRORCODE_H\n\n";
+    rows << "#ifndef ERRORCODE_H" << "#define ERRORCODE_H\n\n";
 
     ErrorMap errors = parseErrorCode(csvPath);
     ErrorMap::const_iterator iter = errors.constBegin();
-    while(iter != errors.constEnd())
-    {
+    while (iter != errors.constEnd()) {
         // 添加宏
-        rows <<QString::fromUtf8("#define EC_%1 \"%1\" //%2").arg(iter.key(),iter.value());
+        rows << QString::fromUtf8("#define EC_%1 \"%1\" //%2")
+                    .arg(iter.key(), iter.value());
         ++iter;
     }
     rows << "\n\n#endif // ERRORCODE_H";
-    FileHelper::writeFile(rows,targetPath);
+    FileHelper::writeFile(rows, targetPath);
 }
 
 QString BaseException::msg() const

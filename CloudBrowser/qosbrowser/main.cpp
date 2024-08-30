@@ -8,6 +8,7 @@
 // TODO 2 通读代码 添加合理注释
 // TODO 3 更改logo，调整按钮UI贴图 大小和风格统一吗，还有程序要有图标
 // TODO 4 去除冗余日志，添加重要日志
+// TODO 5 发布项目尝试功能，使用前清理数据库（重点）
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

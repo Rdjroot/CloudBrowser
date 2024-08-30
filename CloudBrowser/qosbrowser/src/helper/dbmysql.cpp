@@ -1,8 +1,6 @@
 ﻿#include "dbmysql.h"
 #include "src/config/globals.h"
-#include<iostream>
 #include <QSqlRecord>
-
 
 DbMySql::DbMySql()
 {
@@ -27,24 +25,25 @@ void DbMySql::connect(const QString &dbname)
 
     if(!m_db.open())
     {
+        // TODO XXX 测试这里打开不存在的数据库会怎么样？
         throw QString::fromLocal8Bit("打开数据库失败: %1 %2").arg(dbname, m_db.lastError().text());
     }
 }
 
-// 判断是否有数据存在，通常用于查询
+
 bool DbMySql::exists(const QString &sql)
 {
     QSqlQuery query = exec(sql);
     return query.next();        // 如果有数据，next == true
 }
 
-// 执行sql
+
 QSqlQuery DbMySql::exec(const QString &sql)
 {
     QSqlQuery query;
     if(!query.exec(sql))
     {
-        throw QString::fromUtf8("执行sql失败：%1 %2").arg(sql,m_db.lastError().text());
+        throw QString::fromLocal8Bit("执行sql失败：%1 %2").arg(sql,m_db.lastError().text());
     }
     return query;
 }
@@ -57,7 +56,7 @@ QSqlQuery DbMySql::exec(const QString &sql, QVariantList &variantList)
     // 判断sql有没有准备好，是否是可绑定后执行的语句
     if(!query.prepare(sql))
     {
-        throw QString::fromUtf8("预编译sql失败：%1 %2").arg(sql,m_db.lastError().text());
+        throw QString::fromLocal8Bit("预编译sql失败：%1 %2").arg(sql,m_db.lastError().text());
     }
 
     // 绑定参数
@@ -68,7 +67,7 @@ QSqlQuery DbMySql::exec(const QString &sql, QVariantList &variantList)
 
     if(!query.exec())
     {
-        throw QString::fromUtf8("执行sql bindvalue失败：%1 %2").arg(sql,m_db.lastError().text());
+        throw QString::fromLocal8Bit("执行sql bindvalue失败：%1 %2").arg(sql,m_db.lastError().text());
     }
 
     return query;

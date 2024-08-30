@@ -46,7 +46,7 @@ namespace GLOBAL {
         static const QString ENV_PROD = "prod";
     };
 
-    // 路径
+    // 资源/配置文件路径
     namespace PATH {
         static const QString WORK = QDir::currentPath();
         static const QString TMP = FileHelper::joinPath(WORK, "temp");

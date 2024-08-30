@@ -38,7 +38,7 @@ public:
     void saveLoginInfo(const QString &name,const QString &id, const QString &key,const QString&remark);
 
     /**
-     * @brief 删除登录信息
+     * @brief 删除登录信息（数据库和表中）
      * @param id
      */
     void removeLoginInfo(const QString &id);
@@ -65,8 +65,8 @@ public:
 
 
 private:
-    DaoLoginInfoMySql m_daoLoginInfomsq;
-    QList<LoginInfo> m_loginInfoList;
+    DaoLoginInfoMySql m_daoLoginInfomsq;    // mysql业务查询类
+    QList<LoginInfo> m_loginInfoList;       // 暂存所有登录信息（当前设计未考虑用户过多，因为是本地程序）
 };
 
 #endif // MANDB_H

@@ -106,7 +106,7 @@ private:
     GLOBAL::LOG_LEVEL m_level;
     QString m_file;     //日志发生的文件
     int m_line;         // 日志发生的行数
-    QString m_func;     // 日志发生的函数？也可以是自定义文字
+    QString m_func;     // 日志发生的函数
 };
 
 #endif // LOGGERPROXY_H

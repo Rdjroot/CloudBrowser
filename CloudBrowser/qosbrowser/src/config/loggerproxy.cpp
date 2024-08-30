@@ -83,7 +83,6 @@ void LoggerProxy::doLog(GLOBAL::LOG_LEVEL level, const QVariant &var, bool up) c
     {
         return;
     }
-    // qDebug() << QString("level is %1, m_level is %2").arg(level).arg(m_level);
     if(level > m_level)
     {
         // 调用日志打印函数

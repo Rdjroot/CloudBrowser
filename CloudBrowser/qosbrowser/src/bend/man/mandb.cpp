@@ -1,5 +1,4 @@
 ﻿#include "mandb.h"
-#include "src/config/globals.h"
 
 ManDB::ManDB(QObject *parent) : QObject(parent)
 {
@@ -17,7 +16,6 @@ void ManDB::init()
     m_loginInfoList = m_daoLoginInfomsq.select();
 }
 
-// 存储登录信息
 void ManDB::saveLoginInfo(const QString &name, const QString &id, const QString &key, const QString &remark)
 {
     LoginInfo info;
@@ -40,7 +38,6 @@ void ManDB::saveLoginInfo(const QString &name, const QString &id, const QString 
     }
 }
 
-// 删除数据（数据库和表中）
 void ManDB::removeLoginInfo(const QString &id)
 {
     if(m_daoLoginInfomsq.exists(id))
@@ -50,9 +47,9 @@ void ManDB::removeLoginInfo(const QString &id)
     }
 }
 
-// 返回登录账户在登录list中的序列
 int ManDB::indexOfLoginInfo(const QString &secretID)
 {
+    // 遍历查询很慢，但考虑到本地一般不会有太多用户
     for(int i = 0; i < m_loginInfoList.size(); ++i)
     {
         if(m_loginInfoList[i].secret_id == secretID)
