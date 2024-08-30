@@ -4,15 +4,33 @@
 #include<QJsonObject>
 #include <QString>
 
-// 获取版本，存储版本
+/**
+ * @brief 获取产品版本号
+ *
+ * 本项目没有正式启用该功能，没有区分不同类型版本。
+ */
 class Version
 {
 public:
     Version();
     virtual void setVersion() = 0;
 
+    /**
+     * @brief 获取版本
+     * @return 版本名，如business dev 1.1.1
+     */
     QString version();
+
+    /**
+     * @brief 版本号
+     * @return 如 1.1.1
+     */
     QString versionNum();
+
+    /**
+     * @brief 版本类型
+     * @return custom
+     */
     QString major() const;
 
 protected:

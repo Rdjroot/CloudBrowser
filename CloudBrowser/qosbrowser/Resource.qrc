@@ -31,5 +31,6 @@
         <file>static/img/bucket.png</file>
         <file>static/img/dir.png</file>
         <file>static/img/file.png</file>
+        <file>static/configs/default_config.json</file>
     </qresource>
 </RCC>

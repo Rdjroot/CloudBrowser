@@ -141,9 +141,6 @@ void GateWay::apiPutObject(const QJsonValue &params)
     QString bucketName = params["bucketName"].toString();
     QString key = params["key"].toString();
     QString localPath = params["localPath"].toString();
-    qDebug()<< QString("2!!!! bucketName is %1.").arg(bucketName);
-    qDebug()<< QString("3!!!! key is %1.").arg(key);
-    qDebug()<< QString("4!!!! localPath is %1.").arg(localPath);
     MG->mCloud->putObject(jobId, bucketName, key, localPath);
 }
 

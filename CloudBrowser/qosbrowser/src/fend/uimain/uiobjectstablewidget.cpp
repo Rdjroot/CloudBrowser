@@ -247,14 +247,3 @@ void UiObjectsTableWidget::showMessage(const QString &title, const QString &info
     box.exec();
 }
 
-/**
- * @brief 用於测验是否正确回调 TODO 会删除
- * @param jobid
- * @param transferred
- * @param total
- */
-void UiObjectsTableWidget::showDownloadProcess(const QString& jobid, qulonglong transferred, qulonglong total)
-{
-    qDebug()<<QString("jobid: %1, transferred : %2, total: %3").arg(jobid).arg(transferred).arg(total);
-}
-

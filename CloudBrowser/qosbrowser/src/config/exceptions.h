@@ -4,7 +4,6 @@
 #include <QMap>
 #include <QString>
 
-
 typedef QMap<QString, QString> ErrorMap;
 // 基本的异常类
 class BaseException

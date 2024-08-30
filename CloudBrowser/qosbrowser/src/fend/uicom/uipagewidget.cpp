@@ -21,6 +21,9 @@ UiPageWidget::UiPageWidget(QWidget *parent) :
 
     ui->btnNext->setDisabled(true);
     ui->btnPre->setDisabled(true);
+
+    ui->lineCurrentPage->setProperty("style_frame", "bottomframe");
+    ui->lineMaxRows->setProperty("style_frame", "bottomframe");
 }
 
 UiPageWidget::~UiPageWidget()
@@ -147,6 +150,5 @@ void UiPageWidget::switchPage(int newCurrentPage)
     int start = (newCurrentPage -1)*maxRow();
     int left = (totalRow())-start;
     int len = left < maxRow() ? left: maxRow();
-    qDebug() << QString("switchPage %1,%2").arg(start).arg(len);
     emit pageNumChanged(start,len);
 }

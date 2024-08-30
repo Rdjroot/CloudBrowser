@@ -25,6 +25,9 @@ ManPlugin::~ManPlugin()
  */
 void ManPlugin::installPlugins(int argc, char *argv[])
 {
+    // 添加日志插件
+    mLogIns->setLogger(new LoggerQDebug());
+    qDebug() << 4;
     // 如果输入命令行，命令行参数优先级最高，否则直接加载配置文件中的配置信息
     VersionCmd version(argc, argv);
     if(version.isVaild())               // 判断是否命令行方法执行
@@ -33,22 +36,21 @@ void ManPlugin::installPlugins(int argc, char *argv[])
     }
     else
     {
-        m_version = new VersionJson(VERSION::JSON_PATH);
+        m_version = new VersionJson(GLOBAL::VERSION::JSON_PATH);
     }
-
     m_version->setVersion();
+    qDebug() << 5;
 
-    // 添加日志插件
-    mLogIns->setLogger(new LoggerQDebug());
 
     // 安装云存储插件
-    if(m_version->major()==VERSION::MAJOR_BUSINESS)
+    if(m_version->major()==GLOBAL::VERSION::MAJOR_BUSINESS)
     {
         m_clouds = new DaoCloudsCos();
     }else
     {
         m_clouds = new DaoCloudsMock(":/static/test/custom.json");
     }
+    qDebug() << 6;
 
 }
 

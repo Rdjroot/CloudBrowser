@@ -90,7 +90,6 @@ void UiBaseDialog::addTitleLine(int w)
 {
     QLabel* label = new QLabel;
     label->setFixedSize(w ,15);
-    label->setStyleSheet("QLabel{background-color: lightgray;}");
     addWidget(label);
 }
 

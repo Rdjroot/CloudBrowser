@@ -1,36 +1,19 @@
 ﻿#include "daocloudscos.h"
 #include"cos_api.h"
-#include"src/config/exceptions.h"
-#include"src/config/errorcode.h"
+#include"src/config/common.h"
 #include<QDebug>
-#include <QDir>
-#include <QFile>
-
+#include<string>
 using namespace qcloud_cos;
 
-/**
- * @brief DaoCloudsCos::DaoCloudsCos 使用配置文件初始化
- */
 DaoCloudsCos::DaoCloudsCos()
 {
     // 这里需要放到执行文件(.exe)所在目录的上一个目录
-    QString relativePath = "./cosconfig.json";
-    QFile file(relativePath);
-    if(file.exists())
-    {
-        m_config = new CosConfig(relativePath.toStdString());
-        qDebug() <<"使用的相对路径.";
-    }
-    else
-    {
-        QString obsolutePath = "F:\\Code\\CloudStorage\\dev-alpha\\CloudBrowser\\qosbrowser\\static\\configs\\cosconfig.json";
-        m_config = new CosConfig(obsolutePath.toStdString());
-        qDebug() <<"使用的绝对路径.";
-    }
+    m_config = new CosConfig("./cosconfig.json");
+    mWarning("The program uses Tencent cloud object storage.");
 }
 
 /**
- * @brief DaoCloudsCos::~DaoCloudsCos 释放指针
+ * @brief 释放指针
  */
 DaoCloudsCos::~DaoCloudsCos()
 {
@@ -38,23 +21,22 @@ DaoCloudsCos::~DaoCloudsCos()
     m_config = nullptr;
 }
 
-/**
- * @brief DaoCloudsCos::buckets 获取存储桶列表
- * @return
- */
 QList<MyBucket> DaoCloudsCos::buckets()
 {
-    QList<MyBucket> res;
-
     GetServiceReq req;
     GetServiceResp resp;
     CosAPI cos = CosAPI(*m_config);
+
+    // 请求登录云存储账户，返回结果
     CosResult result = cos.GetService(req, &resp);
 
     if (!result.IsSucc()) {
+        // 用户登录用户密码有误
         throwError(EC_211000, result);
     }
 
+    QList<MyBucket> res;
+    // 这里的Bucket是cos API中的类
     std::vector<Bucket> bs = resp.GetBuckets();
     for (std::vector<Bucket>::const_iterator itr = bs.begin(); itr != bs.end(); ++itr)
     {
@@ -69,37 +51,22 @@ QList<MyBucket> DaoCloudsCos::buckets()
     return res;
 }
 
-/**
- * @brief DaoCloudsCos::login 腾讯云对象存储登录
- * @param secretId
- * @param secretKey
- * @return
- */
 QList<MyBucket> DaoCloudsCos::login(const QString secretId, const QString secretKey)
 {
     m_config->SetAccessKey(secretId.toStdString());
     m_config->SetSecretKey(secretKey.toStdString());
 
+    // 设置默认的地区为成都
     m_config->SetRegion("ap-chengdu");
     return buckets();
 }
 
-/**
- * @brief DaoCloudsCos::isBucketExists  查看存储桶是否存在
- * @param bucketName   桶名称
- * @return bool
- */
 bool DaoCloudsCos::isBucketExists(const QString &bucketName)
 {
     MyBucket bucket = getBucketByName(bucketName);
     return bucket.isValid();
 }
 
-/**
- * @brief DaoCloudsCos::getBucketLocation 获取存储桶的地区
- * @param bucketName  桶名称
- * @return 地区
- */
 QString DaoCloudsCos::getBucketLocation(const QString &bucketName)
 {
     CosAPI cos = CosAPI(*m_config);
@@ -112,16 +79,9 @@ QString DaoCloudsCos::getBucketLocation(const QString &bucketName)
     if (bucket.isValid()) {
         return bucket.location;
     }
-    throw BaseException(EC_332000, QString::fromLocal8Bit("获取桶位置失败 %1").arg(bucketName));
-
+    throw BaseException(EC_332000, STR("获取桶位置失败 %1").arg(bucketName));
 }
 
-
-/**
- * @brief DaoCloudsCos::putBucket 创建存储桶
- * @param bucketName    桶名称
- * @param location  地区
- */
 void DaoCloudsCos::putBucket(const QString &bucketName, const QString &location)
 {
     if(isBucketExists(bucketName))
@@ -132,7 +92,7 @@ void DaoCloudsCos::putBucket(const QString &bucketName, const QString &location)
     PutBucketReq req(bucketName.toLocal8Bit().data());
     PutBucketResp resp;
 
-    m_config->SetRegion(location.toStdString());
+    m_config->SetRegion(location.toStdString());    // 重新设置地区
     CosAPI cos(*m_config);
     CosResult result = cos.PutBucket(req, &resp);
     if(!result.IsSucc())
@@ -141,9 +101,10 @@ void DaoCloudsCos::putBucket(const QString &bucketName, const QString &location)
     }
 }
 
-// 删除存储桶，只能删除空的存储桶
+
 void DaoCloudsCos::deleteBucket(const QString &bucketName)
 {
+    // 删除存储桶，只能删除空的存储桶
     if (!isBucketExists(bucketName)) {
         return;
     }
@@ -153,6 +114,9 @@ void DaoCloudsCos::deleteBucket(const QString &bucketName)
     QString location = getBucketLocation(bucketName);
     m_config->SetRegion(location.toStdString());
     CosAPI cos(*m_config);
+
+    // 响应对象提供了获取和处理服务器返回结果的机制，
+    // 确保了 API 调用能够正确地处理和反馈操作的结果
     CosResult result = cos.DeleteBucket(req, &resp);
     if (!result.IsSucc()) {
         throwError(EC_331300, result);
@@ -167,16 +131,16 @@ QList<MyObject> DaoCloudsCos::getObjects(const QString &bucketName, const QStrin
     req.SetDelimiter("/");
 
     GetBucketResp resp;
-    QString location = getBucketLocation(bucketName);       // 设置地址
+    QString location = getBucketLocation(bucketName); // 设置地址
     m_config->SetRegion(location.toStdString());
     CosAPI cos(*m_config);
 
     CosResult result = cos.GetBucket(req, &resp); // 获取结果
-    if(!result.IsSucc())
-    {
+    if (!result.IsSucc()) {
         throwError(EC_331200, result);
     }
-    return getDirList(resp, dir) + getFileList(resp,dir);
+    // 获取该桶层级下的所有文件夹和文件对象
+    return getDirList(resp, dir) + getFileList(resp, dir);
 }
 
 bool DaoCloudsCos::isObjectExists(const QString &bucketname, const QString &key)
@@ -184,6 +148,7 @@ bool DaoCloudsCos::isObjectExists(const QString &bucketname, const QString &key)
     QString location = getBucketLocation(bucketname);
     m_config->SetRegion(location.toStdString());
     CosAPI cos(*m_config);
+    // 判断文件对象是否存在
     return cos.IsObjectExist(bucketname.toStdString(), key.toLocal8Bit().data());
 }
 
@@ -191,8 +156,8 @@ void DaoCloudsCos::throwError(const QString &code, CosResult &result)
 {
     QString msg = QString::fromUtf8("腾讯云错误码【%1】：%2")
                       .arg(result.GetErrorCode().c_str(), result.GetErrorMsg().c_str());
-    qDebug() << msg;    // 这里会被捕获
-    throw BaseException(code,msg);
+    qDebug() << msg;                    // 这里会被捕获在控制台输出
+    throw BaseException(code, msg);
 }
 
 MyBucket DaoCloudsCos::getBucketByName(const QString &bucketName)
@@ -206,14 +171,6 @@ MyBucket DaoCloudsCos::getBucketByName(const QString &bucketName)
     return MyBucket();
 }
 
-
-/**
- * @brief DaoCloudsCos::putObject 上传文件到存储桶
- * @param bucketName    桶名称
- * @param key       上传后的名称
- * @param localPath 本地文件路径
- * @param callback  回调函数，可为nullptr
- */
 void DaoCloudsCos::putObject(const QString &bucketName, const QString &key,
                              const QString &localPath,
                              const TransProgressCallback &callback) {
@@ -222,11 +179,7 @@ void DaoCloudsCos::putObject(const QString &bucketName, const QString &key,
     std::string bucket_name = bucketName.toLocal8Bit().data();
     std::string local_file = localPath.toLocal8Bit().data();
     std::string object_name =key.toLocal8Bit().data();
-    std::setlocale(LC_ALL, ".UTF-8");               // 关键的一步！
-    std::cout << "5!!!! AsyncPutObjectReq args are bucketName: "
-              << bucket_name
-              << ", key: " << object_name
-              << ", localPath: " << local_file<< std::endl;
+    std::setlocale(LC_ALL, ".UTF-8");      // 这一步会处理路径中的中文符号，必不可少
 
     // 异步上传
     AsyncPutObjectReq put_req(bucket_name,
@@ -237,24 +190,20 @@ void DaoCloudsCos::putObject(const QString &bucketName, const QString &key,
     if (callback) {
         put_req.SetTransferProgressCallback(callback);
     }
+
     QString location = getBucketLocation(bucketName);
     m_config->SetRegion(location.toStdString());
     CosAPI cos(*m_config);
+
     context = cos.AsyncPutObject(put_req);
     context->WaitUntilFinish(); // 等待上传结束
+
     CosResult result = context->GetResult();
     if (!result.IsSucc()) {
         throwError(EC_332400, result);
     }
 }
 
-/**
- * @brief DaoCloudsCos::getObject 从云盘下载文件到本地
- * @param bucketName    桶名称
- * @param key       下载文件名
- * @param localPath 下载本地路径
- * @param callback  回调函数，可为nullptr
- */
 void DaoCloudsCos::getObject(const QString &bucketName, const QString &key,
                              const QString &localPath,
                              const TransProgressCallback &callback) {
@@ -282,38 +231,24 @@ void DaoCloudsCos::getObject(const QString &bucketName, const QString &key,
     }
 }
 
-/**
- * @brief DaoCloudsCos::getDirList 获取目录列表
- * @param resp
- * @param dir
- * @return
- */
 QList<MyObject> DaoCloudsCos::getDirList(qcloud_cos::GetBucketResp &resp, const QString &dir)
 {
     QList<MyObject> res;
     std::vector<std::string> cs = resp.GetCommonPrefixes(); // 获取目录列表
     for(int i = 0; i < cs.size(); i++)
     {
-        QString key(cs[i].c_str());
-        // qDebug() <<"dir: "<< key;
+        QString key(cs[i].c_str());     // 这里是在桶中完整的路径，如：books/aaa.txt
 
         MyObject object;
         object.dir = dir;
-        object.name = key.mid(dir.size());  // 将目录进行截取
+        object.name = key.mid(dir.size());  // 将末位目录进行截取，dir.size是截取起始位置
         object.lastmodified = "-";
         object.key = key;
         res.append(object);
-        // qDebug() <<"dirName"<<object.name;
     }
     return res;
 }
 
-/**
- * @brief DaoCloudsCos::getFileList 获取文件列表
- * @param resp
- * @param dir
- * @return
- */
 QList<MyObject> DaoCloudsCos::getFileList(GetBucketResp &resp, const QString &dir)
 {
     QList<MyObject> res;
@@ -323,10 +258,9 @@ QList<MyObject> DaoCloudsCos::getFileList(GetBucketResp &resp, const QString &di
     {
         const Content& content = *itr;
         QString key(content.m_key.c_str());
-        // qDebug() << "file: "<<key;          // 打印内容看看
 
-        QString name = key.mid(dir.size());     // 从某个位置开始节选字符串
-        if(key != dir)
+        QString name = key.mid(dir.size());     // 目录尾节选出文件名
+        if(key != dir)                          // 只有非目录，会加入res
         {
             MyObject object;
             object.name = name;
@@ -335,7 +269,6 @@ QList<MyObject> DaoCloudsCos::getFileList(GetBucketResp &resp, const QString &di
             object.dir = dir;
             object.key = key;
             res.append(object);
-            // qDebug() << "fileName" << name;
         }
     }
     return res;

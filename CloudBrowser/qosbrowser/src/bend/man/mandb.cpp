@@ -1,22 +1,16 @@
 ﻿#include "mandb.h"
-#include "src/config/global.h"
-
-Q_GLOBAL_STATIC(ManDB, ins)
+#include "src/config/globals.h"
 
 ManDB::ManDB(QObject *parent) : QObject(parent)
 {
+    qDebug()<<"Construct ManDb";
 }
 
-ManDB *ManDB::instance()
+ManDB::~ManDB()
 {
-    return ins();
+
 }
 
-/**
- * 初始化
- * @brief ManDB::init
- * 连接数据库->创建表（*）->查询表中所有数据
- */
 void ManDB::init()
 {
     m_daoLoginInfomsq.connect();
@@ -33,9 +27,6 @@ void ManDB::saveLoginInfo(const QString &name, const QString &id, const QString 
     info.secret_key = key.trimmed();
     info.remark = remark.trimmed();
     info.timestamp = QDateTime::currentDateTimeUtc().toTime_t();        // 时间戳
-
-    // qDebug() << QString("是否存在: %1").arg(info.secret_id);
-    // qDebug() << m_daoLoginInfomsq.exists(info.secret_id);
 
     // 存在则更新，不存在则插入
     if(m_daoLoginInfomsq.exists(info.secret_id))
@@ -73,10 +64,7 @@ int ManDB::indexOfLoginInfo(const QString &secretID)
     throw  QString("获取登录信息索引失败 %1").arg(secretID);
 }
 
-/**
- * 返回所有的登录名
- *
-*/
+
 QStringList ManDB::loginNameList()
 {
     QStringList words;

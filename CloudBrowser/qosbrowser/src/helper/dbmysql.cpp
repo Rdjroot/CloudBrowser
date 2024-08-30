@@ -1,5 +1,5 @@
 ﻿#include "dbmysql.h"
-#include "src/config/global.h"
+#include "src/config/globals.h"
 #include<iostream>
 #include <QSqlRecord>
 

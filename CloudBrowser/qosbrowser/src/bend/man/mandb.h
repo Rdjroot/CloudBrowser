@@ -7,23 +7,41 @@
 #include<QDateTime>
 #include<QList>
 
-// #define MDB ManDB::instance()
-
-// 业务层面的对数据库的操作
+/**
+ * @brief 业务层数据操作
+ *
+ * 调用Dao层接口进行业务层面的数据操作，不感知底层数据库及引擎
+ *
+ */
 class ManDB : public QObject
 {
     Q_OBJECT
 public:
     explicit ManDB(QObject *parent = nullptr);
-
-    static ManDB* instance();
-
+    ~ManDB();
+    /**
+     * @brief 初始化
+     *
+     * 连接数据库->创建表（*）->查询表中所有数据
+     *
+     */
     void init();        // 初始化数据库
 
     void saveLoginInfo(const QString &name,const QString &id, const QString &key,const QString&remark);
     void removeLoginInfo(const QString &id);
     int indexOfLoginInfo(const QString& secretID);
-    QStringList loginNameList();            // 返回一个关联的登录名
+
+    /**
+     * 返回所有的登录名
+     *
+     */
+    QStringList loginNameList();
+
+    /**
+     * @brief 根据name获取登录信息（id、密码等）
+     * @param name 登录名
+     * @return QStringList类型
+     */
     LoginInfo loginInfoByName(const QString&name);
 signals:
 

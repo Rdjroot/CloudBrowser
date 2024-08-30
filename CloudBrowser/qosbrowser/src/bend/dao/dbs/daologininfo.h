@@ -3,12 +3,17 @@
 #include <QString>
 #include <QSqlDatabase>
 #include <QSqlError>
-#include "src/config/global.h"
+#include "src/config/globals.h"
 #include <QSqlQuery>
 #include "src/helper/dbmysql.h"
 #include "src/middle/models/dbmodels.h"
 
-// 抽象接口，用于适用各种数据库
+/**
+ * 抽象接口，用于适配不同数据库
+ *
+ * eg: sqlite mysql oracle
+ *
+ */
 class DaoLoginInfo
 {
 public:
@@ -22,9 +27,6 @@ public:
 
     virtual void connect() = 0;
     virtual void createTable() = 0;
-
-//private:
-//    DbMySql m_db;
 };
 
 #endif // DAOLOGININFO_H

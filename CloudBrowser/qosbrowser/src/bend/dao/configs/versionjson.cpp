@@ -1,4 +1,5 @@
 ﻿#include "versionjson.h"
+#include "src/config/common.h"
 #include <QJsonObject>
 
 VersionJson::VersionJson(const QString &path)
@@ -15,5 +16,10 @@ void VersionJson::setVersion()
     m_v1 = obj["v1"].toInt();
     m_v2 = obj["v2"].toInt();
     m_v3 = obj["v3"].toInt();
-    qDebug()<<obj<<m_v1;        // 打印版本号
+
+    // 创建 QVariantMap
+    QVariantMap logData;
+    logData["version"] = obj;
+    logData["m_v1"] = m_v1;
+    mWarning(logData);  // 打印版本号
 }

@@ -5,7 +5,6 @@
 #include<QObject>
 #include<QDebug>
 
-
 /**
  * @brief 云对象存储类，用于对对象存储进行操作
  */

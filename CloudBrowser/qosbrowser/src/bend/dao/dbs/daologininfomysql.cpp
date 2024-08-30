@@ -1,13 +1,17 @@
 ﻿#include "daologininfomysql.h"
+#include "src/config/loggerproxy.h"
+#include "src/middle/manglobal.h"
 #include <QVariantList>
-#include<iostream>
+
+
 DaoLoginInfoMySql::DaoLoginInfoMySql()
 {
+    mWarning("The database engine is mysql.");
 }
 
-// 查询secretId是否存在
 bool DaoLoginInfoMySql::exists(const QString &secretId)
 {
+    // 查询secretId是否存在
     QString sql = QString(
                 "select id from %1 where  "
                 "secret_id = '%2';")
@@ -15,7 +19,6 @@ bool DaoLoginInfoMySql::exists(const QString &secretId)
     return m_db.exists(sql);
 }
 
-// 插入语句
 void DaoLoginInfoMySql::insert(const LoginInfo &info)
 {
     QString sql = QString(
@@ -30,7 +33,7 @@ void DaoLoginInfoMySql::insert(const LoginInfo &info)
     m_db.exec(sql, varList);
 }
 
-// 更新语句
+
 void DaoLoginInfoMySql::update(const LoginInfo &info)
 {
     QString sql = QString(
@@ -50,7 +53,6 @@ void DaoLoginInfoMySql::update(const LoginInfo &info)
     m_db.exec(sql, varList);
 }
 
-// 删除语句
 void DaoLoginInfoMySql::remove(const QString &secretId)
 {
     QString sql = QString(
@@ -62,9 +64,10 @@ void DaoLoginInfoMySql::remove(const QString &secretId)
     m_db.exec(sql, varList);
 }
 
-// 查询整张表，按时间戳倒序
+
 QList<LoginInfo> DaoLoginInfoMySql::select()
 {
+    // 查询整张表，按时间戳倒序
     QString sql = QString(
                       "select name, secret_id, secret_key, remark from %1 "
                       "order by timestamp desc;")
@@ -72,6 +75,7 @@ QList<LoginInfo> DaoLoginInfoMySql::select()
 
     QList<LoginInfo> retList;
     QList<RECORD> recordList = m_db.select(sql);
+
     // record是qmap<qstring,qvariant> 类型的元素
     for (const auto& record: recordList)
     {
@@ -86,15 +90,14 @@ QList<LoginInfo> DaoLoginInfoMySql::select()
    return retList;
 }
 
-// 创建数据库
 void DaoLoginInfoMySql::connect()
 {
     m_db.connect(GLOBAL::DATA::DATABASE);
 }
 
-// 执行创建表
 void DaoLoginInfoMySql::createTable()
 {
+    // 执行创建表
     QString sql = FileHelper::readAllTxt(GLOBAL::SQL::LOGIN_INFO_CREATE);
     m_db.exec(sql);
 }

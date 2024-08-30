@@ -28,6 +28,7 @@ UiUpload::~UiUpload()
 void UiUpload::onStartUpload(const QString &jobId, const QString &key, const QString &localPath)
 {
     ui->tableWidget->insertRow(0);
+    ui->tableWidget->setRowHeight(0, 40);
     QTableWidgetItem* item = new QTableWidgetItem(key);
     item->setData(Qt::UserRole, jobId);
     ui->tableWidget->setItem(0, 0, item);
@@ -41,6 +42,7 @@ void UiUpload::onStartUpload(const QString &jobId, const QString &key, const QSt
 
 void UiUpload::onUploadProcess(const QString &jobId, qulonglong transferedSize, qulonglong totalSize)
 {
+    Q_UNUSED(totalSize);
     UiProgressWidget* w = findTableWidgetItem(jobId);
     w->setValue(transferedSize);
 }

@@ -34,6 +34,7 @@ UiDownload::~UiDownload()
 void UiDownload::onStartDownload(const QString& jobId, const QString& key, const QString& localPath, qulonglong total)
 {
     ui->tableWidget->insertRow(0);
+    ui->tableWidget->setRowHeight(0, 40);
     QTableWidgetItem* item = new QTableWidgetItem(key);
     item->setData(Qt::UserRole, jobId);         // 用jobid作为item的唯一标识
     ui->tableWidget->setItem(0, 0, item);
@@ -47,12 +48,13 @@ void UiDownload::onStartDownload(const QString& jobId, const QString& key, const
 
 /**
  * @brief 显示下载进度
- * @param jobId
+ * @param jobId 任务id
  * @param transferedSize
  * @param totalSize
  */
 void UiDownload::onDownloadProcess(const QString &jobId, qulonglong transferedSize, qulonglong totalSize)
 {
+    Q_UNUSED(totalSize);
     UiProgressWidget* w = findTableWidgetItem(jobId);
     w->setValue(transferedSize);
 }

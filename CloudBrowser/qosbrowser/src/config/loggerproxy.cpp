@@ -1,10 +1,14 @@
 ﻿#include "loggerproxy.h"
-
+#include "src/middle/manglobal.h"
+#include "src/helper/filehelper.h"
+#include <QJsonObject>
 #include <QThread>
 
 LoggerProxy::LoggerProxy(QObject *parent) : QObject(parent)
 {
-
+    // 默认日志级别为告警
+    QJsonObject log_level = FileHelper::readAllJson(":/static/configs/default_config.json").toJsonObject();
+    m_level = GLOBAL::LOG_LEVEL(log_level["log_level"].toInt());
 }
 
 LoggerProxy::~LoggerProxy()
@@ -14,7 +18,6 @@ LoggerProxy::~LoggerProxy()
         delete m_logger;
         m_logger = nullptr;
     }
-    qDebug("delete LoggerProxy ");
 }
 
 const LoggerProxy &LoggerProxy::reset(const QString &file, int line, const QString &func)
@@ -27,40 +30,43 @@ const LoggerProxy &LoggerProxy::reset(const QString &file, int line, const QStri
 
 void LoggerProxy::total(const QVariant &var, bool up) const
 {
-    doLog(GLOBAL::LOG_LEVEL::TOTAL,var,up);
+    doLog(GLOBAL::LOG_LEVEL::TOTAL, var, up);
 }
 
 void LoggerProxy::debug(const QVariant &var, bool up) const
 {
-    doLog(GLOBAL::LOG_LEVEL::DEBUG,var,up);
+    doLog(GLOBAL::LOG_LEVEL::DEBUG, var, up);
 }
 
 void LoggerProxy::info(const QVariant &var, bool up) const
 {
-    doLog(GLOBAL::LOG_LEVEL::INFO,var,up);
+    doLog(GLOBAL::LOG_LEVEL::INFO, var, up);
 }
 
 void LoggerProxy::warning(const QVariant &var, bool up) const
 {
-    doLog(GLOBAL::LOG_LEVEL::WARNING,var,up);
+    doLog(GLOBAL::LOG_LEVEL::WARNING, var, up);
 }
 
 void LoggerProxy::error(const QVariant &var, bool up) const
 {
-    doLog(GLOBAL::LOG_LEVEL::ERROR,var,up);
+    doLog(GLOBAL::LOG_LEVEL::ERROR_L, var, up);
 }
 
 void LoggerProxy::fatal(const QVariant &var, bool up) const
 {
-    doLog(GLOBAL::LOG_LEVEL::FATAL,var,up);
+    doLog(GLOBAL::LOG_LEVEL::FATAL, var, up);
 }
 
-void LoggerProxy::setLevel(LOG_LEVEL newLevel)
+void LoggerProxy::setLevel(GLOBAL::LOG_LEVEL newLevel)
 {
     m_level = newLevel;
+    QString msg = QString("Change the Log Level, new Level is : %1")
+                      .arg(GLOBAL::LOG_NAMES[newLevel]);
+    mWarning(msg, true);
 }
 
-// 设置日志具体派生类，在插件层调用
+
 void LoggerProxy::setLogger(BasicLogger *newLogger)
 {
 
@@ -71,19 +77,17 @@ void LoggerProxy::setLogger(BasicLogger *newLogger)
     }
 }
 
-void LoggerProxy::doLog(LOG_LEVEL level, const QVariant &var, bool up) const
+void LoggerProxy::doLog(GLOBAL::LOG_LEVEL level, const QVariant &var, bool up) const
 {
     if(!m_logger)       // 如果指针为空
     {
         return;
     }
-
+    // qDebug() << QString("level is %1, m_level is %2").arg(level).arg(m_level);
     if(level > m_level)
     {
         // 调用日志打印函数
         emit sigLog(m_file, m_line, m_func,QThread::currentThreadId(),level,var, up);
-    }else
-    {
-        qDebug()<<"日志级别不符合：" <<m_level;
     }
+
 }

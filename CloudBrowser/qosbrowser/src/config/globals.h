@@ -1,58 +1,62 @@
-﻿#ifndef CONFIG_H
-#define CONFIG_H
-#include<QString>
-#include<QDir>
+﻿#ifndef GLOBALS_H
+#define GLOBALS_H
 #include "src/helper/filehelper.h"
-#include<QStringList>
+#include <QDir>
+#include <QString>
+#include <QStringList>
 
-// 全局常量
 namespace GLOBAL {
     namespace NET {
-        static const QString HOST = "localhost";        // 暂时使用本地数据库，之后看情况迁移
-        static const QString PORT = "";                 // 暂时空着，通常默认3306
+        static const QString HOST = "localhost";
+        static const QString PORT = "";
     };
 
+    // 本地数据库和表
     namespace DATA {
-        static const QString DATABASE = "CosBrower";                // 数据库名
-        static const QString TB_LOGIN_INFO = "login_info";           // 用户表
+        static const QString DATABASE = "CosBrower";
+        static const QString TB_LOGIN_INFO = "login_info";
     };
 
-    // 数据库登录名和账号
+    // 连接本地的mysql用户名和password
     namespace USER {
-        static const QString DEVNAME = "dev_user";     // 开发账号
-        static const QString PASSWORD = "aptx4869";           // 密码
+        static const QString DEVNAME = "dev_user";
+        static const QString PASSWORD = "123456";
     };
 
-    // 执行sql
+    // 如果表不存在则创建
     namespace SQL {
-        static const QString LOGIN_INFO_CREATE = ":/static/sql/login_info.sql";     // 创建表
+    static const QString LOGIN_INFO_CREATE =
+        ":/static/sql/login_info.sql";
     };
 
-    // 版本号
+    // 版本号模拟
     namespace VERSION {
         static const QString MAJOR_CUSTOM = "custom";
         static const QString MAJOR_BUSINESS = "business";
-        static const QString JSON_PATH = ":/static/versions/config_default.json";       // 存储版本号的路径
+        static const QString JSON_PATH =
+            ":/static/versions/config_default.json";
     };
 
-    // 开发/测试/发布
+    // 运行环境
     namespace ENV {
-        static const QString ENV_DEV= "dev";
+        static const QString ENV_DEV = "dev";
         static const QString ENV_ALPHA = "alpha";
         static const QString ENV_BETA = "beta";
         static const QString ENV_PRE = "pre";
         static const QString ENV_PROD = "prod";
     };
 
-    // 常用路径
-    namespace PATH{
+    // 路径
+    namespace PATH {
         static const QString WORK = QDir::currentPath();
         static const QString TMP = FileHelper::joinPath(WORK, "temp");
-        static const QString LOG_DIR = FileHelper::joinPath(QDir::tempPath(), "qos/logs");      // 拼接日志目录
-        static const QString ERROR_CODE_PATH = ":/static/docs/errorcode.csv";       // 错误代码csv
+        static const QString LOG_DIR =
+            FileHelper::joinPath(QDir::tempPath(), "qos/logs");
+        static const QString ERROR_CODE_PATH =
+            ":/static/docs/errorcode.csv";
 
+        static const QString MAX_PATH1 = ":/static/img/Maximize-1.png";
         static const QString LOGO_PATH = ":/static/img/icontt.png";
-        static const QString MAX_PATH= ":/static/img/Maximize-1.png";
         static const QString MAX_HOVER_PATH = ":/static/img/Maximize-2.png";
         static const QString NORMAL_PATH = ":/static/img/Maximize-3.png";
         static const QString NORMAL_HOVER_PATH = ":/static/img/Maximize-4.png";
@@ -67,22 +71,19 @@ namespace GLOBAL {
         static const QString BUCKET = ":/static/img/bucket.png";
         static const QString FILE = ":/static/img/file.png";
         static const QString DIR = ":/static/img/dir.png";
-    }
+    };
 
-    // 日志级别
+    static const QStringList LOG_NAMES = QStringList()
+                                         << "TOTAL" << "DEBUG" << "INFO"
+                                         << "WARNING" << "ERROR" << "FATAL";
     enum LOG_LEVEL {
         TOTAL = 0,
         DEBUG = 1,
         INFO = 2,
         WARNING = 3,
-        ERROR = 4,
+        ERROR_L = 4,
         FATAL = 5
     };
 
-    // 登录名列表
-    static const QStringList LOG_NAMES
-        = QStringList() << "TOTAL" << "DEBUG" << "INFO" << "WARNING" <<"ERROR" <<"FATAL";
-
-}
-
-#endif // CONFIG_H
+};
+#endif // GLOBALS_H

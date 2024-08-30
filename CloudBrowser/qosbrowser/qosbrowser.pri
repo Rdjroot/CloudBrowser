@@ -30,13 +30,11 @@ DEPENDPATH += $$THIRD_DIR/third/cos/include \
     $$THIRD_DIR/third/cos/third_party/include
 
 SOURCES += \
-    $$PWD/src/bend/dao/clouds/daoclouds.cpp \
     $$PWD/src/bend/dao/clouds/daocloudscos.cpp \
     $$PWD/src/bend/dao/clouds/daocloudsmock.cpp \
     $$PWD/src/bend/dao/configs/version.cpp \
     $$PWD/src/bend/dao/configs/versioncmd.cpp \
     $$PWD/src/bend/dao/configs/versionjson.cpp \
-    $$PWD/src/bend/dao/dbs/daologininfo.cpp \
     $$PWD/src/bend/dao/dbs/daologininfomysql.cpp \
     $$PWD/src/bend/dao/logs/basiclogger.cpp \
     $$PWD/src/bend/dao/logs/loggerqdebug.cpp \
@@ -54,7 +52,6 @@ SOURCES += \
     $$PWD/src/fend/uicom/uiprogresswidget.cpp \
     $$PWD/src/fend/uicom/uipushbutton.cpp \
     $$PWD/src/fend/uicom/uiqosdialog.cpp \
-    $$PWD/src/fend/uidelegates/bucketdelegate.cpp \
     $$PWD/src/fend/uidelegates/uitableitemdelegate.cpp \
     $$PWD/src/fend/uilogin/uilogindialog.cpp \
     $$PWD/src/fend/uimain/uibucketslistwidget.cpp \
@@ -62,8 +59,6 @@ SOURCES += \
     $$PWD/src/fend/uimain/uicreatebucketdialog.cpp \
     $$PWD/src/fend/uimain/uimain.cpp \
     $$PWD/src/fend/uimain/uiobjectstablewidget.cpp \
-    $$PWD/src/fend/uimain/uiobjectswidget.cpp \
-    $$PWD/src/fend/uimain/uitoolwidget.cpp \
     $$PWD/src/fend/uitransfer/uidownload.cpp \
     $$PWD/src/fend/uitransfer/uitransfer.cpp \
     $$PWD/src/fend/uitransfer/uiupload.cpp \
@@ -95,7 +90,7 @@ HEADERS += \
     $$PWD/src/config/common.h \
     $$PWD/src/config/errorcode.h \
     $$PWD/src/config/exceptions.h \
-    $$PWD/src/config/global.h \
+    $$PWD/src/config/globals.h \
     $$PWD/src/config/loggerproxy.h \
     $$PWD/src/fend/uicom/uibasedialog.h \
     $$PWD/src/fend/uicom/uibreadwidget.h \
@@ -106,7 +101,6 @@ HEADERS += \
     $$PWD/src/fend/uicom/uiprogresswidget.h \
     $$PWD/src/fend/uicom/uipushbutton.h \
     $$PWD/src/fend/uicom/uiqosdialog.h \
-    $$PWD/src/fend/uidelegates/bucketdelegate.h \
     $$PWD/src/fend/uidelegates/uitableitemdelegate.h \
     $$PWD/src/fend/uilogin/uilogindialog.h \
     $$PWD/src/fend/uimain/uibucketslistwidget.h \
@@ -114,8 +108,6 @@ HEADERS += \
     $$PWD/src/fend/uimain/uicreatebucketdialog.h \
     $$PWD/src/fend/uimain/uimain.h \
     $$PWD/src/fend/uimain/uiobjectstablewidget.h \
-    $$PWD/src/fend/uimain/uiobjectswidget.h \
-    $$PWD/src/fend/uimain/uitoolwidget.h \
     $$PWD/src/fend/uitransfer/uidownload.h \
     $$PWD/src/fend/uitransfer/uitransfer.h \
     $$PWD/src/fend/uitransfer/uiupload.h \
@@ -142,8 +134,6 @@ FORMS += \
     $$PWD/src/fend/uimain/uicreatebucketdialog.ui \
     $$PWD/src/fend/uimain/uimain.ui \
     $$PWD/src/fend/uimain/uiobjectstablewidget.ui \
-    $$PWD/src/fend/uimain/uiobjectswidget.ui \
-    $$PWD/src/fend/uimain/uitoolwidget.ui \
     $$PWD/src/fend/uitransfer/uidownload.ui \
     $$PWD/src/fend/uitransfer/uitransfer.ui \
     $$PWD/src/fend/uitransfer/uiupload.ui

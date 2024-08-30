@@ -48,12 +48,11 @@ UiLoginDialog::~UiLoginDialog()
 void UiLoginDialog::complementLoginInfo()
 {
     QStringList words = MG->mDb->loginNameList();
-    QCompleter* completer = new QCompleter(words);
-    ui->lineLoginName->setCompleter(completer);
+   ui->lineLoginName->setWords(words);
 
-    // 如果从下拉框中选中的话
-    connect(completer, static_cast<void (QCompleter::*)(const QString&)>(&QCompleter::activated),
-            [&](const QString& name){
+    connect(ui->lineLoginName, &UiComboLine::itemSelected,
+            [=](const QString& name){
+
                 LoginInfo info =  MG->mDb->loginInfoByName(name);
                 ui->lineSecretID->setText(info.secret_id);
                 ui->lineSecretKey->setText(info.secret_key);

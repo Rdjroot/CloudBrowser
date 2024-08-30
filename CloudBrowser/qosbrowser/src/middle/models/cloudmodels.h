@@ -25,10 +25,13 @@ struct MyObject: public BaseObject
 {
     bool isDir() const{return isValid() && name.endsWith("/");}
     bool isFile() const{return isValid() && !name.endsWith("/");}
-    QString lastmodified;           // 最后一次操作方式
+    // 最后一次操作方式
+    QString lastmodified;
     // qulonglong  == unsigned __int64 on Windows
     qulonglong size = 0;
+    // 目录 books/
     QString dir;
+    // 对象key，如：books/aaa.txt
     QString key;
 };
 Q_DECLARE_METATYPE(MyObject);

@@ -89,12 +89,10 @@ void UiBreadWidget::onItemClicked(const QModelIndex &index)
     {
         QString oldPath = getPath(oldItem);
         emit refresh(oldPath);
-        qDebug() <<"refresh " << oldPath;
     }
     else{
         QString newPath = getPath(newItem);
         emit pathChanged(newPath);
-        qDebug() << "pathChange" << newPath;
     }
 }
 

@@ -6,12 +6,10 @@
 #include "src/bend/dao/clouds/daocloudsmock.h"
 #include "src/bend/dao/configs/version.h"
 #include "src/bend/dao/configs/versionjson.h"
-#include "src/config/global.h"
+#include "src/config/globals.h"
 
 class Version;
 class DaoClouds;
-using namespace GLOBAL;
-
 
 // 管理全局的插件
 class ManPlugin : public QObject
