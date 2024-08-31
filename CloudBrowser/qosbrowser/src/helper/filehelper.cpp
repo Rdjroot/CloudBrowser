@@ -43,10 +43,20 @@ QList<QStringList> FileHelper::readAllCsv(const QString &filepath)
 QString FileHelper::joinPath(const QString &path1, const QString &path2)
 {
     QString path = path1 + "/" + path2;
+    /**
+     * 使用正则表达式匹配拆分
+     * eg: "folder1/folder2\\folder3/folder4"
+     * out: ["folder1", "folder2", "folder3", "folder4"]
+     */
     QStringList pathList =
         path.split(QRegExp("[/\\\\]"), QString::SkipEmptyParts);
+
     path = pathList.join("/"); // 将list中的字符串通过‘/’拼接成一个
-    return QDir::cleanPath(path); // 压缩路径
+
+    // 压缩路径 "./local" ->"local"
+    // "local/../bin" -> "bin"
+    // "/local/usr/../bin" -> "/local/bin"
+    return QDir::cleanPath(path);
 }
 
 bool FileHelper::mkPath(const QString &path)

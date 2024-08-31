@@ -4,27 +4,37 @@
 #include "src/middle/models/cloudmodels.h"
 #include <QObject>
 
-// #define MS ManSignals::instance()
 
 /**
  * @brief 信号中心
+ *
  */
 class ManSignals : public QObject
 {
     Q_OBJECT
 public:
     explicit ManSignals(QObject *parent = nullptr);
-    static ManSignals* instance();
+    ~ManSignals();
 
 signals:
+
+    // 登录成功
     void loginSuccess();
+
+    /**
+     * @brief 报错
+     * @param api 接口
+     * @param msg 信息
+     * @param req 请求信息
+     */
     void error(int api, const QString& msg, const QJsonValue &req);
+
+    // 退出登录
     void unLogin();
 
-    // 返回用户对应存储桶
+    // 返回用户对应存储桶列表
     void bucketsSuccess(QList<MyBucket>);
-
-    // 获取对象列表成功
+    // 成功获取对象列表
     void objectsSuccess(const QList<MyObject>& objects);
 
     // 开始下载

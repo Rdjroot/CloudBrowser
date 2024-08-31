@@ -18,6 +18,7 @@ LoggerProxy::~LoggerProxy()
         delete m_logger;
         m_logger = nullptr;
     }
+    qDebug() <<"LoggerProxy destroyed.";
 }
 
 const LoggerProxy &LoggerProxy::reset(const QString &file, int line, const QString &func)

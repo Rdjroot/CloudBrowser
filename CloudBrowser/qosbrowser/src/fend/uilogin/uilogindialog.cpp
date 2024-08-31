@@ -37,6 +37,7 @@ UiLoginDialog::UiLoginDialog(QWidget *parent)
     complementLoginInfo();              // 登录信息补全
 
     resize(400,450);
+    connect(MG->mDb,&ManDB::errorOccurred,this, &UiLoginDialog::dealDBError);
 }
 
 UiLoginDialog::~UiLoginDialog()
@@ -52,7 +53,6 @@ void UiLoginDialog::complementLoginInfo()
 
     connect(ui->lineLoginName, &UiComboLine::itemSelected,
             [=](const QString& name){
-
                 LoginInfo info =  MG->mDb->loginInfoByName(name);
                 ui->lineSecretID->setText(info.secret_id);
                 ui->lineSecretKey->setText(info.secret_key);
@@ -100,4 +100,9 @@ void UiLoginDialog::onLoginError(int api, const QString &msg, const QJsonValue &
         return;
 
     QMessageBox::warning(this,QString::fromUtf8("警告"),QString::fromUtf8("登录失败: %1").arg(msg));
+}
+
+void UiLoginDialog::dealDBError(const QString &e)
+{
+    QMessageBox::critical(this, "数据错误", e);
 }

@@ -1,4 +1,6 @@
 ﻿#include "mandb.h"
+#include "src/config/loggerproxy.h"
+#include "src/middle/manglobal.h"
 
 ManDB::ManDB(QObject *parent) : QObject(parent)
 {
@@ -6,6 +8,7 @@ ManDB::ManDB(QObject *parent) : QObject(parent)
 
 ManDB::~ManDB()
 {
+    qDebug() <<"ManDB destroyed.";
 
 }
 
@@ -26,24 +29,34 @@ void ManDB::saveLoginInfo(const QString &name, const QString &id, const QString 
     info.timestamp = QDateTime::currentDateTimeUtc().toTime_t();        // 时间戳
 
     // 存在则更新，不存在则插入
-    if(m_daoLoginInfomsq.exists(info.secret_id))
-    {
-        m_daoLoginInfomsq.update(info);
-        m_loginInfoList[indexOfLoginInfo(info.secret_id)] = info;
-    }
-    else
-    {
-        m_daoLoginInfomsq.insert(info);
-        m_loginInfoList.append(info);
+    // 这里需要捕获db操作可能出现的异常
+    try{
+        if(m_daoLoginInfomsq.exists(info.secret_id))
+        {
+            m_daoLoginInfomsq.update(info);
+            m_loginInfoList[indexOfLoginInfo(info.secret_id)] = info;
+        }
+        else
+        {
+            m_daoLoginInfomsq.insert(info);
+            m_loginInfoList.append(info);
+        }
+    } catch(const QString& e){
+        mError(e);
+        emit errorOccurred(e);
     }
 }
 
 void ManDB::removeLoginInfo(const QString &id)
 {
-    if(m_daoLoginInfomsq.exists(id))
-    {
-        m_daoLoginInfomsq.remove(id);
-        m_loginInfoList.removeAt(indexOfLoginInfo(id));
+    try {
+        if (m_daoLoginInfomsq.exists(id)) {
+            m_daoLoginInfomsq.remove(id);
+            m_loginInfoList.removeAt(indexOfLoginInfo(id));
+        }
+    } catch (const QString &e) {
+        mError(e);
+        emit errorOccurred(e);
     }
 }
 

@@ -11,13 +11,14 @@ DbMySql::~DbMySql()
 {
     if(m_db.isOpen())
     {
+
         m_db.close();
+        qDebug() << "m_db closed.";
     }
 }
 
 void DbMySql::connect(const QString &dbname)
 {
-
     m_db.setHostName(GLOBAL::NET::HOST);
     m_db.setUserName(GLOBAL::USER::DEVNAME);
     m_db.setPassword(GLOBAL::USER::PASSWORD);
@@ -25,7 +26,6 @@ void DbMySql::connect(const QString &dbname)
 
     if(!m_db.open())
     {
-        // TODO XXX 测试这里打开不存在的数据库会怎么样？
         throw QString::fromLocal8Bit("打开数据库失败: %1 %2").arg(dbname, m_db.lastError().text());
     }
 }

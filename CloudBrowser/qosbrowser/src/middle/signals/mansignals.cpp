@@ -1,4 +1,5 @@
 ﻿#include "mansignals.h"
+#include <QDebug>
 
 ManSignals::ManSignals(QObject *parent)
     : QObject{parent}
@@ -8,4 +9,9 @@ ManSignals::ManSignals(QObject *parent)
     qRegisterMetaType<QList<MyBucket> >("QList<MyBucket>");
     qRegisterMetaType<QList<MyObject> >("QList<MyObject>");
 
+}
+
+ManSignals::~ManSignals()
+{
+    qDebug() <<"ManSignals destroyed.";
 }

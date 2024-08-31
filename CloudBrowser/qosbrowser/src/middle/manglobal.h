@@ -22,6 +22,12 @@ class ManDB;
 class ManSignals;
 class ManModels;
 
+/**
+ * @brief 管理全局单例类
+ *
+ * 含 数据库、网关、日志、数据模型、信号中心、插件、云对象
+ *
+ */
 class ManGlobal : public QObject
 {
     Q_OBJECT
@@ -30,9 +36,12 @@ public:
     ~ManGlobal();
     static ManGlobal* instance();
 
+    /**
+     * @brief 全局配置初始化
+     * @param argc
+     * @param argv
+     */
     void init(int argc, char *argv[]);
-
-signals:
 
 public:
     LoggerProxy* mLog = nullptr;

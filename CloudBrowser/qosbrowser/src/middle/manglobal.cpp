@@ -25,7 +25,6 @@ ManGlobal::~ManGlobal()
 {
     delete mLog;
     delete mCloud;
-    delete mDb;
     delete mSignal;
     delete mPlugin;
     delete mGate;
@@ -46,12 +45,15 @@ void ManGlobal::init(int argc, char *argv[])
     FileHelper::mkPath(GLOBAL::PATH::LOG_DIR);
     FileHelper::mkPath(GLOBAL::PATH::TMP);
 
-    mPlugin->installPlugins(argc, argv);         // 安装插件
+    // 安装插件
+    mPlugin->installPlugins(argc, argv);
 
     // QApplication读取文件中的qss
     QString qssStr = FileHelper::readAllTxt(":/static/qss/default.qss");
 
+    // 配置前端美化内容
     qApp->setStyleSheet(qssStr);
-    mDb->init();
 
+    // 初始化数据库
+    mDb->init();
 }

@@ -17,7 +17,9 @@ UiBaseDialog::UiBaseDialog(QWidget *parent)
     m_ui->labelLogo->setFixedSize(40, 40);
 }
 
-UiBaseDialog::~UiBaseDialog() { delete m_ui; }
+UiBaseDialog::~UiBaseDialog() {
+    delete m_ui;
+}
 
 void UiBaseDialog::setTitle(const QString &title)
 {

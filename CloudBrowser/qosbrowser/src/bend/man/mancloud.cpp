@@ -11,7 +11,7 @@ ManCloud::ManCloud(QObject *parent) : QObject(parent)
 
 ManCloud::~ManCloud()
 {
-
+    qDebug() <<"ManCloud destroyed.";
 }
 
 void ManCloud::login(QString secretId, QString secretKey)

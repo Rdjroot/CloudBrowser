@@ -13,21 +13,19 @@ ManPlugin::ManPlugin(QObject *parent) : QObject(parent)
 
 ManPlugin::~ManPlugin()
 {
-    delete m_clouds;
-    delete m_version;
+    if(m_clouds != nullptr)
+        delete m_clouds;
+    if(m_version != nullptr)
+        delete m_version;
+    qDebug() <<"ManPlugin destroyed.";
+
 }
 
-
-/**
- * @brief 安装插件（版本获取、日志打印）
- * @param argc
- * @param argv
- */
 void ManPlugin::installPlugins(int argc, char *argv[])
 {
     // 添加日志插件
     mLogIns->setLogger(new LoggerQDebug());
-    qDebug() << 4;
+
     // 如果输入命令行，命令行参数优先级最高，否则直接加载配置文件中的配置信息
     VersionCmd version(argc, argv);
     if(version.isVaild())               // 判断是否命令行方法执行
@@ -39,18 +37,15 @@ void ManPlugin::installPlugins(int argc, char *argv[])
         m_version = new VersionJson(GLOBAL::VERSION::JSON_PATH);
     }
     m_version->setVersion();
-    qDebug() << 5;
 
-
-    // 安装云存储插件
-    if(m_version->major()==GLOBAL::VERSION::MAJOR_BUSINESS)
+    // 安装云存储插件，当前默认为客户版本，即腾讯云
+    if(m_version->major()==GLOBAL::VERSION::MAJOR_CUSTOM)
     {
         m_clouds = new DaoCloudsCos();
     }else
     {
-        m_clouds = new DaoCloudsMock(":/static/test/custom.json");
+        m_clouds = new DaoCloudsMock(":/static/test/business.json");
     }
-    qDebug() << 6;
 
 }
 

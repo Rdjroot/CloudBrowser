@@ -63,6 +63,8 @@ public:
      */
     LoginInfo loginInfoByName(const QString&name);
 
+signals:
+    void errorOccurred(const QString& errorMessage);
 
 private:
     DaoLoginInfoMySql m_daoLoginInfomsq;    // mysql业务查询类

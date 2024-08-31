@@ -20,6 +20,11 @@ ManModels::ManModels(QObject *parent)
     connect(MG->mSignal, &ManSignals::objectsSuccess, this, &ManModels::setObjects);
 }
 
+ManModels::~ManModels()
+{
+    qDebug() <<"ManModels destroyed.";
+}
+
 QStandardItemModel *ManModels::modelBuckets() const
 {
     return m_modelBuckets;
@@ -30,10 +35,6 @@ QStandardItemModel *ManModels::modelObjects() const
     return m_modelObjects;
 }
 
-/**
- * @brief 设置界面的存储桶数据
- * @param buckets  存储桶表格
- */
 void ManModels::setBuckets(const QList<MyBucket>& buckets)
 {
     m_modelBuckets->setRowCount(buckets.size());           // 设置行数
@@ -46,6 +47,7 @@ void ManModels::setBuckets(const QList<MyBucket>& buckets)
         // 可以使鼠标放到该数据上显示提示信息
         m_modelBuckets->setData(index0, QString::fromLocal8Bit("存储桶名称： %1").arg(bucket.name),
                                 Qt::ToolTipRole);
+        // 设置图标
         m_modelBuckets->setData(index0, QIcon(GLOBAL::PATH::BUCKET), Qt::DecorationRole);
 
         QModelIndex index1 = m_modelBuckets->index(i,1);           // 设置行列数
@@ -59,29 +61,28 @@ void ManModels::setBuckets(const QList<MyBucket>& buckets)
 
 }
 
-/**
- * @brief 设置界面的对象数据
- * @param buckets  对象表格
- */
 void ManModels::setObjects(const QList<MyObject> &objects)
 {
     m_modelObjects->setRowCount(objects.size());
     for(int i = 0; i < objects.size(); ++i)
     {
         const MyObject &obj = objects[i];
+
+        // 可将 index_x视为一个格子，有行列值，然后对其进行set
+        QModelIndex index0 = m_modelObjects->index(i, 0);
         // 对象(文件)名称
-        QModelIndex index0 = m_modelObjects->index(i,0);
         m_modelObjects->setData(index0, obj.name);
         QVariant var;
         var.setValue(obj);
+
         // Qt::UserRole，将特定的自定义数据与某个模型项关联
         // 这些数据不会被 Qt 的内置视图组件直接使用
         m_modelObjects->setData(index0, var, Qt::UserRole);
 
         // 设置图标，文件夹是文件夹，文件是文件
-        if(obj.isDir())
-        {
-            m_modelObjects->setData(index0, QIcon(GLOBAL::PATH::DIR), Qt::DecorationRole);
+        if (obj.isDir()) {
+            m_modelObjects->setData(index0, QIcon(GLOBAL::PATH::DIR),
+                                    Qt::DecorationRole);
         }
         else
         {

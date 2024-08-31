@@ -8,7 +8,7 @@ GateWay::GateWay(QObject *parent)
 
 GateWay::~GateWay()
 {
-
+    qDebug() <<"GateWay destroyed.";
 }
 
 void GateWay::send(int api, const QJsonValue &params)

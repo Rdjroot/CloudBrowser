@@ -67,8 +67,6 @@ SOURCES += \
     $$PWD/src/helper/filehelper.cpp \
     $$PWD/src/middle/manglobal.cpp \
     $$PWD/src/middle/manmodels.cpp \
-    $$PWD/src/middle/models/cloudmodels.cpp \
-    $$PWD/src/middle/models/dbmodels.cpp \
     $$PWD/src/middle/signals/mansignals.cpp \
     $$PWD/src/plugins/manplugin.cpp
 
