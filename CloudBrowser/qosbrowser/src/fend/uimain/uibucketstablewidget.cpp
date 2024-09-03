@@ -1,12 +1,8 @@
 ﻿#include "uibucketstablewidget.h"
-#include "src/bend/gateway.h"
 #include "src/fend/uidelegates/uitableitemdelegate.h"
-#include "src/middle/manglobal.h"
-#include "src/middle/manmodels.h"
-#include "src/middle/signals/mansignals.h"
 #include "ui_uibucketstablewidget.h"
 #include "uicreatebucketdialog.h"
-#include "src/config/apis.h"
+#include "src/config/common.h"
 
 #include <QAction>
 #include <QJsonObject>
@@ -18,7 +14,7 @@ UiBucketsTableWidget::UiBucketsTableWidget(QWidget *parent)
 {
     ui->setupUi(this);
 
-    ui->tableView->setModel(MG->mModels->modelBuckets());
+    ui->tableView->setModel(MG->mModels->modelBuckets());   // 获取桶表
     // 设置列宽度
     ui->tableView->setColumnWidth(0, 200);
     ui->tableView->setColumnWidth(1, 120);
@@ -43,7 +39,7 @@ UiBucketsTableWidget::UiBucketsTableWidget(QWidget *parent)
 
     // 添加表格右击（Qt::ActionsContextMenu）上下文选项——删除桶
     ui->tableView->setContextMenuPolicy(Qt::ActionsContextMenu);
-    QAction *delAction = new QAction(QString::fromLocal8Bit("删除"), this);
+    QAction *delAction = new QAction(STR("删除"), this);
     connect(delAction, &QAction::triggered, this,
             &UiBucketsTableWidget::onDelBucket);
     ui->tableView->addAction(delAction);
@@ -56,7 +52,7 @@ UiBucketsTableWidget::~UiBucketsTableWidget()
 
 void UiBucketsTableWidget::on_tableView_doubleClicked(const QModelIndex &index)
 {
-    if(index.column() == 0)
+    if(index.column() == 0)     // 单击桶名
     {
         QJsonObject params;
         params["bucketName"] = index.data().toString();
@@ -82,13 +78,14 @@ void UiBucketsTableWidget::onPageNumChanged(int start, int maxLen)
     for(int i = 0; i < model->rowCount(); ++i)
     {
         bool hidden = (i < start || i >= (start + maxLen));
-        ui->tableView->setRowHidden(i, hidden);
+        ui->tableView->setRowHidden(i, hidden);         // 隐藏非当前页内容
     }
 }
 
 
 void UiBucketsTableWidget::on_btnCreateBucket_clicked()
 {
+    // 弹出窗口用于创建存储桶
     UiCreateBucketDialog dialog(this);
     int ret = dialog.exec();
     if (ret == QDialog::Accepted) {
@@ -102,11 +99,9 @@ void UiBucketsTableWidget::on_btnCreateBucket_clicked()
     }
 }
 
-/**
- * @brief 删除存储桶
- */
 void UiBucketsTableWidget::onDelBucket()
 {
+    // 获取要删除的条目
     QModelIndex idx = ui->tableView->currentIndex();
 
     if(idx.isValid()){
@@ -120,8 +115,8 @@ void UiBucketsTableWidget::onDelBucket()
             QMessageBox::Yes|QMessageBox::No
             );
 
-        box.setButtonText(QMessageBox::Yes, QString::fromLocal8Bit("删除"));
-        box.setButtonText(QMessageBox::No, QString::fromLocal8Bit("取消"));
+        box.setButtonText(QMessageBox::Yes, STR("删除"));
+        box.setButtonText(QMessageBox::No, STR("取消"));
 
         int ret = box.exec();
         if(ret == QMessageBox::Yes)
@@ -133,9 +128,6 @@ void UiBucketsTableWidget::onDelBucket()
     }
 }
 
-/**
- * @brief 刷新存储桶
- */
 void UiBucketsTableWidget::on_btnRefresh_clicked()
 {
     MG->mGate->send(API::BUCKETS::LIST);

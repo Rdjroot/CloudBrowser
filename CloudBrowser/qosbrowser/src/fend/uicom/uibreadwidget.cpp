@@ -9,10 +9,12 @@ UiBreadWidget::UiBreadWidget(QWidget *parent) :
     ui->setupUi(this);
     ui->listView->setModel(m_model);
     ui->listView->setFlow(QListView::LeftToRight);
-    ui->listView->setCursor(Qt::PointingHandCursor);    // 放置变小手
+    ui->listView->setCursor(Qt::PointingHandCursor); // 放置变小手
+
+    connect(ui->listView, &QListView::clicked, this,
+            &UiBreadWidget::onItemClicked);
     setPath("");
-    connect(ui->listView, &QListView::clicked, this, &UiBreadWidget::onItemClicked);
-    setFixedHeight(30);
+    setFixedHeight(30); // 设置窗体高度
 }
 
 UiBreadWidget::~UiBreadWidget()
@@ -28,15 +30,13 @@ void UiBreadWidget::setPath(const QString &path)
 void UiBreadWidget::setPath(const QStringList &names)
 {
     // 传入的目录名称不能为空
-    if(names.size() == 0)
-    {
+    if (names.size() == 0) {
         return;
     }
     clear();
     m_rootName = names[0];
-    for(const QString& name: names)
-    {
-        addNameButton(name.trimmed());  // 按个添加button
+    for (const QString &name : names) {
+        addNameButton(name.trimmed()); // 按个添加button
     }
 }
 

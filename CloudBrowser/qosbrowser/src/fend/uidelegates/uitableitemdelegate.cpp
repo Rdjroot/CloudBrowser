@@ -6,17 +6,13 @@ UiTableItemDelegate::UiTableItemDelegate(QAbstractItemView *table, QObject *pare
 {
 
 }
-/**
- * @brief UiTableItemDelegate::paint
- * @param painter 绘图工具
- * @param option  绘制选项
- * @param index   iTem索引
- */
+
 void UiTableItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     // 鼠标悬停 && 索引有效
     if(option.state.testFlag(QStyle::State_MouseOver) && index.isValid())
     {
+        // 获取当前行的所有项的矩形区域
         QAbstractItemModel *m = m_table->model();
         int row = index.row();
         int columnCount = m->columnCount();
@@ -26,8 +22,9 @@ void UiTableItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
             QModelIndex idx = m->index(row, i);
             QStyleOptionViewItem op = option;
             op.index = idx;
+            // 对这些区域进行绘制
             op.rect = m_table->visualRect(idx);
-            QStyledItemDelegate::paint(painter, op,idx);
+            QStyledItemDelegate::paint(painter, op, idx);
         }
         return ;
     }

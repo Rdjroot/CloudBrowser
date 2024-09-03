@@ -13,8 +13,9 @@ UiBucketsListWidget::UiBucketsListWidget(QWidget *parent) :
     ui(new Ui::UiBucketsListWidget)
 {
     ui->setupUi(this);
-    ui->listView->setModel(MG->mModels->modelBuckets());   // 设置桶视图
+    ui->listView->setModel(MG->mModels->modelBuckets());        // 设置桶视图
 
+    // 关联信号中心和当前界面
     connect(MG->mSignal, &ManSignals::bucketsSuccess,
             this, &UiBucketsListWidget::onBucketSuccess);
 
@@ -28,10 +29,6 @@ UiBucketsListWidget::~UiBucketsListWidget()
     delete ui;
 }
 
-/**
- * @brief 设置搜索框联想内容
- * @param 桶条目
- */
 void UiBucketsListWidget::onBucketSuccess(const QList<MyBucket> &buckets)
 {
     QStringList words;
@@ -39,7 +36,7 @@ void UiBucketsListWidget::onBucketSuccess(const QList<MyBucket> &buckets)
     {
         words.append(bucket.name);
     }
-    ui->lineEdit->setWords(words);
+    ui->lineEdit->setWords(words);      // comboline设置关键词
 }
 
 void UiBucketsListWidget::on_listView_doubleClicked(const QModelIndex &index)
@@ -47,29 +44,21 @@ void UiBucketsListWidget::on_listView_doubleClicked(const QModelIndex &index)
     showBucketObjects(index.data().toString());
 }
 
-/**
- * @brief 在tableview中展示对应桶内容
- * @param bucketName 桶名称
- */
 void UiBucketsListWidget::showBucketObjects(const QString &bucketName)
 {
     QJsonObject params;
     params["bucketName"] = bucketName;
     params["dir"] = "";
-    MG->mGate->send(API::OBJECTS::LIST, params);
+    MG->mGate->send(API::OBJECTS::LIST, params);    // 获取对象列表
 }
 
-/**
- * @brief 按词匹配显示符合条目
- * @param text
- */
 void UiBucketsListWidget::onTextEdited(const QString &text)
 {
     QStandardItemModel *model = MG->mModels->modelBuckets();
     for(int i = 0; i<model->rowCount();++i)
     {
         bool hidden = !(model->index(i,0).data().toString().contains(text));
-        ui->listView->setRowHidden(i, hidden);
+        ui->listView->setRowHidden(i, hidden);   // 隐藏不符合的条目
     }
 }
 

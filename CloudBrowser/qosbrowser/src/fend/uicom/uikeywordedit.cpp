@@ -5,8 +5,6 @@ UiKeywordEdit::UiKeywordEdit(QWidget* parent)
 {
 
 }
-
-// 不允许复制粘贴密码
 void UiKeywordEdit::keyPressEvent(QKeyEvent *event)
 {
     // 捕获按键

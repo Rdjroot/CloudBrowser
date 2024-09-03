@@ -1,9 +1,7 @@
 ﻿#include "uilogindialog.h"
-#include "src/bend/gateway.h"
+#include "src/config/common.h"
 #include "src/bend/man/mandb.h"
-#include "src/middle/manglobal.h"
 #include "ui_uilogindialog.h"
-#include "src/config/apis.h"
 
 #include <QCompleter>
 #include <QJsonObject>
@@ -11,14 +9,16 @@
 
 #include <src/middle/signals/mansignals.h>
 
+#include <src/fend/uicom/uimessagebox.h>
+
 UiLoginDialog::UiLoginDialog(QWidget *parent)
     : UiQosDialog(parent)
     , ui(new Ui::UiLoginDialog)
 {
     ui->setupUi(body());
-    setTitle("登录");
+    setTitle(STR("CloudBrowser 登录"));
 
-    ui->btnLogin->setDefault(true);     // 默认enter
+    ui->btnLogin->setDefault(true);     // 默认enter为敲击登录按钮
 
     // 设置控件的属性（供qss设定）
     ui->labelLoginName->setProperty("style","h5");
@@ -34,7 +34,7 @@ UiLoginDialog::UiLoginDialog(QWidget *parent)
     connect(MG->mSignal, &ManSignals::loginSuccess, this, &UiLoginDialog::onLoginSucceed);
     connect(MG->mSignal, &ManSignals::unLogin, this, &UiLoginDialog::show);
     connect(MG->mSignal, &ManSignals::error, this, &UiLoginDialog::onLoginError);
-    complementLoginInfo();              // 登录信息补全
+    updateLoginInfo();         // 初始化登录信息
 
     resize(400,450);
     connect(MG->mDb,&ManDB::errorOccurred,this, &UiLoginDialog::dealDBError);
@@ -45,23 +45,23 @@ UiLoginDialog::~UiLoginDialog()
     delete ui;
 }
 
-// 通过登录名补全
-void UiLoginDialog::complementLoginInfo()
+void UiLoginDialog::updateLoginInfo()
 {
+    // 获取数据库中所有登录名
     QStringList words = MG->mDb->loginNameList();
-   ui->lineLoginName->setWords(words);
+    ui->lineLoginName->setWords(words);
 
+    // 补全登录栏
     connect(ui->lineLoginName, &UiComboLine::itemSelected,
-            [=](const QString& name){
-                LoginInfo info =  MG->mDb->loginInfoByName(name);
+            [=](const QString &name) {
+                LoginInfo info = MG->mDb->loginInfoByName(name);
                 ui->lineSecretID->setText(info.secret_id);
                 ui->lineSecretKey->setText(info.secret_key);
                 ui->lineRemark->setText(info.remark);
                 ui->saveSection->setChecked(true);
-            });
+    });
 }
 
-// 登录按键
 void UiLoginDialog::onBtnLoginClicked()
 {
     QJsonObject params;
@@ -71,38 +71,29 @@ void UiLoginDialog::onBtnLoginClicked()
     MG->mGate->send(API::LOGIN::NORMAL, params);
 }
 
-// 登录成功
 void UiLoginDialog::onLoginSucceed()
 {
-    if(ui->saveSection->isChecked())
-    {
+    if (ui->saveSection->isChecked()) {
         // 保存登录信息
-         MG->mDb->saveLoginInfo(
-            ui->lineLoginName->text(),
-            ui->lineSecretID->text(),
-            ui->lineSecretKey->text(),
-            ui->lineRemark->text()
-        );
-        complementLoginInfo();
-    }
-    else
-    {
+        MG->mDb->saveLoginInfo(ui->lineLoginName->text(), ui->lineSecretID->text(),
+                               ui->lineSecretKey->text(), ui->lineRemark->text());
+        updateLoginInfo(); // 更新登录账户
+    } else {
         // 删除登录信息
         MG->mDb->removeLoginInfo(ui->lineSecretID->text());
     }
-    accept();           // 发送accept信号
+    accept(); // 发送accept信号，将会隐藏该窗口
 }
 
 void UiLoginDialog::onLoginError(int api, const QString &msg, const QJsonValue &req)
 {
-    Q_UNUSED(req)
-    if(api != API::LOGIN::NORMAL)
+    Q_UNUSED(req) // 暂时没用上
+    if (api != API::LOGIN::NORMAL)
         return;
-
-    QMessageBox::warning(this,QString::fromUtf8("警告"),QString::fromUtf8("登录失败: %1").arg(msg));
+    UiMessageBox().showMessage(STR("警告"), STR("登录失败: %1").arg(msg));
 }
 
 void UiLoginDialog::dealDBError(const QString &e)
 {
-    QMessageBox::critical(this, "数据错误", e);
+     UiMessageBox().showMessage(STR("数据错误"), e);
 }

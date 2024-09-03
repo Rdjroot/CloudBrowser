@@ -1,9 +1,6 @@
 ﻿#include "uiprogresswidget.h"
-#include "qdebug.h"
 #include "ui_uiprogresswidget.h"
-
 #include <QTimer>
-
 #include <src/helper/bytehelper.h>
 
 UiProgressWidget::UiProgressWidget(QWidget *parent) :
@@ -18,28 +15,21 @@ UiProgressWidget::~UiProgressWidget()
     delete ui;
 }
 
-/**
- * @brief 设置总大小
- * @param minValue  最小值
- * @param maxValue  最大值
- */
+
 void UiProgressWidget::setRange(qulonglong minValue, qulonglong maxValue)
 {
-    m_time.restart();
+    m_time.restart();               // 重启计时
     ui->progressBar->setRange(minValue, maxValue);
     ui->progressBar->setValue(0);       // 当前值
 }
 
-/**
- * @brief 设置进度条当前值
- * @param value
- */
+
 void UiProgressWidget::setValue(qulonglong value)
 {
     double seconds = m_time.elapsed()/1000.0; // 已经过去的时间
     ui->progressBar->setValue(value);
 
-    static qulonglong lastValue = 0; // 上一次设置值时的上传或下载的字节数
+    static qulonglong lastValue = 0;    // 上一次设置值时的上传或下载的字节数
     lastValue = value - lastValue;
     double speed = lastValue/seconds;
     QString speedStr = ByteHelper::toBeautifulStr(speed);
@@ -57,12 +47,10 @@ void UiProgressWidget::setValue(qulonglong value)
     }
 }
 
-/**
- * @brief 停止下载
- */
+
 void UiProgressWidget::stop()
 {
-    m_time.invalidate();
+    m_time.invalidate();        // 将时间置为非法
     ui->labelSpeed->clear();
 }
 
@@ -77,10 +65,7 @@ void UiProgressWidget::setFinished(const QString &msg)
     stop();
 }
 
-/**
- * @brief 发生错误          TODO: 我怀疑这里有bug，如果出错是否会造成卡死
- * @param msg
- */
+
 void UiProgressWidget::setError(const QString &msg)
 {
     stop();

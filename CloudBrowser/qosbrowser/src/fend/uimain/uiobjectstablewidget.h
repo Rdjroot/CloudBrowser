@@ -17,6 +17,9 @@ public:
     ~UiObjectsTableWidget();
 
 private slots:
+    /**
+     * @brief 返回桶列表
+     */
     void on_btnBuckets_clicked();
     void on_tableView_doubleClicked(const QModelIndex &index);
     void onObjectsSuccess(const QList<MyObject>& objects);

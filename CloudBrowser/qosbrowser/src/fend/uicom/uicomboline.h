@@ -8,6 +8,7 @@
 
 /**
  * 联想提示框
+ *
  */
 class UiComboLine : public QLineEdit
 {
@@ -18,10 +19,12 @@ public:
 
     // 设置提示列表
     void setWords(const QStringList& words);
+    // 设置提示列表
     void setWords(const QList<int> words);
+    // 设置提示列表
     void setWords(int start = 1, int len=10);
 
-    // 获取提示列表
+    // 获取提示(下拉)列表
     QStringList getWords();
 
 signals:
@@ -29,6 +32,7 @@ signals:
     void itemSelected(const QString& text);
 
 protected:
+    // 重写函数，展示补全效果
     void mousePressEvent(QMouseEvent*) override;
 };
 

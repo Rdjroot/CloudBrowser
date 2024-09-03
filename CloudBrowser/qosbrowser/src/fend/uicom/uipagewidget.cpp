@@ -1,5 +1,4 @@
 ﻿#include "uipagewidget.h"
-#include "qdebug.h"
 #include "qmath.h"
 #include "ui_uipagewidget.h"
 
@@ -12,7 +11,8 @@ UiPageWidget::UiPageWidget(QWidget *parent) :
     connect(ui->btnPre, &UiPushButton::clicked, this, &UiPageWidget::pre);
 
     ui->lineMaxRows->setAlignment(Qt::AlignHCenter);    // 文本摆放方式
-    ui->lineMaxRows->setReadOnly(true);
+    ui->lineMaxRows->setReadOnly(true);                 // 只读
+    // 下拉框选择页面
     connect(ui->lineMaxRows, &UiComboLine::itemSelected, this, &UiPageWidget::onMaxRowsItemSelected);
 
     ui->lineCurrentPage->setAlignment(Qt::AlignHCenter);
@@ -22,6 +22,7 @@ UiPageWidget::UiPageWidget(QWidget *parent) :
     ui->btnNext->setDisabled(true);
     ui->btnPre->setDisabled(true);
 
+    // 设置美化
     ui->lineCurrentPage->setProperty("style_frame", "bottomframe");
     ui->lineMaxRows->setProperty("style_frame", "bottomframe");
 }
@@ -147,8 +148,8 @@ void UiPageWidget::switchPage(int newCurrentPage)
     ui->btnPre->setDisabled(isFirstPage());
     ui->btnNext->setDisabled(isLastPage());
 
-    int start = (newCurrentPage -1)*maxRow();
-    int left = (totalRow())-start;
-    int len = left < maxRow() ? left: maxRow();
-    emit pageNumChanged(start,len);
+    int start = (newCurrentPage - 1) * maxRow();
+    int left = (totalRow()) - start;
+    int len = left < maxRow() ? left : maxRow();
+    emit pageNumChanged(start, len);
 }

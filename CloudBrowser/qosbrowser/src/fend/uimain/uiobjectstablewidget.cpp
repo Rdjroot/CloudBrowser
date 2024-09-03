@@ -1,19 +1,15 @@
 ﻿#include "uiobjectstablewidget.h"
-#include "src/bend/gateway.h"
-#include "src/bend/man/mancloud.h"
 #include "src/fend/uidelegates/uitableitemdelegate.h"
-#include "src/middle/manglobal.h"
-#include "src/middle/manmodels.h"
-#include "src/middle/signals/mansignals.h"
 #include "ui_uiobjectstablewidget.h"
-#include "src/config/apis.h"
+#include "src/config/common.h"
 
 #include <QFileDialog>
 #include <QJsonObject>
 #include <QMessageBox>
-
 #include <src/helper/filehelper.h>
+#include <src/fend/uicom/uimessagebox.h>
 
+// TODO 去除自定义的提示窗口
 UiObjectsTableWidget::UiObjectsTableWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::UiObjectsTableWidget)
@@ -227,7 +223,10 @@ void UiObjectsTableWidget::on_btnDownload_clicked()
 void UiObjectsTableWidget::onDownloadSuccess(const QString &jobId)
 {
     Q_UNUSED(jobId);
-    showMessage(QString::fromLocal8Bit("下载"),QString::fromLocal8Bit("下载文件成功"));
+    // TODO 这里尝试用自定义的messageBox
+    UiMessageBox().showMessage(STR("下载"), STR("下载文件成功"), {STR("确定")},
+                               180, 60);
+    // showMessage(QString::fromLocal8Bit("下载"),QString::fromLocal8Bit("下载文件成功"));
 }
 
 /**

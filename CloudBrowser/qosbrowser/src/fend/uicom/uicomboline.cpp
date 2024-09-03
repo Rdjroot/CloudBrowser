@@ -27,12 +27,13 @@ void UiComboLine::setWords(const QStringList &words)
 
     // 客户选中关键词后捕获发送
     connect(com, QOverload<const QString &>::of(&QCompleter::activated),
-            [=](const QString &text){
+            [=](const QString &text) {
                 emit itemSelected(text);
     });
 
     // 设置自动补全器
     setCompleter(com);
+
     // 设置 QCompleter 的过滤模式为 Qt::MatchContains，
     // 这意味着当用户输入部分内容时，
     // 自动补全器会显示所有包含该输入内容的候选词，而不仅仅是以该内容开头的词。
@@ -62,12 +63,11 @@ void UiComboLine::setWords(int start, int len)
 QStringList UiComboLine::getWords()
 {
     QStringList strs;
-    if(completer())     // 判断是否设置了completer
+    if (completer()) // 判断是否设置了completer
     {
-        QAbstractItemModel* m = completer()->model();
-        for(int i = 0; i< m->rowCount();i++)
-        {
-            strs << m->index(i,0).data().toString();    // 获取补全器里所有内容
+        QAbstractItemModel *m = completer()->model();
+        for (int i = 0; i < m->rowCount(); i++) {
+            strs << m->index(i, 0).data().toString(); // 获取补全器里所有内容
         }
     }
     return strs;

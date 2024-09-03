@@ -4,7 +4,9 @@
 #include <QLineEdit>
 #include<QKeyEvent>
 
-// 禁用密码框复制粘贴，需要集成QLineEdit
+/**
+ * @brief 禁用密码框复制功能
+ */
 class UiKeywordEdit : public QLineEdit
 {
     Q_OBJECT
@@ -12,6 +14,10 @@ public:
     UiKeywordEdit(QWidget* parent= nullptr);
 
 protected:
+    /**
+     * @brief 重写，不允许复制密码
+     * @param event
+     */
     void keyPressEvent(QKeyEvent* event);
 };
 

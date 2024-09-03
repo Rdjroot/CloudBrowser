@@ -11,10 +11,10 @@ UiBaseDialog::UiBaseDialog(QWidget *parent)
     m_ui->setupUi(this);
     setWindowFlags(Qt::CustomizeWindowHint | Qt::Window); // 去掉默认标题栏
 
-    setLogo(":/static/img/icontt.png");
+    setLogo(":/static/img/icontt.png"); // 图标
     addCloseButton(":/static/img/close1.png", ":/static/img/close2.png");
-    setAllButtonSize();
-    m_ui->labelLogo->setFixedSize(40, 40);
+    setAllButtonSize();                    // 同一按钮大小
+    m_ui->labelLogo->setFixedSize(40, 40); // 设置图标大小
 }
 
 UiBaseDialog::~UiBaseDialog() {
@@ -45,6 +45,7 @@ void UiBaseDialog::addMaxButton(const QString &maxPath,
 {
     UiPushButton *btn = addButton(maxPath, maxPathHover);
 
+    // 设置右上角按钮icon
     auto funcImg = [=]() {
     isMaximized() ? setButtonImage(btn, normalPath, normalPathHover)
                       : setButtonImage(btn, maxPath, maxPathHover);
@@ -70,15 +71,16 @@ UiPushButton *UiBaseDialog::addButton(const QString &path, const QString &hoverP
 void UiBaseDialog::setButtonImage(UiPushButton *btn, const QString &path, const QString &hoverPath)
 {
     btn->setStyleSheet(QString("QPushButton{border-image: url(\"%1\");}"
-                               "QPushButton:hover{border-image: url(\"%2\");}"
-                               ).arg(path, hoverPath));
+                               "QPushButton:hover{border-image: url(\"%2\");}")
+                           .arg(path, hoverPath));
 }
 
 void UiBaseDialog::setAllButtonSize(int w)
 {
-    QList<UiPushButton *> btnList = m_ui->frameTitle->findChildren<UiPushButton*>();
-    for(auto* btn: btnList){
-        btn->setFixedSize(w,w);     // 设置宽高
+    QList<UiPushButton *> btnList =
+        m_ui->frameTitle->findChildren<UiPushButton *>();
+    for (auto *btn : btnList) {
+        btn->setFixedSize(w, w); // 设置宽高
     }
     m_sz = w;
 }
@@ -95,23 +97,25 @@ void UiBaseDialog::addTitleLine(int w)
     addWidget(label);
 }
 
-// 获取单击时的起始位置,重写函数
+
 void UiBaseDialog::mousePressEvent(QMouseEvent *event)
 {
-    if(event->button() == Qt::LeftButton){
-        m_start = event->pos();              // 返回相对于父窗口坐标原点的位置
+    // 获取单击时的起始位置
+    if (event->button() == Qt::LeftButton) {
+        m_start = event->pos(); // 返回相对于父窗口坐标原点的位置
     }
-    QDialog::mousePressEvent(event);        // 在最后要反调父函数
+    QDialog::mousePressEvent(event); // 在最后要反调父函数
 }
 
-// 单击长按可拖动窗口，重写函数
+
 void UiBaseDialog::mouseMoveEvent(QMouseEvent *event)
 {
-    if(event->buttons() & Qt::LeftButton){
-        QPoint targetPos = event->pos()-m_start+pos();  // 目标位置
-        this->move(targetPos);                  // 窗口移动
+    // 单击长按可拖动窗口
+    if (event->buttons() & Qt::LeftButton) {
+        QPoint targetPos = event->pos() - m_start + pos(); // 目标位置
+        this->move(targetPos);                             // 窗口移动
     }
-    QDialog::mouseMoveEvent(event);     // 在最后要反调父函数
+    QDialog::mouseMoveEvent(event); // 在最后要反调父函数
 }
 
 bool UiBaseDialog::eventFilter(QObject *obj, QEvent *event)
@@ -127,7 +131,6 @@ bool UiBaseDialog::eventFilter(QObject *obj, QEvent *event)
         if (pKeyEvent->key() == Qt::Key_Return
             || pKeyEvent->key() == Qt::Key_Escape
             || pKeyEvent->key() == Qt::Key_Enter) {
-
             return true;
         }
     }

@@ -15,12 +15,16 @@ UiMessageBox::~UiMessageBox()
     delete ui;
 }
 
-QString UiMessageBox::showMessage(const QString &title, const QString &text, const QStringList& btnTextList)
+QString UiMessageBox::showMessage(const QString &title, const QString &text, const QStringList &btnTextList, const int weight, const int height)
 {
-    m_text = "";
+    // 确保每次调用都清空之前的内容
+    m_text.clear();
+    resize(weight, height);     // 重新设置大小
     setTitle(title);
     ui->label->setText(text);
+    // 创建按钮
     createBtns(btnTextList);
+    // 显示对话框并等待用户交互
     exec();
     return m_text;
 }

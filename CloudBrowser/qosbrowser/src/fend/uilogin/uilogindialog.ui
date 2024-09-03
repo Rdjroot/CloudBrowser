@@ -41,7 +41,14 @@
     </widget>
    </item>
    <item>
-    <widget class="UiComboLine" name="lineLoginName"/>
+    <widget class="UiComboLine" name="lineLoginName">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>账户别名</string>
+     </property>
+    </widget>
    </item>
    <item>
     <spacer name="verticalSpacer_2">
@@ -86,7 +93,7 @@
       </size>
      </property>
      <property name="placeholderText">
-      <string>请输入ID</string>
+      <string>请输入账户ID</string>
      </property>
      <property name="clearButtonEnabled">
       <bool>false</bool>
@@ -140,6 +147,9 @@
      </property>
      <property name="echoMode">
       <enum>QLineEdit::EchoMode::Password</enum>
+     </property>
+     <property name="placeholderText">
+      <string>请输入密码</string>
      </property>
     </widget>
    </item>
@@ -271,6 +281,11 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>UiPushButton</class>
+   <extends>QPushButton</extends>
+   <header location="global">src/fend/uicom/uipushbutton.h</header>
+  </customwidget>
+  <customwidget>
    <class>UiKeywordEdit</class>
    <extends>QLineEdit</extends>
    <header>src/fend/uicom/uikeywordedit.h</header>
@@ -279,11 +294,6 @@
    <class>UiComboLine</class>
    <extends>QLineEdit</extends>
    <header>src/fend/uicom/uicomboline.h</header>
-  </customwidget>
-  <customwidget>
-   <class>UiPushButton</class>
-   <extends>QPushButton</extends>
-   <header location="global">src/fend/uicom/uipushbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

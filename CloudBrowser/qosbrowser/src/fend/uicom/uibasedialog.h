@@ -82,14 +82,50 @@ public:
     void addTitleLine(int w=2);
 
 protected:
+    /**
+     * @brief 重写mousePressEvent
+     *
+     * 用于拖动窗口功能
+     *
+     * @param event
+     */
     void mousePressEvent(QMouseEvent* event);
+
+    /**
+     * @brief 重写mouseMoveEvent
+     *
+     * 用于拖动窗口功能
+     *
+     * @param event
+     */
     void mouseMoveEvent(QMouseEvent* event);
     // 拦截回车、Esc或另一个回车键的事件
+    /**
+     * @brief 拦截回车、Esc或另一个回车键的事件
+     * @param obj
+     * @param event
+     * @return 拦截结果
+     */
     bool eventFilter(QObject *obj, QEvent * event);
+
+    /**
+     * @brief body
+     * @return 返回窗体指针
+     */
     QWidget* body();
 
 private:
+    /**
+     * @brief 添加关闭按钮
+     * @param path  按钮图标
+     * @param hoverPath 按钮图标2
+     */
     void addCloseButton(const QString& path, const QString& hoverPath);
+
+    /**
+     * @brief 在主窗口中添加控件
+     * @param w
+     */
     void addWidget(QWidget* w);
 
 protected:

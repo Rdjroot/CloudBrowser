@@ -1,10 +1,12 @@
-﻿#include "src/fend/uimain/uimain.h"
+﻿#include "src/config/common.h"
+#include "src/fend/uimain/uimain.h"
 #include <Exception>
 #include <QApplication>
 #include <QMessageBox>
 #include <QTextCodec>
 #include "src/fend/uilogin/uilogindialog.h"
 #include "src/middle/manglobal.h"
+#include <src/fend/uicom/uimessagebox.h>
 
 // TODO 1 根据参考代码，完善所有代码，去除冗余代码
 // TODO 2 通读代码 添加合理注释
@@ -30,6 +32,5 @@ int main(int argc, char *argv[])
     UiMain w;
     UiLoginDialog login;
     login.show();
-
     return a.exec();
 }

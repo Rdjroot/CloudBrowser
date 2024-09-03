@@ -8,11 +8,11 @@ UiQosDialog::UiQosDialog(QWidget *parent)
     , ui(new Ui::UiQosDialog)
 {
     ui->setupUi(body());
-    setLogo(GLOBAL::PATH::LOGO_PATH);
-    setTitle("CloudBrowser");
+    setLogo(GLOBAL::PATH::LOGO_PATH);   // 设置图标
+    setTitle("CloudBrowser");           // 设置程序名称
     m_ui->labelLogo->setFixedSize(40,40);
     m_ui->labelTitle->setProperty("style_font", "h4");
-    resize(400, 50);
+    resize(400, 50);                    // 设置大小
 }
 
 UiQosDialog::~UiQosDialog()
