@@ -12,11 +12,11 @@ UiMain::UiMain(QWidget *parent) :
     ui(new Ui::UiMain)
 {
     ui->setupUi(body());
-    ui->splitter->setStretchFactor(0,1);
+    ui->splitter->setStretchFactor(0,1);      // 拆分bilib
     ui->splitter->setStretchFactor(1,4);
 
     m_transfer = new UiTransfer(this);
-    // 右上角图标
+    // 右上角图标及其功能
     UiPushButton* transBtn = addButton(GLOBAL::PATH::TRANS, GLOBAL::PATH::TRANS_HOVER);
     connect(transBtn, &UiPushButton::clicked,this, &UiMain::showTransfer);
     UiPushButton* quitBtn = addButton(GLOBAL::PATH::QUIT,GLOBAL::PATH::QUIT_HOVER);
@@ -27,7 +27,7 @@ UiMain::UiMain(QWidget *parent) :
     // 缩放按钮以及标题
     addMinButton(GLOBAL::PATH::MIN_PATH, GLOBAL::PATH::MIN_HOVER_PATH);
     addMaxButton(GLOBAL::PATH::MAX_PATH1,GLOBAL::PATH::MAX_HOVER_PATH,GLOBAL::PATH::NORMAL_PATH,GLOBAL::PATH::NORMAL_HOVER_PATH);
-    setTitle(QString::fromLocal8Bit("Cloud Browser"));
+    setTitle(STR("Cloud Browser"));         // 程序名
     resize(1080,640);
     setKeyDisabled();  // 禁用esc或回车，导致窗口关闭
 
@@ -70,12 +70,6 @@ void UiMain::showTransfer()
     m_transfer->show();
 }
 
-/**
- * @brief 弹出窗口提示报错
- * @param api   接口
- * @param msg   信息
- * @param req   请求
- */
 void UiMain::onError(int api, const QString &msg, const QJsonValue &req)
 {
     Q_UNUSED(req);

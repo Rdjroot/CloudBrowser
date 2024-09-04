@@ -9,7 +9,6 @@
 #include <src/helper/filehelper.h>
 #include <src/fend/uicom/uimessagebox.h>
 
-// TODO 去除自定义的提示窗口
 UiObjectsTableWidget::UiObjectsTableWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::UiObjectsTableWidget)
@@ -27,7 +26,7 @@ UiObjectsTableWidget::UiObjectsTableWidget(QWidget *parent)
     // 隐藏垂直标题, 也就是最左侧的序列号
     ui->tableView->verticalHeader()->setHidden(true);
 
-    // 设置鼠标点击排序
+    // 设置鼠标点击排序，以及view代理
     ui->tableView->setSortingEnabled(true);
     ui->tableView->setItemDelegate(new UiTableItemDelegate(ui->tableView));
 
@@ -72,10 +71,6 @@ void UiObjectsTableWidget::on_tableView_doubleClicked(const QModelIndex &index)
     }
 }
 
-/**
- * @brief 设置文件条目和目录
- * @param objects
- */
 void UiObjectsTableWidget::onObjectsSuccess(const QList<MyObject> &objects)
 {
     QString path = MG->mCloud->currentBucketName() + "/" + MG->mCloud->currentDir();
@@ -87,11 +82,6 @@ void UiObjectsTableWidget::onObjectsSuccess(const QList<MyObject> &objects)
     }
 }
 
-/**
- * @brief 翻页
- * @param start
- * @param maxLen
- */
 void UiObjectsTableWidget::onPageNumChanged(int start, int maxLen)
 {
     QStandardItemModel *model = MG->mModels->modelObjects();
@@ -102,10 +92,6 @@ void UiObjectsTableWidget::onPageNumChanged(int start, int maxLen)
     }
 }
 
-/**
- * @brief 目录更替
- * @param newPath
- */
 void UiObjectsTableWidget::onPathChanged(const QString &newPath)
 {
     // newPath=file-xxxxxxxxx/test/bll
@@ -119,22 +105,16 @@ void UiObjectsTableWidget::onPathChanged(const QString &newPath)
     MG->mGate->send(API::OBJECTS::LIST, params);
 }
 
-/**
- * @brief 刷新页面
- */
 void UiObjectsTableWidget::on_btnRefresh_clicked()
 {
     onPathChanged(ui->widgetBread->currentPath());
 }
 
-/**
- * @brief 上传文件
- */
 void UiObjectsTableWidget::on_btnUpload_clicked()
 {
     static QString lastDir = "./";
     QString filePath = QFileDialog::getOpenFileName(
-        this, QString::fromLocal8Bit("上传文件"),lastDir
+        this, STR("上传文件"), lastDir
         );
 
     QFileInfo info(filePath);
@@ -153,49 +133,41 @@ void UiObjectsTableWidget::on_btnUpload_clicked()
         params["localPath"] = filePath;
 
         MG->mGate->send(API::OBJECTS::PUT,params);
-		lastDir = info.dir().absolutePath();
+        lastDir = info.dir().absolutePath();        // 记忆上次打开的本地目录
+        // 关联传输列表
         emit MG->mSignal->startUpload(jobId, key, filePath);
     }
 }
 
-/**
- * @brief 上传成功
- * @param jobId 任务id
- */
 void UiObjectsTableWidget::onUploadSuccess(const QString &jobId)
 {
     Q_UNUSED(jobId);
     on_btnRefresh_clicked();
-    showMessage(QString::fromLocal8Bit("上传"),QString::fromLocal8Bit("上传文件成功"));
+    UiMessageBox().showMessage(STR("上传"), STR("上传文件成功"), {STR("确定")},
+                               180, 60);
 }
 
-/**
- * @brief 下载文件
- * @param jobId 任务id
- */
 void UiObjectsTableWidget::on_btnDownload_clicked()
 {
     QModelIndex idx = ui->tableView->currentIndex();
     if(!idx.isValid())
     {
-        showMessage(
-            QString::fromLocal8Bit("下载"),
-            QString::fromLocal8Bit("请选择要下载的文件"));
+        UiMessageBox().showMessage(STR("下载"), STR("请选择要下载的文件"), {STR("确定")},
+                                   180, 60);
         return;
     }
 
     MyObject obj = idx.data(Qt::UserRole).value<MyObject>();
     if (obj.isDir()) {
-        showMessage(
-            QString::fromLocal8Bit("下载"),
-            QString::fromLocal8Bit("只能选择文件进行下载"));
+        UiMessageBox().showMessage(STR("下载"), STR("只能选择文件进行下载"), {STR("确定")},
+                                   180, 60);
         return;
     }
 
     QString name = idx.data().toString();
     static QString lastDir = "./";
     QString filePath = QFileDialog::getSaveFileName(
-        this, QString::fromLocal8Bit("下载文件"),FileHelper::joinPath(lastDir, name)
+        this, STR("下载文件"),FileHelper::joinPath(lastDir, name)
         );
 
     if(filePath.isEmpty())
@@ -212,37 +184,13 @@ void UiObjectsTableWidget::on_btnDownload_clicked()
     params["key"] = key;
     params["localPath"] = filePath;
     MG->mGate->send(API::OBJECTS::GET, params);
-	lastDir = info.dir().absolutePath();
+    lastDir = info.dir().absolutePath();
     emit MG->mSignal->startDownload(jobId, key, filePath, obj.size);
 }
 
-/**
- * @brief 下载成功
- * @param jobId 任务id
- */
 void UiObjectsTableWidget::onDownloadSuccess(const QString &jobId)
 {
     Q_UNUSED(jobId);
-    // TODO 这里尝试用自定义的messageBox
     UiMessageBox().showMessage(STR("下载"), STR("下载文件成功"), {STR("确定")},
                                180, 60);
-    // showMessage(QString::fromLocal8Bit("下载"),QString::fromLocal8Bit("下载文件成功"));
 }
-
-/**
- * @brief 公有函数，显示提示（上传/下载）信息
- * @param title  box标题
- * @param info box内容
- */
-void UiObjectsTableWidget::showMessage(const QString &title, const QString &info)
-{
-    QMessageBox box(
-        QMessageBox::Information,
-        title,
-        info,
-        QMessageBox::Ok
-        );
-    box.setButtonText(QMessageBox::Ok, QString::fromLocal8Bit("确定"));
-    box.exec();
-}
-
