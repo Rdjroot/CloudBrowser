@@ -54,8 +54,14 @@ private slots:
      */
     void on_btnRefresh_clicked();
 
+    /**
+     * @brief 成功删除桶
+     */
+    void onDeleteBucket(const QString& bucketname);
+
 private:
     Ui::UiBucketsTableWidget *ui;
+    QString appId;
 };
 
 #endif // UIBUCKETSTABLEWIDGET_H

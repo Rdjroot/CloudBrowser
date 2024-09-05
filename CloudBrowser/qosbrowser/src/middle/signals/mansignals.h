@@ -37,6 +37,9 @@ signals:
     // 成功获取对象列表
     void objectsSuccess(const QList<MyObject>& objects);
 
+    // 成功删除存储桶
+    void deleteBucketSuccess(const QString& bucketname);
+
     // 开始下载
     void startDownload(const QString &jobId, const QString &key, const QString &localPath, qulonglong total);
     // 下载对象进度

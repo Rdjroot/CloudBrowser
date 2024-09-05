@@ -22,7 +22,7 @@ ManModels::ManModels(QObject *parent)
 
 ManModels::~ManModels()
 {
-    qDebug() <<"ManModels destroyed.";
+
 }
 
 QStandardItemModel *ManModels::modelBuckets() const

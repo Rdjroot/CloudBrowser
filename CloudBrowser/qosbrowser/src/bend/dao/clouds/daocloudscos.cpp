@@ -157,7 +157,7 @@ void DaoCloudsCos::throwError(const QString &code, CosResult &result)
     QString msg = QString::fromUtf8("腾讯云错误码【%1】：%2")
                       .arg(result.GetErrorCode().c_str(), result.GetErrorMsg().c_str());
     qDebug() << msg;                    // 这里会被捕获在控制台输出
-    throw BaseException(code, msg);
+    throw BaseException(code, msg);     // 输出到日志里
 }
 
 MyBucket DaoCloudsCos::getBucketByName(const QString &bucketName)

@@ -47,7 +47,6 @@ UiMain::~UiMain()
         delete m_transfer;
 }
 
-// 返回登录窗口
 void UiMain::onUnLogin()
 {
     hide();

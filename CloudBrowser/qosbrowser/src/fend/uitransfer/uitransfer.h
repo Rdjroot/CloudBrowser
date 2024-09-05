@@ -9,6 +9,12 @@ namespace Ui {
 class UiTransfer;
 }
 
+/**
+ * @brief 传输窗口
+ *
+ * 含上传、下载记录和进度
+ *
+ */
 class UiTransfer : public UiQosDialog
 {
     Q_OBJECT

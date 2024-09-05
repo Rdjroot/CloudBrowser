@@ -11,7 +11,7 @@ ManCloud::ManCloud(QObject *parent) : QObject(parent)
 
 ManCloud::~ManCloud()
 {
-    qDebug() <<"ManCloud destroyed.";
+
 }
 
 void ManCloud::login(QString secretId, QString secretKey)
@@ -40,7 +40,8 @@ void ManCloud::putBucket(const QString &bucketName, const QString &location)
 void ManCloud::deleteBucket(const QString &bucketName)
 {
     MG->mPlugin->clouds()->deleteBucket(bucketName);
-    getBuckets();       // 更新本地存储桶展示
+    emit MG->mSignal->deleteBucketSuccess(bucketName);    // 成功删除桶
+    getBuckets();       // 刷新桶页面
 }
 
 

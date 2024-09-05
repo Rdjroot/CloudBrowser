@@ -8,7 +8,6 @@ ManDB::ManDB(QObject *parent) : QObject(parent)
 
 ManDB::~ManDB()
 {
-    qDebug() <<"ManDB destroyed.";
 
 }
 

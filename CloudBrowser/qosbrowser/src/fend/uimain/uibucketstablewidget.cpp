@@ -8,6 +8,8 @@
 #include <QJsonObject>
 #include <QMessageBox>
 
+#include <src/fend/uicom/uimessagebox.h>
+
 UiBucketsTableWidget::UiBucketsTableWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::UiBucketsTableWidget)
@@ -28,6 +30,9 @@ UiBucketsTableWidget::UiBucketsTableWidget(QWidget *parent)
     ui->tableView->setItemDelegate(new UiTableItemDelegate(ui->tableView));
     ui->btnCreateBucket->setProperty("style_button", "main");   // 给创建桶按钮添加属性
 
+    // 使appid可复制
+    ui->appidLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+
     // 初始化表格数据
     connect(MG->mSignal, &ManSignals::bucketsSuccess,
             this, &UiBucketsTableWidget::onBucketsSuccess);
@@ -43,6 +48,9 @@ UiBucketsTableWidget::UiBucketsTableWidget(QWidget *parent)
     connect(delAction, &QAction::triggered, this,
             &UiBucketsTableWidget::onDelBucket);
     ui->tableView->addAction(delAction);
+
+    // 添加删除桶反馈
+    connect(MG->mSignal,&ManSignals::deleteBucketSuccess, this, &UiBucketsTableWidget::onDeleteBucket);
 }
 
 UiBucketsTableWidget::~UiBucketsTableWidget()
@@ -63,13 +71,22 @@ void UiBucketsTableWidget::on_tableView_doubleClicked(const QModelIndex &index)
 
 void UiBucketsTableWidget::onBucketsSuccess(const QList<MyBucket> &buckets)
 {
+    if(!buckets.empty() && appId.isEmpty())
+    {
+        QString bucketname = buckets[0].name;
+        int index = bucketname.indexOf('-');
+        QString appid = bucketname.mid(index + 1);
+        ui->appidLabel->clear();
+        appId = appid;
+        ui->appidLabel->setText(STR("当前账户APPID：%1").arg(appId));
+    }
+
     ui->widgetPage->setTotalRow(buckets.size());
     QStandardItemModel *model = MG->mModels->modelBuckets();
     for(int i = 0; i < model->rowCount(); ++i)
     {
         ui->tableView->setRowHeight(i,40);      // 固定行高
     }
-
 }
 
 void UiBucketsTableWidget::onPageNumChanged(int start, int maxLen)
@@ -110,8 +127,8 @@ void UiBucketsTableWidget::onDelBucket()
         // 提示窗口，按键选项设置为中文
         QMessageBox box(
             QMessageBox::Question,
-            QString::fromLocal8Bit("删除桶"),
-            QString::fromLocal8Bit("是否确认删除桶【%1】吗？").arg(name),
+            STR("删除桶"),
+            STR("是否确认删除桶【%1】吗？").arg(name),
             QMessageBox::Yes|QMessageBox::No
             );
 
@@ -131,5 +148,11 @@ void UiBucketsTableWidget::onDelBucket()
 void UiBucketsTableWidget::on_btnRefresh_clicked()
 {
     MG->mGate->send(API::BUCKETS::LIST);
+}
+
+void UiBucketsTableWidget::onDeleteBucket(const QString& bucketname)
+{
+    UiMessageBox().showMessage(STR("删除"), STR("成功删除存储桶: %1").arg(bucketname), {STR("确定")},
+                               180, 60);
 }
 

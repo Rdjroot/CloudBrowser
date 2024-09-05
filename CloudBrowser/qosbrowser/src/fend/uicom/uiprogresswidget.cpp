@@ -47,17 +47,13 @@ void UiProgressWidget::setValue(qulonglong value)
     }
 }
 
-
 void UiProgressWidget::stop()
 {
     m_time.invalidate();        // 将时间置为非法
     ui->labelSpeed->clear();
 }
 
-/**
- * @brief 进度条圆满
- * @param msg
- */
+
 void UiProgressWidget::setFinished(const QString &msg)
 {
     setValue(ui->progressBar->maximum());

@@ -17,7 +17,6 @@ ManPlugin::~ManPlugin()
         delete m_clouds;
     if(m_version != nullptr)
         delete m_version;
-    qDebug() <<"ManPlugin destroyed.";
 
 }
 

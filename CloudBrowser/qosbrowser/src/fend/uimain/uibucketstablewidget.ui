@@ -68,6 +68,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QLabel" name="appidLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Orientation::Horizontal</enum>
@@ -100,15 +107,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>UiPushButton</class>
+   <extends>QPushButton</extends>
+   <header location="global">src/fend/uicom/uipushbutton.h</header>
+  </customwidget>
+  <customwidget>
    <class>UiPageWidget</class>
    <extends>QWidget</extends>
    <header>src/fend/uicom/uipagewidget.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>UiPushButton</class>
-   <extends>QPushButton</extends>
-   <header location="global">src/fend/uicom/uipushbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

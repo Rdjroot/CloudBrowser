@@ -13,5 +13,5 @@ ManSignals::ManSignals(QObject *parent)
 
 ManSignals::~ManSignals()
 {
-    qDebug() <<"ManSignals destroyed.";
+
 }

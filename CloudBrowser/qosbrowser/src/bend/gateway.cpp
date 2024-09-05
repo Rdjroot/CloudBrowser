@@ -8,7 +8,6 @@ GateWay::GateWay(QObject *parent)
 
 GateWay::~GateWay()
 {
-    qDebug() <<"GateWay destroyed.";
 }
 
 void GateWay::send(int api, const QJsonValue &params)
@@ -66,6 +65,7 @@ void GateWay::apiLogin(const QJsonValue &value)
     QString secretId = value["secretId"].toString();
     QString secretKey = value["secretKey"].toString();
     MG->mCloud->login(secretId,secretKey);
+    mWarning(STR("Cloud Object Storage secretID: %1 logined.").arg(secretId));
 }
 
 void GateWay::apiGetBuckets(const QJsonValue &params)
@@ -78,12 +78,14 @@ void GateWay::apiPutBucket(const QJsonValue &params)
 {
     QString bucketName = params["bucketName"].toString();
     QString location = params["location"].toString();
-    MG->mCloud->putBucket(bucketName,location);
+    mWarning(STR("The User Create a Bucket named: %1").arg(bucketName));
+    MG->mCloud->putBucket(bucketName,location);     // 如果失败会报错，后面无需记录成功的日志
 }
 
 void GateWay::apiDeleteBucket(const QJsonValue &params)
 {
     QString bucketName = params["bucketName"].toString();
+    mError(STR("The User Delete a Bucket named: %1").arg(bucketName));
     MG->mCloud->deleteBucket(bucketName);
 }
 
@@ -101,6 +103,7 @@ void GateWay::apiPutObject(const QJsonValue &params)
     QString bucketName = params["bucketName"].toString();
     QString key = params["key"].toString();
     QString localPath = params["localPath"].toString();
+    mWarning(STR("The User Upload a Object named: %1").arg(key));
     MG->mCloud->putObject(jobId, bucketName, key, localPath);
 }
 
@@ -111,5 +114,6 @@ void GateWay::apiDownLoadObject(const QJsonValue &params)
     QString bucketName = params["bucketName"].toString();
     QString key = params["key"].toString();
     QString localPath = params["localPath"].toString();
+    mInfo(STR("The User Download a Object named: %1").arg(key));
     MG->mCloud->getObject(jobId, bucketName, key, localPath);
 }
