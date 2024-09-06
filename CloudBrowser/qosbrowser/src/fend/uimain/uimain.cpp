@@ -27,7 +27,7 @@ UiMain::UiMain(QWidget *parent) :
     // 缩放按钮以及标题
     addMinButton(GLOBAL::PATH::MIN_PATH, GLOBAL::PATH::MIN_HOVER_PATH);
     addMaxButton(GLOBAL::PATH::MAX_PATH1,GLOBAL::PATH::MAX_HOVER_PATH,GLOBAL::PATH::NORMAL_PATH,GLOBAL::PATH::NORMAL_HOVER_PATH);
-    setTitle(STR("Cloud Browser"));         // 程序名
+    setTitle(STR("CloudBrowser"));         // 程序名
     resize(1080,640);
     setKeyDisabled();  // 禁用esc或回车，导致窗口关闭
 

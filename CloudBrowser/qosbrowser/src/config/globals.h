@@ -51,12 +51,12 @@ namespace GLOBAL {
         static const QString WORK = QDir::currentPath();
         static const QString TMP = FileHelper::joinPath(WORK, "temp");
         static const QString LOG_DIR =
-            FileHelper::joinPath(QDir::tempPath(), "qos/logs");
+            FileHelper::joinPath(TMP, "logs");
         static const QString ERROR_CODE_PATH =
             ":/static/docs/errorcode.csv";
 
         static const QString MAX_PATH1 = ":/static/img/Maximize-1.png";
-        static const QString LOGO_PATH = ":/static/img/icontt.png";
+        static const QString LOGO_PATH = ":/static/img/icontt.ico";
         static const QString MAX_HOVER_PATH = ":/static/img/Maximize-2.png";
         static const QString NORMAL_PATH = ":/static/img/Maximize-3.png";
         static const QString NORMAL_HOVER_PATH = ":/static/img/Maximize-4.png";

@@ -12,7 +12,7 @@ UiQosDialog::UiQosDialog(QWidget *parent)
     setTitle("CloudBrowser");           // 设置程序名称
     m_ui->labelLogo->setFixedSize(40,40);
     m_ui->labelTitle->setProperty("style_font", "h4");
-    this->setWindowIcon(QIcon(":/static/img/icontt.png"));
+    this->setWindowIcon(QIcon(":/static/img/icontt.ico"));
     resize(400, 50);                    // 设置大小
 }
 

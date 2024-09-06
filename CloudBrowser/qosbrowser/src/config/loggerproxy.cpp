@@ -83,7 +83,7 @@ void LoggerProxy::doLog(GLOBAL::LOG_LEVEL level, const QVariant &var, bool up) c
     {
         return;
     }
-    if(level > m_level)
+    if(level >= m_level)
     {
         // 调用日志打印函数
         emit sigLog(m_file, m_line, m_func,QThread::currentThreadId(),level,var, up);

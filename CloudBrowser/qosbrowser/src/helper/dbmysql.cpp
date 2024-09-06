@@ -11,9 +11,7 @@ DbMySql::~DbMySql()
 {
     if(m_db.isOpen())
     {
-
         m_db.close();
-        qDebug() << "m_db closed.";
     }
 }
 

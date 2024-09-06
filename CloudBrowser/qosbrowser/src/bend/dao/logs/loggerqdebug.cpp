@@ -28,15 +28,14 @@ void LoggerQDebug::print(const QString &file, int line, const QString &func, voi
     QDateTime dt;
     QString dtStr = dt.currentDateTime().toString(Qt::ISODate);         // 时间
     QString front =
-        STR("%1[%2] %3 %4:%5 -") // 日志打印时包含时间、级别、文件、行号
+        STR("%1[%2] %3 %4 : %5 - ") // 日志打印时包含时间、级别、文件、行号
         .arg(dtStr, GLOBAL::LOG_NAMES[level], file, func)
         .arg(line);
     front = front.replace("..\\", "");
 
-    QString threadInfo = "";
     if(level > GLOBAL::LOG_LEVEL::WARNING)  // 如果日志级别超过了告警
     {
-        threadInfo += STR(" Current Thread ID is %1.").arg(QString::asprintf("%p", tid));
+        QString threadInfo = STR(" Current Thread ID is %1.").arg(QString::asprintf("%p", tid));
     }
 
     QString logMessage;
@@ -54,8 +53,17 @@ void LoggerQDebug::print(const QString &file, int line, const QString &func, voi
         logMessage = logMessage.mid(1, logMessage.length() - 2);
     }
 
-    // 使用qDebug而不是直接存文件，是为了打印QVariant类型 日志打印
-    qDebug() << front.toLocal8Bit().data() << threadInfo << logMessage;
+    if(level > GLOBAL::LOG_LEVEL::WARNING)  // 如果日志级别超过了告警
+    {
+        QString threadInfo = STR(" Current Thread ID is %1.").arg(QString::asprintf("%p", tid));
+        qDebug() << front.toLocal8Bit().data() << threadInfo << logMessage;
+    }
+    else
+    {
+        // 使用qDebug而不是直接存文件，是为了打印QVariant类型 日志打印
+        qDebug() << front.toLocal8Bit().data() << logMessage;
+    }
+
 }
 
 

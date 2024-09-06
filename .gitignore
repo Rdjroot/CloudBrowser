@@ -9,4 +9,4 @@ release*/
 **/debug
 *build*/
 **/*.user
-./output/CloudBrowser/
+*/output/CloudBrowser/

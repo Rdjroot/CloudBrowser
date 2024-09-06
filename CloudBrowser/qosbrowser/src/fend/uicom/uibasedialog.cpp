@@ -11,7 +11,7 @@ UiBaseDialog::UiBaseDialog(QWidget *parent)
     m_ui->setupUi(this);
     setWindowFlags(Qt::CustomizeWindowHint | Qt::Window); // 去掉默认标题栏
 
-    setLogo(":/static/img/icontt.png"); // 图标
+    setLogo(":/static/img/icontt.ico"); // 图标
     addCloseButton(":/static/img/close1.png", ":/static/img/close2.png");
     setAllButtonSize();                    // 同一按钮大小
     m_ui->labelLogo->setFixedSize(40, 40); // 设置图标大小

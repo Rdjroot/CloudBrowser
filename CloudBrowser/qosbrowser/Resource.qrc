@@ -32,5 +32,6 @@
         <file>static/img/dir.png</file>
         <file>static/img/file.png</file>
         <file>static/configs/default_config.json</file>
+        <file>static/img/icontt.ico</file>
     </qresource>
 </RCC>
